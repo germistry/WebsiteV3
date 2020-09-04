@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\lib\Trumbowyg-master\.github\**" />
+    <Content Remove="wwwroot\lib\Trumbowyg-master\.github\**" />
+    <EmbeddedResource Remove="wwwroot\lib\Trumbowyg-master\.github\**" />
+    <None Remove="wwwroot\lib\Trumbowyg-master\.github\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.7" />
@@ -22,8 +29,92 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\lib\Trumbowyg-master\.github\FUNDING.yml" />
-    <None Include="wwwroot\lib\Trumbowyg-master\.github\ISSUE_TEMPLATE.md" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\ar.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\ar.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\bg.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\bg.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\by.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\by.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\ca.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\ca.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\cs.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\cs.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\da.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\da.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\de.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\de.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\el.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\el.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\es.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\es.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\es_ar.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\es_ar.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\fa.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\fa.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\fi.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\fi.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\fr.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\fr.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\he.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\he.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\hr.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\hr.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\hu.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\hu.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\id.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\id.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\it.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\it.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\ja.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\ja.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\ko.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\ko.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\lt.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\lt.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\mn.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\mn.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\my.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\my.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\nl.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\nl.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\no_nb.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\no_nb.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\ph.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\ph.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\pl.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\pl.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\pt.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\pt.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\pt_br.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\pt_br.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\ro.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\ro.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\rs.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\rs.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\rs_latin.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\rs_latin.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\ru.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\ru.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\sk.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\sk.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\sl.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\sl.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\sq.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\sq.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\sv.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\sv.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\th.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\th.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\tr.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\tr.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\ua.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\ua.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\vi.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\vi.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\zh_cn.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\zh_cn.min.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\zh_tw.js" />
+    <None Include="wwwroot\lib\Trumbowyg-master\langs\zh_tw.min.js" />
   </ItemGroup>
 
 </Project>
