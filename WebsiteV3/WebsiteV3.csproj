@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-WebsiteV3-6B6E809D-ACCF-4F03-9C3C-D53B4707BF38</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="PhotoSauce.MagicScaler" Version="0.11.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Panel\" />
+    <Folder Include="wwwroot\content\blog\" />
+    <Folder Include="wwwroot\content\portfolio\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\lib\Trumbowyg-master\.github\FUNDING.yml" />
+    <None Include="wwwroot\lib\Trumbowyg-master\.github\ISSUE_TEMPLATE.md" />
+  </ItemGroup>
+
+</Project>

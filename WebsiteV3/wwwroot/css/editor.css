@@ -1,0 +1,43 @@
+﻿/*------For Text Editor on Admin Post & Portfolio Item Pages------*/
+.trumbowyg-box {
+    border: 1px solid #3600D8;
+}
+.trumbowyg-editor {
+    border-top: 1px solid #3600D8;
+}
+    .trumbowyg-box, .trumbowyg-editor {
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.trumbowyg-box.trumbowyg-fullscreen {
+    background: #0A0A0A;
+}
+        .trumbowyg-button-pane {
+    background: #D8C4F2;
+    border-bottom: 1px solid #3600D8;
+}
+    .trumbowyg-button-pane::after {
+        background: #D8C4F2;
+    }
+    .trumbowyg-button-pane .trumbowyg-button-group::after {
+        background: #D8C4F2;
+    }
+
+    .trumbowyg-button-pane.trumbowyg-disable .trumbowyg-button-group::before,
+    .trumbowyg-disabled .trumbowyg-button-pane .trumbowyg-button-group::before {
+        background: #D8C4F2;
+    }
+    .trumbowyg-button-pane button:not(.trumbowyg-disable):hover,
+    .trumbowyg-button-pane button:not(.trumbowyg-disable):focus,
+    .trumbowyg-button-pane button.trumbowyg-active {
+    background-color: #C195F4;
+            }
+.trumbowyg-dropdown {
+    border: 1px solid #3600D8;
+    background: #D8C4F2;
+}
+    .trumbowyg-dropdown button {
+        background: #D8C4F2;
+    }
+        trumbowyg-dropdown button:hover, .trumbowyg-dropdown button:focus {
+            background: #C195F4;
+        }
