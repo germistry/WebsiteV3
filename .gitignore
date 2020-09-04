@@ -12,6 +12,25 @@
 ScaffoldingReadMe.txt
 GlobalSuppressions.cs
 
+#Trumbowyg
+/Trumbowyg-master/.github/
+/Trumbowyg-master/docs/
+/Trumbowyg-master/plugins/
+/Trumbowyg-master/sponsors/
+/Trumbowyg-master/src/
+/Trumbowyg-master/.gitattributes
+/Trumbowyg-master/.gitignore
+/Trumbowyg-master/.jsintrc
+/Trumbowyg-master/.npmignore
+/Trumbowyg-master/BACKERS.md
+/Trumbowyg-master/banner.jpg
+/Trumbowyg-master/bower.json
+/Trumbowyg-master/CONTRIBUTORS.md
+/Trumbowyg-master/gulpfile.js
+/Trumbowyg-master/index.html
+/Trumbowyg-master/LICENSE
+/Trumbowyg-master/package.json
+/Trumbowyg-master/README.md
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
