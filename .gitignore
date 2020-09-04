@@ -11,6 +11,8 @@
 *.sln.docstates
 ScaffoldingReadMe.txt
 GlobalSuppressions.cs
+*.csproj
+*.csproj.user
 
 
 # User-specific files (MonoDevelop/Xamarin Studio)
