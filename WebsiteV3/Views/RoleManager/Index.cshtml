@@ -1,0 +1,56 @@
+﻿@model List<RoleManagerViewModel>
+@{
+    ViewData["Title"] = "Role Manager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Role Manager</h1>
+
+<p>Roles with assigned users cannot be deleted until users are removed from that role.</p>
+<span>
+    <a class="btn btn-primary" asp-controller="UserRoles" asp-action="Index">Manage Users</a>
+</span>
+
+
+<form method="post" asp-action="AddRole" asp-controller="RoleManager">
+    <div class="input-group">
+        <input name="roleName" class="form-control w-25">
+        <span class="input-group-btn">
+            <button class="btn btn-info">Add New Role</button>
+        </span>
+    </div>
+</form>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Role</th>
+            <th>Id</th>
+            <th>No. of Users</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model)
+        {
+        <tr>
+            <td>@role.RoleName</td>
+            <td>@role.RoleId</td>
+            <td>@role.NumberOfUsers</td>
+            <td>
+                @{
+                    if (role.NumberOfUsers >= 1)
+                    {
+                        <a class="btn btn-primary disabled" asp-action="RemoveRole"
+                           asp-route-roleName="@role.RoleName">Delete</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" asp-action="RemoveRole"
+                           asp-route-roleName="@role.RoleName">Delete</a>
+                    }
+                }
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

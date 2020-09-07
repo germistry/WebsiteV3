@@ -344,3 +344,4 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /WebsiteV3/wwwroot/lib/Trumbowyg-master/langs
+/WebsiteV3/wwwroot/lib/bootstrap/scss

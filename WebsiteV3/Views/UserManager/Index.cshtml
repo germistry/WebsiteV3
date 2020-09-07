@@ -1,0 +1,36 @@
+﻿@model List<UserManagerViewModel>
+@{
+    ViewData["Title"] = "User Manager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>User Manager</h1>
+
+<span>
+    <a class="btn btn-primary" asp-controller="UserRoles" asp-action="Index">User Roles</a>
+</span>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>User Name</th>
+            <th>User Id</th>
+            <th>User Email</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.UserId</td>
+                <td>@user.Email</td>
+                <td>
+                    <a class="btn btn-primary disabled" asp-action="BanUser"
+                       asp-route-roleName="@user.Email">Ban User</a>                        
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

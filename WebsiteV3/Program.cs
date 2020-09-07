@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using WebsiteV3.Data;
+using WebsiteV3.Models;
 
 namespace WebsiteV3
 {
@@ -17,48 +18,39 @@ namespace WebsiteV3
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            //Everything here surrounded in try catch incase something breaks
-            try
+            //Dependancy Injection to bring in all middleware services using in the app
+            using (var scope = host.Services.CreateScope())
             {
-                //Dependancy Injection to bring in all middleware services using in the app
-                var scope = host.Services.CreateScope();
-                //context for the database
-                var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                //userMgr handles all the identityusers 
-                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-                //roleMgr handles all the identityroles 
-                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-                //check to make sure database is created, apply the latest migrations just in case.  
-                context.Database.EnsureCreated();
-                //if there are no roles seed the admin role of 'Admin'
-                var adminRole = new IdentityRole("Admin");
-                if (!context.Roles.Any())
+                var services = scope.ServiceProvider;
+                var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+                //Everything here surrounded in try catch incase something breaks
+                try
                 {
-                    //Create a role
-                    roleManager.CreateAsync(adminRole).GetAwaiter().GetResult();
-                }
-                //if there are no users seed a user of 'admin' 
-                if (!context.Users.Any(u => u.UserName == "admin@test.com"))
-                {
-                    //Create an admin
-                    var adminUser = new IdentityUser
+                    //context for the database
+                    var context = services.GetRequiredService<ApplicationDbContext>();
+                    //userMgr handles all the identityusers 
+                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                    //roleMgr handles all the identityroles 
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    //check to make sure database is created, apply the latest migrations just in case.  
+                    context.Database.EnsureCreated();
+                    //if no roles exist in db seed roles
+                    if (!context.Roles.Any())
                     {
-                        UserName = "admin@test.com",
-                        //Default identity uses the email address as username 
-                        Email = "admin@test.com",
-                        EmailConfirmed = true
-                    };
-                    //assign the super secret password of 'password' lol
-                    var result = userManager.CreateAsync(adminUser, "password").GetAwaiter().GetResult();
-                    //add the role to user
-                    userManager.AddToRoleAsync(adminUser, adminRole.Name).GetAwaiter().GetResult();
+                        ContextSeed.SeedRolesAsync(userManager, roleManager).GetAwaiter().GetResult();
+                    }
+                    //if no users exist in db seed users and assign them to default roles
+                    if (!context.Users.Any())
+                    {
+                        ContextSeed.SeedSuperAdminAsync(userManager, roleManager).GetAwaiter().GetResult();
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
+                catch (Exception e)
+                {
+                    var logger = loggerFactory.CreateLogger<Program>();
+                    logger.LogError(e, "Error occurred seeding the db. Check program.cs");
+                }
+            }             
             host.Run();
         }
 

@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "SuperAdmin Panel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Website Management</h1>
+
+<span><a class="btn btn-primary btn-lg" asp-controller="RoleManager" asp-action="Index">Manage Roles</a></span>
+<span><a class="btn btn-primary btn-lg" asp-controller="UserRoles" asp-action="Index">Manage User Roles</a></span>
+<span><a class="btn btn-primary btn-lg" asp-controller="UserManager" asp-action="Index">Manage Users</a></span>

@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using WebsiteV3.Data.Repository;
 using WebsiteV3.Data.FileManager;
 using Microsoft.AspNetCore.Mvc;
+using WebsiteV3.Models;
 
 namespace WebsiteV3
 {
@@ -34,7 +35,7 @@ namespace WebsiteV3
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //Identity & Role Setup
-            services.AddDefaultIdentity<IdentityUser>(options =>
+            services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 //change to all true when deployed
                 options.Password.RequireDigit = false;
@@ -64,6 +65,9 @@ namespace WebsiteV3
         {
             if (env.IsDevelopment())
             {
+                //app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                //app.UseHsts();
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }

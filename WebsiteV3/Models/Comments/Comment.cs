@@ -13,6 +13,6 @@ namespace WebsiteV3.Models.Comments
         public string Message { get; set; }
         public DateTime CreatedDate { get; set; }
         public string UserId { get; set; }
-        public IdentityUser User { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

@@ -1,0 +1,49 @@
+﻿// Custom.scss
+
+//Modified theme colours
+$theme-colors: ( 
+    "primary": #5C33D6, 
+    "secondary": #3600D8, 
+    "success": #0CAF55, 
+    "info": #9C40D6, 
+    "warning": #BF1AB9, 
+    "danger": #9B1D32, 
+    "light": #D8C4F2, 
+    "dark": #232323 );
+// Customize the light and dark text colors for use in our YIQ color contrast function.
+$yiq-text-dark: #111111;
+$yiq-text-light: #D8C4F2;
+// Settings for the `<body>` element.
+$body-bg: #111111;
+$body-color: #D8C4F2;
+// Define the minimum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+$grid-breakpoints: ( xs: 0, sm: 480px, md: 770px, lg: 1024px, xl: 1200px );
+// Grid containers
+// Define the maximum width of `.container` for different screen sizes.
+$container-max-widths: ( sm: 456px, md: 720px, lg: 972px, xl: 1140px );
+// Components
+// Define common padding and border radius sizes and more.
+$border-color: #111111;
+
+// Font, line-height, and color for body text, headings, and more.
+// stylelint-disable value-keyword-case
+$font-family-sans-serif: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-family-monospace: Roboto Mono, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+$headings-color: #5C33D6;
+$text-muted: #343a40;
+$blockquote-small-color: #343a40;
+
+//Buttons
+$btn-white-space: nowrap; // Set to `nowrap` to prevent text wrapping
+
+//Forms
+$input-bg: #D8C4F2;
+$input-color: #343a40;
+$input-border-color: #3600D8;
+$input-placeholder-color: #495057;
+
+// Option A: Include all of Bootstrap
+@import "../lib/bootstrap/scss/bootstrap.scss";
+
+

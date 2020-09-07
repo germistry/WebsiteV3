@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,5 +42,7 @@ namespace WebsiteV3.Data.Repository
         void AddSubComment(SubComment comment);
         void DeleteSubComment(int id);
         SubComment GetSubComment(int id);
+
+        
     }
 }
