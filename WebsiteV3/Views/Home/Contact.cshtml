@@ -1,0 +1,57 @@
+﻿@model ContactViewModel
+@{
+    ViewData["Title"] = "Contact Me";
+}
+
+<div class="container-fluid">
+    <div class="row form-title text-center">
+        <div class="col-12">
+            <h2 class="title-padding">@ViewData["Title"]</h2>
+            <hr />
+            <a href="https://www.facebook.com/krystal.ruwoldt/" title="Facebook"><i class="fab fa-facebook" style="color: #9C40D6; font-size: xx-large;"></i></a>
+            &emsp;<a href="https://github.com/germistry" title="Github"><i class="fab fa-github" style="color: #9C40D6; font-size: xx-large;"></i></a>
+        </div>
+    </div>
+   
+    <div class="container">
+        <form class="form-content-editing" asp-controller="Home" asp-action="Contact" method="post">
+            <div asp-validation-summary="All" class="form-group row text-danger"></div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Name</label>
+                <div class="col">
+                    <input class="form-control" asp-for="Name" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Email</label>
+                <div class="col">
+                    <input class="form-control" asp-for="Email" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Subject</label>
+                <div class="col">
+                    <select class="form-control" asp-for="Subject">
+                        <option value="General Enquiry">General Enquiry</option>
+                        <option value="Request CV">Request CV</option>
+                        <option value="User Enquiry">User Enquiry</option>
+                        <option value="Report Website Issue">Report Website Issue</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Message</label>
+                <div class="col">
+                    <textarea class="form-control" asp-for="Message"></textarea>
+                </div>
+            </div>
+            <div class="form-group row text-center">
+                <div class="col-12">
+                    <input type="submit" value="Submit" class="btn btn-primary" />&emsp;
+                    <a asp-action="Contact" class="btn btn-primary">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

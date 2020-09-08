@@ -27,7 +27,13 @@
                            accept=".png,.jpg,.jpeg,.gif,.tif"
                            asp-for="Input.ProfileImage"
                            class="form-control"
-                           style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;"
+                           style="  border: 0px !important;
+                                    border-radius: 0;
+                                    padding: 0px;
+                                    padding-top: 10px;
+                                    padding-bottom: 30px;
+                                    background-color: #0A0A0A;
+                                    color: #C195F4;"
                            onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0])" />
                     <span asp-validation-for="Input.ProfileImage" class="text-danger"></span>
                 </div>
@@ -43,7 +49,9 @@
                     <input asp-for="Input.PhoneNumber" class="form-control" />
                     <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                 </div>
-                <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+                <div class="form-group">
+                    <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+                </div>
             </div>
         </div>
     </form>

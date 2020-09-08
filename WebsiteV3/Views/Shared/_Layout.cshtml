@@ -21,33 +21,44 @@
     <header>
         <nav class="navbar fixed-top navbar-expand-md navbar-custom ">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" title="Home">
                     <img src="~/content/static/NameLogov2NavBarBrand.png" width="105" height="30" />
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"> 
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-md-inline-flex flex-md-row-reverse" id="navbarResponsive">
                     <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav ml-auto flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container-fluid">
-        <main role="main" class="flex-shrink-0">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="footer">
+    <main role="main" class="flex-shrink-0">
+        @RenderBody()
+    </main>
+    <footer class="footer footer-custom mt-auto py-3">
         <div class="container-fluid">
-            &copy; &copy; @DateTime.Now.Year <i>Designed &amp; Built by Krystal Ruwoldt</i> - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row footer-padding">
+                <div class="col-md-4 align-self-md-center text-center text-md-left text-xl-left text-lg-left">
+                    <a asp-area="" asp-controller="Home" asp-action="Index" title="Home">
+                        <img src="~/content/static/NameLogov2NavBarBrand.png" width="105" height="30" />
+                    </a>&emsp;
+                    <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </div>
+                <div class="col-md-4 align-self-end text-center social-media-icons">
+                    <a href="https://www.facebook.com/krystal.ruwoldt/" title="Facebook"><i class="fab fa-facebook"></i></a>&emsp;
+                    <a href="https://github.com/germistry" title="Github"><i class="fab fa-github"></i></a>&emsp;
+                    <a asp-area="" asp-controller="Home" asp-action="Contact" title="Contact Me"><i class="fas fa-envelope"></i></a>
+                </div>
+                <div class="col-md-4 align-self-center text-center text-wrap  ext-md-right text-lg-right text-xl-right">
+                    &copy; @DateTime.Now.Year <i>Designed &amp; Built by Krystal Ruwoldt</i>
+                </div>
+            </div>
         </div>
     </footer>
     @RenderSection("Scripts", required: false)

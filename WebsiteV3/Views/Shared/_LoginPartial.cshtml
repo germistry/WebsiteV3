@@ -7,17 +7,17 @@
     {
         @if (User.IsInRole("SuperAdmin"))
         {
-            <li class="nav-item">
+            <li class="nav-item align-self-center">
                 <a class="nav-link" asp-controller="Panel" asp-action="Index">Website Management</a>
             </li>
         }
         <li class="nav-item d-none d-md-block d-lg-block d-xl-block" style="align-self: center;">
             @if (UserManager.GetUserAsync(User).Result.ProfileImage != null)
             {
-                <img style="width:40px;height:40px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.ProfileImage))">
+                <img style="width:41.6px;height:41.6px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.ProfileImage))">
             }
         </li>
-        <li class="nav-item">
+        <li class="nav-item align-self-center">
             <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
         </li>
         <li class="nav-item">

@@ -1,33 +1,116 @@
-﻿/*-----------------------------site.css for inbuilt identity pages-------------------------------*/
+﻿/*------Fixes for various things------*/
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}
+/* Bootstrap padding fix */
+[class*="col-"] {
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+}
+
+/* Reset html and body for custom styles */
+html, body {
+    height: 100%;
+    width: 100%;
+    color: #C195F4;
+}
+/* Darker body to differ navbar & footer and void margin as using padding for spacing*/
+body {
+    margin: 0;
+    background-color: #0A0A0A;
+    padding-top: 4.5rem;
+}
+.btn-default {
+    color: #C195F4;
+}
+/*-----------Nav Bar & Footer-----------*/
 .navbar-toggler-icon {
     background-image: url('../content/static/bars.png');
 }
-
 .navbar-custom {
     background-color: #111111;
     border-color: #111111;
 }
+.nav-link {
+    color: #7454D3;
+}
 
-a.navbar-brand {
+.footer-custom {
+    border-top: 2px solid #111111;
+    width: 100%;
+}
+.footer-padding {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}    
+.social-media-icons {
+    font-size: xx-large;
+}
+.nav-pills-padding {
+    padding-bottom: 1rem;
+}
+/*--------Form Customs--------*/
+.form-control {
+    border-radius: 0;
+}
+.form-title {
+    width: 95%;
+    margin: 0 auto;
+    padding-top: .5rem;
+}
+    .form-title hr {
+        border-top: 1px solid #5C33D6;
+        width: 95%;
+        margin-top: 0;
+    }
+.title-padding {
+    padding-bottom: 0.5rem;
+}
+.form-content-editing {
+    width: 95%;
+    margin: 0 auto;
+}
+    .form-content-editing .padding {
+        padding-top: .3rem;
+    }
+
+
+
+/*----------*/
+
+/*a.navbar-brand {
   white-space: normal;
   text-align: center;
-  word-break: break-all;
+  word-break: break-all;*/
 
-}
-body {
+/*}
+*//*body {
     padding-top: 4.5rem;
-}
+    padding-bottom: 0;
+}*/
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
+
+/*html {
   font-size: 14px;
 }
 @media (min-width: 768px) {
   html {
     font-size: 16px;
   }
-}
-button.accept-policy {
+}*/
+/*button.accept-policy {
   font-size: 1rem;
   line-height: inherit;
 }
@@ -37,26 +120,19 @@ html {
   min-height: 100%;
   color: #C195F4;
 }
-body {
+body {*/
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  /*margin-bottom: 15px;
   color: #C195F4;
   background-color: #0A0A0A;
 }
 .footer {
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100%;
-    white-space: nowrap;
-    line-height: 60px; /* Vertically center the text there */
-}
-.footer-custom {
-    border-top: 2px solid #111111;
-    width: 100%;
-}
-    .footer-custom .h6 {
-        margin-bottom: 0;
-    }
-.btn-default {
-    color: #C195F4;
-}
+    white-space: nowrap;*/
+    /*line-height: 60px; /* Vertically center the text there */
+    /*border-top: 2px solid #111111;
+    padding-top: 1rem;
+}*/
+
