@@ -11,8 +11,11 @@ I use:
     Photosauce Magic Scaler for my dynamic images 
   </li>
   <li>
-    Bootstrap 4.3.1
+    Bootstrap 4.3.1 and Bootstrap-tables 1.17.1
   </li>
+  <li>
+    Jquery Validation  
+  </li>  
   <li>
     Microsoft ASP.NET CORE EF Identity 
   </li>
