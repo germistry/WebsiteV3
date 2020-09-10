@@ -31,6 +31,7 @@ namespace WebsiteV3.Controllers
                 var thisViewModel = new UserRolesViewModel();
                 thisViewModel.UserId = user.Id;
                 thisViewModel.Email = user.Email;
+                thisViewModel.UserName = user.UserName;
                 thisViewModel.Roles = await GetUserRoles(user);
                 userRolesViewModel.Add(thisViewModel);
             }

@@ -15,6 +15,7 @@ namespace WebsiteV3.Data.Repository
 
         //Methods for Category
         Category GetCategory(int id);
+        Category GetCategoryNoTracking(int id); //For getting category for updating posts/portfolio items without the tracking as tracking is done on the post or portfolio item.
         List<Category> GetAllCategories();
         
         void AddCategory(Category category);

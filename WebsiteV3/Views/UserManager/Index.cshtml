@@ -4,33 +4,52 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>User Manager</h1>
+<div class="container-fluid">
+    <div class="row form-title text-center">
+        <div class="col-12">
+            <h2 class="title-padding">@ViewData["Title"]</h2>
+            <hr />
+        </div>
+    </div>
+</div>
 
-<span>
-    <a class="btn btn-primary" asp-controller="UserRoles" asp-action="Index">User Roles</a>
-</span>
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>User Name</th>
-            <th>User Id</th>
-            <th>User Email</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
+<div class="container">
+    <div class="row">
+        <div class="col-12" style="padding-bottom: 1em;">
+            <span class="btn-padding">
+                <a class="btn btn-primary" asp-controller="UserRoles" asp-action="Index">Manage User Roles</a>
+            </span>
+            <span class="btn-padding">
+                <a class="btn btn-primary" asp-controller="RoleManager" asp-action="Index">Manage Roles</a>
+            </span>
+        </div>
+    </div>
+    <table class="table table-responsive">
+        <thead>
             <tr>
-                <td>@user.UserName</td>
-                <td>@user.UserId</td>
-                <td>@user.Email</td>
-                <td>
-                    <a class="btn btn-primary disabled" asp-action="BanUser"
-                       asp-route-roleName="@user.Email">Ban User</a>                        
-                </td>
+                <th>User Name</th>
+                <th>User Id</th>
+                <th>User Email</th>
+                <th>Comment Count</th>
+                <th></th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td style="font-size: small;">@user.UserId</td>
+                    <td>@user.Email</td>
+                    <td></td>
+                    <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="ManageUserComments" asp-route-id="@user.UserId">User Comments</a></td>
+                    <td>
+                        <a class="btn btn-secondary btn-sm" asp-action="BanUser"
+                           asp-route-roleName="@user.Email">Ban User</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

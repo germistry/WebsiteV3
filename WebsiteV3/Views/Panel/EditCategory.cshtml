@@ -1,0 +1,28 @@
+﻿@model EditCategoryViewModel
+@{ 
+    ViewData["Title"] = "Create/Edit Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row form-title text-center">
+        <div class="col-12">
+            <h2 class="title-padding">@ViewData["Title"]</h2>
+            <hr />
+        </div>
+    </div>
+    <div class="container">
+        <form class="form-content-editing" asp-controller="Panel" asp-action="EditCategory" method="post">
+            <input asp-for="Id" type="hidden" />
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">CategoryName</label>
+                <div class="col">
+                    <input class="form-control" asp-for="CategoryName" />
+                </div>
+            </div>
+            <div class="form-group">
+                <input class="btn btn-primary" type="submit" value="Submit" />
+            </div>
+        </form>
+    </div>
+</div>

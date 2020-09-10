@@ -1,0 +1,51 @@
+﻿@model IEnumerable<PortfolioItem>
+@{ 
+    ViewData["Title"] = "Portfolio Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row form-title text-center">
+        <div class="col-12">
+            <h2 class="title-padding">@ViewData["Title"]</h2>
+            <hr />
+        </div>
+    </div>
+</div>
+<div class="container">
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Created Date</th>
+                <th>Category</th>
+                <th>Has Comments</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.CreatedDate</td>
+                <td>@item.Category.CategoryName</td>
+                <td></td>
+                <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="ManagePortfolioComments" asp-route-id="@item.Id">User Comments</a></td>
+                <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="EditPortfolioItem" asp-route-id="@item.Id">Edit</a></td>
+                <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="DeletePortfolioItem" asp-route-id="@item.Id">Delete</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-12" style="padding-bottom: 1em;">
+            <a class="btn btn-primary" asp-controller="Panel" asp-action="EditPortfolioItem">Create New Portfolio Item</a>
+        </div>
+        <div class="col-12">
+            <hr class="border-dark-top" />
+        </div>
+    </div>
+</div>

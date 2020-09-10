@@ -4,53 +4,67 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Role Manager</h1>
-
-<p>Roles with assigned users cannot be deleted until users are removed from that role.</p>
-<span>
-    <a class="btn btn-primary" asp-controller="UserRoles" asp-action="Index">Manage Users</a>
-</span>
-
-
-<form method="post" asp-action="AddRole" asp-controller="RoleManager">
-    <div class="input-group">
-        <input name="roleName" class="form-control w-25">
-        <span class="input-group-btn">
-            <button class="btn btn-info">Add New Role</button>
-        </span>
+<div class="container-fluid">
+    <div class="row form-title text-center">
+        <div class="col-12">
+            <h2 class="title-padding">@ViewData["Title"]</h2>
+            <hr />
+        </div>
     </div>
-</form>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Role</th>
-            <th>Id</th>
-            <th>No. of Users</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var role in Model)
-        {
-        <tr>
-            <td>@role.RoleName</td>
-            <td>@role.RoleId</td>
-            <td>@role.NumberOfUsers</td>
-            <td>
-                @{
-                    if (role.NumberOfUsers >= 1)
-                    {
-                        <a class="btn btn-primary disabled" asp-action="RemoveRole"
-                           asp-route-roleName="@role.RoleName">Delete</a>
-                    }
-                    else
-                    {
-                        <a class="btn btn-primary" asp-action="RemoveRole"
-                           asp-route-roleName="@role.RoleName">Delete</a>
-                    }
-                }
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+</div>
+
+<div class="container">
+    <p>Roles with assigned users cannot be deleted until users are removed from that role.</p>
+    <div class="row">
+        <div class="col-12" style="padding-bottom: 1em;">
+            <span class="btn-padding">
+                <a class="btn btn-primary" asp-controller="UserRoles" asp-action="Index">Manage User Roles</a>
+            </span>
+            <span class="btn-padding">
+                <a class="btn btn-primary" asp-controller="UserManager" asp-action="Index">Manage Users</a>
+            </span>
+        </div>
+    </div>
+    <form method="post" asp-action="AddRole" asp-controller="RoleManager">
+        <div class="input-group" style="padding-bottom: 1em;">
+            <span class="input-group-btn btn-padding">
+                <button class="btn btn-secondary">Add New Role</button>
+            </span>
+            <input name="roleName" class="form-control w-25">
+        </div>
+    </form>
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Role</th>
+                <th>Id</th>
+                <th>No. of Users</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var role in Model)
+            {
+                <tr>
+                    <td>@role.RoleName</td>
+                    <td>@role.RoleId</td>
+                    <td class="text-center">@role.NumberOfUsers</td>
+                    <td>
+                        @{
+                            if (role.NumberOfUsers >= 1)
+                            {
+                                <a class="btn btn-secondary btn-sm disabled" asp-action="RemoveRole"
+                                   asp-route-roleName="@role.RoleName">Delete</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-secondary btn-sm" asp-action="RemoveRole"
+                                   asp-route-roleName="@role.RoleName">Delete</a>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

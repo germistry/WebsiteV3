@@ -106,10 +106,10 @@ namespace WebsiteV3.Controllers
 
         //Http method Get - Returns a page with a list of portfolio items, or supply category to have 
         //filtered by category. 
-        public IActionResult PortfolioItems(int pageNumber, int category, string searchItems)
+        public IActionResult Portfolio(int pageNumber, int category, string searchItems)
         {
             if (pageNumber < 1)
-                return RedirectToAction("PortfolioItems", new { pageNumber = 1, category });
+                return RedirectToAction("Portfolio", new { pageNumber = 1, category });
 
             var vm = _repo.GetAllPortfolioItems(pageNumber, category, searchItems);
 

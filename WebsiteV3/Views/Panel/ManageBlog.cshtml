@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Post>
+@{
+    ViewData["Title"] = "Blog Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row form-title text-center">
+        <div class="col-12">
+            <h2 class="title-padding">@ViewData["Title"]</h2>
+            <hr />
+        </div>
+    </div>
+</div>
+<div class="container">
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Created Date</th>
+                <th>Category</th>
+                <th>Featured</th>
+                <th>Has Comments</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var post in Model)
+            {
+                <tr>
+                    <td>@post.Title</td>
+                    <td>@post.CreatedDate</td>
+                    <td>@post.Category.CategoryName</td>
+                    <td>
+                        @if (post.Featured == true)
+                        {
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="tableCheck@(post.Id)" checked disabled >
+                                <label class="custom-control-label text-hide" for="tableCheck@(post.Id)">True</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="tableCheck@(post.Id)" disabled>
+                                <label class="custom-control-label text-hide" for="tableCheck@(post.Id)">False</label>
+                            </div>
+                        }
+                    </td>
+                    <td></td>
+                    <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="ManageBlogComments" asp-route-id="@post.Id">User Comments</a></td>
+                    <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="EditPost" asp-route-id="@post.Id">Edit</a></td>
+                    <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="DeletePost" asp-route-id="@post.Id">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-12" style="padding-bottom: 1em;">
+            <a class="btn btn-primary" asp-controller="Panel" asp-action="EditPost">Create New Post</a>
+        </div>
+        <div class="col-12">
+            <hr class="border-dark-top" />
+        </div>
+    </div>
+</div>

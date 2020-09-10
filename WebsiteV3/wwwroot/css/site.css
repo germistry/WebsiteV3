@@ -31,9 +31,17 @@ body {
     background-color: #0A0A0A;
     padding-top: 4.5rem;
 }
+/* General settings */
 .btn-default {
     color: #C195F4;
 }
+.btn-padding {
+    padding-right: 1rem;
+}
+.border-dark-top {
+    border-top: 1px solid #3600D8;
+}
+
 /*-----------Nav Bar & Footer-----------*/
 .navbar-toggler-icon {
     background-image: url('../content/static/bars.png');
@@ -84,8 +92,13 @@ body {
     .form-content-editing .padding {
         padding-top: .3rem;
     }
-
-
+/*---------Table Customs-----------*/
+.table {
+    color: #C195F4;
+}
+    .table th {
+        color: #7454D3;
+    }
 
 /*----------*/
 

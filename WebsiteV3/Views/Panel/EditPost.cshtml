@@ -1,0 +1,79 @@
+﻿@model EditPostViewModel
+@{
+    ViewData["Title"] = "Create/Edit Post";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/lib/Trumbowyg-master/ui/trumbowyg.min.css" rel="stylesheet" />
+<environment include="Development">
+    <link href="~/css/editor.css" rel="stylesheet" />
+</environment>
+<environment include="Production">
+    <link href="~/css/editor.min.css" rel="stylesheet" />
+</environment>
+
+<div class="container-fluid">
+    <div class="row form-title text-center">
+        <div class="col-12">
+            <h2 class="title-padding">@ViewData["Title"]</h2>
+            <hr />
+        </div>
+    </div>
+    <form class="form-content-editing" asp-controller="Panel" asp-action="EditPost" method="post" enctype="multipart/form-data">
+        <input asp-for="Id" type="hidden" />
+        <div class="form-row">
+            <div class="form-group col-md-8">
+                <label>Title</label>
+                <input class="form-control" asp-for="Title" />
+            </div>
+            <div class="form-group col-md-4">
+                <label>Category</label>
+                @Html.DropDownListFor(a => a.CategoryId, Model.CategoryList, "Select Category", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Description</label>
+            <div class="col">
+                <input class="form-control" asp-for="Description" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Tags</label>
+            <div class="col">
+                <input class="form-control" asp-for="Tags" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Intro for Feature</label>
+            <div class="col">
+                <input class="form-control" asp-for="Introduction" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Body</label>
+            <textarea id="editor" asp-for="Body"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Image</label>
+            <input asp-for="CurrentImage" type="hidden" />
+            <input class="form-control-file" asp-for="Image" />
+        </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <input class="btn btn-primary" type="submit" value="Submit" />
+        </div>
+    </form>
+</div>
+@section scripts {
+    <partial name="_ValidationScriptsPartial" />
+    @*-- scripts for Trumbowyg Text Editor--*@
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="~/lib/Trumbowyg-master/trumbowyg.min.js"></script>
+    @*-- plugins for Trumbowyg--*@
+
+    @*<-- Init Trumbowyg -->*@
+    <script>
+        // . is class, # is an id, nav is html element
+        $('#editor').trumbowyg();
+    </script>
+}

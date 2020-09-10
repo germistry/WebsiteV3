@@ -29,9 +29,21 @@ namespace WebsiteV3.Data.Repository
                     .Include(c => c.PortfolioItems)
                     .FirstOrDefault(c => c.Id == id);
         }
+        public Category GetCategoryNoTracking(int id)
+        {
+            return _ctx.Categories
+                    .AsNoTracking()
+                    .Include(c => c.Posts)
+                    .Include(c => c.PortfolioItems)
+                    .FirstOrDefault(c => c.Id == id);
+        }
         public List<Category> GetAllCategories()
         {
-            return _ctx.Categories.ToList();
+            return _ctx.Categories
+                .Include(c => c.Posts)
+                .Include(c => c.PortfolioItems)
+                .OrderBy(c => c.CategoryName)
+                .ToList();
         }
         public void AddCategory(Category category)
         {
@@ -58,7 +70,10 @@ namespace WebsiteV3.Data.Repository
         }
         public List<Post> GetAllPosts()
         {
-            return _ctx.Posts.ToList();
+            return _ctx.Posts
+                        .Include(p => p.Category)
+                        .OrderByDescending(d => d.CreatedDate)
+                        .ToList();
         }
         public BlogViewModel GetAllPosts(int pageNumber, int category, string searchPosts)
         {
@@ -128,7 +143,10 @@ namespace WebsiteV3.Data.Repository
         }
         public List<PortfolioItem> GetAllPortfolioItems()
         {
-            return _ctx.PortfolioItems.ToList();
+            return _ctx.PortfolioItems
+                        .Include(p => p.Category)
+                        .OrderByDescending(d => d.CreatedDate)
+                        .ToList();
         }
         public PortfolioViewModel GetAllPortfolioItems(int pageNumber, int category, string searchItems)
         {

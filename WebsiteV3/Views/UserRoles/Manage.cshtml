@@ -1,33 +1,41 @@
 ﻿@model List<ManageUserRolesViewModel>
 @{
-    ViewData["Title"] = "Manage";
+    ViewData["Title"] = "Manage Roles for User";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<form method="post">
-    <div class="card">
-        <div class="card-header">
-            <h2>Manage User Roles</h2>
-            Add/Remove Roles for User @ViewBag.UserName.
+
+<div class="container-fluid">
+    <div class="row form-title text-center">
+        <div class="col-12">
+            <h2 class="title-padding">@ViewData["Title"]</h2>
+            <hr />
         </div>
-        <div class="card-body">
+    </div>
+</div>
+
+<div class="container">
+    <form method="post">
+        <p>Add/Remove Roles for User <b style="color: #7454D3;">@ViewBag.UserName</b></p>   
+        <div>
             @for (int i = 0; i < Model.Count; i++)
             {
-                <div class="form-check m-1">
-                    <input type="hidden" asp-for="@Model[i].RoleId" />
-                    <input type="hidden" asp-for="@Model[i].RoleName" />
-                    <input asp-for="@Model[i].Selected" class="form-check-input" />
-                    <label class="form-check-label" asp-for="@Model[i].Selected">
+                <input type="hidden" asp-for="@Model[i].RoleId" />
+                <input type="hidden" asp-for="@Model[i].RoleName" />
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="check@(Model[i].RoleName)" asp-for="@Model[i].Selected"  />
+                    <label class="custom-control-label" for="check@(Model[i].RoleName)" asp-for="@Model[i].Selected">
                         @Model[i].RoleName
                     </label>
                 </div>
             }
             <div asp-validation-summary="All" class="text-danger"></div>
         </div>
-        <div class="card-footer">
-            <input type="submit" value="Update" class="btn btn-primary"
-                   style="width:auto" />
-            <a asp-action="Index" 
-               class="btn btn-primary" style="width:auto">Cancel</a>
-        </div>
-    </div>
-</form>
+            <div class="">
+                <input type="submit" value="Update" class="btn btn-secondary"
+                       style="width:auto" />
+                <a asp-action="Index"
+                   class="btn btn-secondary" style="width:auto">Cancel</a>
+            </div>
+        
+    </form>
+</div>

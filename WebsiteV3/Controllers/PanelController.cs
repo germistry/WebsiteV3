@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -29,10 +30,11 @@ namespace WebsiteV3.Controllers
         //HttpGet for admin panel index page with links to all different management stuff. 
         public IActionResult Index()
         {
-            return View();
+            var categories = _repo.GetAllCategories();
+            return View(categories);
         }
-        //HttpGet for admin panel portfolio page, shows all portfolioItems. 
-        public IActionResult Posts()
+        //HttpGet for admin panel post page, shows all posts. 
+        public IActionResult ManageBlog()
         {
             var posts = _repo.GetAllPosts();
             return View(posts);
@@ -42,27 +44,37 @@ namespace WebsiteV3.Controllers
         [HttpGet]
         public IActionResult EditPost(int? id)
         {
+            var categoryList = _repo.GetAllCategories().ToList();
+            var dropDownList = new SelectList(categoryList.Select(item => new SelectListItem
+            {
+                Text = item.CategoryName,
+                Value = item.Id.ToString()
+            }).ToList(), "Value", "Text");
+
             if (id == null)
             {
-                return View(new EditPostViewModel());
+                var vm = new EditPostViewModel()
+                {
+                    CategoryList = dropDownList
+                };
+                return View(vm);
             }
             else
             {
-                var post = _repo.GetPost((int)id);
+                var post = _repo.GetPost((int)id);  
                 return View(new EditPostViewModel
                 {
                     Id = post.Id,
                     Title = post.Title,
+                    Introduction = post.Introduction,
                     Body = post.Body,
                     CurrentImage = post.Image,
                     Description = post.Description,
-                    Tags = post.Tags
-                    //,
-                    //Category = post.Category
+                    Tags = post.Tags,
+                    CategoryId = post.Category.Id,
+                    CategoryList = dropDownList  
                 });
-
             }
-
         }
         //HttpPost task that actually does the updating and saving of new posts, and redirects the page
         //back to index even if it's taking some time for the changes to be saved to the database.
@@ -73,11 +85,10 @@ namespace WebsiteV3.Controllers
             {
                 Id = postvm.Id,
                 Title = postvm.Title,
+                Introduction = postvm.Introduction,
                 Body = postvm.Body,
                 Description = postvm.Description,
                 Tags = postvm.Tags
-                //,
-                //Category = postvm.Category
             };
             if (postvm.Image == null)
                 post.Image = postvm.CurrentImage;
@@ -88,13 +99,20 @@ namespace WebsiteV3.Controllers
                 post.Image = _fileManager.SavePostImage(postvm.Image);
             }
             if (post.Id > 0)
+            {
+                var category = _repo.GetCategoryNoTracking(postvm.CategoryId);
+                post.Category = category;
                 _repo.UpdatePost(post);
+            }
             else
+            {
+                var category = _repo.GetCategory(postvm.CategoryId);
+                post.Category = category;
                 _repo.AddPost(post);
-
+            }
             if (await _repo.SaveChangesAsync())
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("ManageBlog");
             }
             else
                 return View(post);
@@ -105,11 +123,10 @@ namespace WebsiteV3.Controllers
         {
             _repo.DeletePost(id);
             await _repo.SaveChangesAsync();
-            return RedirectToAction("Index");
-
+            return RedirectToAction("ManageBlog");
         }
         //HttpGet for admin panel portfolio page, shows all portfolioItems. 
-        public IActionResult PortfolioItems()
+        public IActionResult ManagePortfolio()
         {
             var portfolioItems = _repo.GetAllPortfolioItems();
             return View(portfolioItems);
@@ -119,9 +136,20 @@ namespace WebsiteV3.Controllers
         [HttpGet]
         public IActionResult EditPortfolioItem(int? id)
         {
+            var categoryList = _repo.GetAllCategories().ToList();
+            var dropDownList = new SelectList(categoryList.Select(item => new SelectListItem
+            {
+                Text = item.CategoryName,
+                Value = item.Id.ToString()
+            }).ToList(), "Value", "Text");
+
             if (id == null)
             {
-                return View(new EditPortfolioItemViewModel());
+                var vm = new EditPortfolioItemViewModel()
+                {
+                    CategoryList = dropDownList
+                };
+                return View(vm);
             }
             else
             {
@@ -130,15 +158,16 @@ namespace WebsiteV3.Controllers
                 {
                     Id = portfolioItem.Id,
                     Title = portfolioItem.Title,
+                    Introduction = portfolioItem.Introduction,
                     Body = portfolioItem.Body,
                     CurrentImage = portfolioItem.Image,
                     Description = portfolioItem.Description,
-                    Tags = portfolioItem.Tags
-                    //,
-                    //Category = portfolioItem.Category
+                    Tags = portfolioItem.Tags,
+                    CategoryId = portfolioItem.Category.Id,
+                    CategoryList = dropDownList,
+                    SourceCodeLink = portfolioItem.SourceCodeLink
                 });
             }
-
         }
         //HttpPost task that actually does the updating and saving of new portfolio items, and redirects the page
         //back to portfolioitems even if it's taking some time for the changes to be saved to the database.
@@ -149,11 +178,11 @@ namespace WebsiteV3.Controllers
             {
                 Id = portfoliovm.Id,
                 Title = portfoliovm.Title,
+                Introduction = portfoliovm.Introduction,
                 Body = portfoliovm.Body,
                 Description = portfoliovm.Description,
-                Tags = portfoliovm.Tags
-                //,
-                //Category = portfoliovm.Category
+                Tags = portfoliovm.Tags, 
+                SourceCodeLink = portfoliovm.SourceCodeLink                
             };
 
             if (portfoliovm.Image == null)
@@ -165,13 +194,20 @@ namespace WebsiteV3.Controllers
                 portfolioItem.Image = _fileManager.SavePortfolioItemImage(portfoliovm.Image);
             }
             if (portfolioItem.Id > 0)
+            {
+                var category = _repo.GetCategoryNoTracking(portfoliovm.CategoryId);
+                portfolioItem.Category = category;
                 _repo.UpdatePortfolioItem(portfolioItem);
+            }
             else
+            {
+                var category = _repo.GetCategory(portfoliovm.CategoryId);
+                portfolioItem.Category = category;
                 _repo.AddPortfolioItem(portfolioItem);
-
+            }
             if (await _repo.SaveChangesAsync())
             {
-                return RedirectToAction("PortfolioItems");
+                return RedirectToAction("ManagePortfolio");
             }
             else
                 return View(portfolioItem);
@@ -182,8 +218,59 @@ namespace WebsiteV3.Controllers
         {
             _repo.DeletePortfolioItem(id);
             await _repo.SaveChangesAsync();
-            return RedirectToAction("PortfolioItems");
+            return RedirectToAction("ManagePortfolio");
+        }
+        //HttpGet for category edit page for the selected category. If/else statement just in case the id is null - 
+        //prevents an error being thrown, instead redirects to a create a new category.
+        //Todo - add picture for category, number of posts/portfolio items linked to category
+        [HttpGet]
+        public IActionResult EditCategory(int? id)
+        {
+            if (id == null)
+            {
+                return View(new EditCategoryViewModel());
+            }
+            else
+            {
+                var category = _repo.GetCategory((int)id);
+                return View(new EditCategoryViewModel
+                {
+                    Id = category.Id,
+                    CategoryName = category.CategoryName
+                });
+            }
+        }
+        //HttpPost task that actually does the updating and saving of new categories, and redirects the page
+        //back to index even if it's taking some time for the changes to be saved to the database.
+        [HttpPost]
+        public async Task<IActionResult> EditCategory(EditCategoryViewModel categoryvm)
+        {
+            var category = new Category
+            {
+                Id = categoryvm.Id,
+                CategoryName = categoryvm.CategoryName
+            };
+            
+            if (category.Id > 0)
+                _repo.UpdateCategory(category);
+            else
+                _repo.AddCategory(category);
 
+            if (await _repo.SaveChangesAsync())
+            {
+                return RedirectToAction("Index");
+            }
+            else
+                return View(category);
+        }
+        //Http get to delete a particular category using its id. 
+        //Todo - disable delete button if category has > 0 posts/portfolio items.
+        [HttpGet]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            _repo.DeleteCategory(id);
+            await _repo.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,28 +1,50 @@
 ﻿@model List<UserRolesViewModel>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "User Roles Manager";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1>User Roles</h1>
-<a class="btn btn-primary float-right" asp-controller="RoleManager" asp-action="Index">Role Manager</a>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Email</th>
-            <th>Roles</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
+
+<div class="container-fluid">
+    <div class="row form-title text-center">
+        <div class="col-12">
+            <h2 class="title-padding">@ViewData["Title"]</h2>
+            <hr />
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12" style="padding-bottom: 1em;">
+            <span class="btn-padding">
+                <a class="btn btn-primary" asp-controller="UserManager" asp-action="Index">Manage Users</a>
+            </span>
+            <span class="btn-padding">
+                <a class="btn btn-primary" asp-controller="RoleManager" asp-action="Index">Manage Roles</a>
+            </span>
+        </div>
+    </div>
+    <table class="table table-responsive">
+        <thead>
             <tr>
-                <td>@user.Email</td>
-                <td>@string.Join(" , ", user.Roles.ToList())</td>
-                <td>
-                    <a class="btn btn-primary" asp-controller="UserRoles" asp-action="Manage" asp-route-userId="@user.UserId">Manage Roles</a>
-                </td>
+                <th>Email</th>
+                <th>User Name</th>
+                <th>Roles</th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Email</td>
+                    <td>@user.UserName</td>
+                    <td>@string.Join(" , ", user.Roles.ToList())</td>
+                    <td>
+                        <a class="btn btn-secondary btn-sm" asp-controller="UserRoles" asp-action="Manage" asp-route-userId="@user.UserId">Change Roles</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

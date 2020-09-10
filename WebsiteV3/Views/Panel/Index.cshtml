@@ -1,10 +1,107 @@
-﻿@{
-    ViewData["Title"] = "SuperAdmin Panel";
+﻿@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "Website Management";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Website Management</h1>
+<div class="container-fluid">
+    <div class="row form-title text-center">
+        <div class="col-12">
+            <h2 class="title-padding">@ViewData["Title"]</h2>
+            <hr />
+        </div>
+    </div>
+    <div class="container">
+        <h5 style="padding-top: 0.3em; padding-bottom: 1em;">User Management</h5>
+        <div class="row">
+            <div class="col-12" style="padding-bottom: 1em;">
+                <span class="btn-padding">
+                    <a class="btn btn-primary btn-lg" asp-controller="RoleManager" 
+                       asp-action="Index">Manage Roles</a>
+                </span>
+                <span class="btn-padding">
+                    <a class="btn btn-primary btn-lg" asp-controller="UserRoles" 
+                       asp-action="Index">Manage User Roles</a>
+                </span>
+                <span class="btn-padding">
+                    <a class="btn btn-primary btn-lg" asp-controller="UserManager" 
+                       asp-action="Index">Manage Users</a>
+                </span>
+            </div>
+            <div class="col-12">
+                <hr class="border-dark-top" />
+            </div>
+        </div>
+        <h5 style="padding-top: 0.3em; padding-bottom: 1em;">Manage Blog and Portfolio</h5>
+        <div class="row">
+            <div class="col-12" style="padding-bottom: 1em;">
+                <span class="btn-padding">
+                    <a class="btn btn-primary btn-lg" asp-controller="Panel" 
+                       asp-action="ManageBlog">Manage Blog</a>
+                </span>
+                <span class="btn-padding">
+                    <a class="btn btn-primary btn-lg" asp-controller="Panel" 
+                       asp-action="ManagePortfolio">Manage Portfolio</a>
+                </span>
+            </div>
+            <div class="col-12">
+                <hr class="border-dark-top" />
+            </div>
+        </div>
+        <h5 style="padding-top: 0.3em;">Manage Categories</h5>
+        <p style="padding-bottom: 1em;">
+            Categories with posts or portfolio items cannot be deleted until these are removed or 
+            reallocated to another category.
+        </p>
+        <div>
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Blog Post Count</th>
+                        <th>Portfolio Item Count</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var category in Model)
+                    {
+                        <tr>
+                            <td>@category.CategoryName</td>
+                            <td class="text-center">@category.Posts.Count</td>
+                            <td class="text-center">@category.PortfolioItems.Count</td>
+                            <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" 
+                                   asp-action="EditCategory" asp-route-id="@category.Id">Edit</a></td>
+                            <td>
+                                @{
+                                    if (category.Posts.Count >= 1 | category.PortfolioItems.Count >= 1)
+                                    {
+                                        <a class="btn btn-secondary btn-sm disabled" asp-controller="Panel"
+                                           asp-action="DeleteCategory" asp-route-id="@category.Id">Delete</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-secondary btn-sm" asp-controller="Panel"
+                                           asp-action="DeleteCategory" asp-route-id="@category.Id">Delete</a>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-12" style="padding-bottom: 1em;">
+                    <a class="btn btn-primary" asp-controller="Panel" asp-action="EditCategory">
+                        Create Category
+                    </a>
+                </div>
+                <div class="col-12">
+                    <hr class="border-dark-top" />
+                </div>
+            </div>
+        </div>
 
-<span><a class="btn btn-primary btn-lg" asp-controller="RoleManager" asp-action="Index">Manage Roles</a></span>
-<span><a class="btn btn-primary btn-lg" asp-controller="UserRoles" asp-action="Index">Manage User Roles</a></span>
-<span><a class="btn btn-primary btn-lg" asp-controller="UserManager" asp-action="Index">Manage Users</a></span>
+    </div>
+</div>
