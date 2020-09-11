@@ -1,1 +1,45 @@
-﻿
+﻿@model BlogViewModel
+
+@{
+    ViewBag.Title = "The Blog";
+    ViewBag.Description = "This is the blog of Krystal Ruwoldt, a full stack developer from the Midwest of Western Australia.";
+    ViewBag.Keywords = "web software development blog database middleware ui modding tutorial programming coding sql c# java python html css nerd cats";
+}
+<div class="container-fluid">
+    <div class="row form-title text-center">
+        <div class="col-12">
+            <h2 class="title-padding">@ViewData["Title"]</h2>
+            <hr />
+        </div>
+        <div class="col-12">
+            <form class="form-group" asp-controller="Home" asp-action="Blog" method="get">
+                <input type="hidden" name="pageNumber" value="@Model.PageNumber" />
+                <input type="hidden" name="category" value="@Model.CategoryId" />
+                <label class="col-form-label">Search Posts</label>
+                <input class="form-control" name="searchPosts" type="text" value="@Model.SearchPosts" />
+            </form>
+        </div>
+    </div>
+</div>
+<partial name="_BlogPagination" model="Model" />
+<div class="container">
+    <div class="row">
+        @foreach (var post in Model.Posts)
+        {
+            var image_path = $"/PostImage/{post.Image}";
+
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <img class="card-img-top" src="@image_path" />
+                    <div class="card-body">
+                        <h5 class="card-title">@post.Title</h5>
+                        <p class="card-text text-justify">@post.Introduction</p>
+                        <span><a class="btn btn-primary" asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">Read More &rArr;</a></span>
+                        <span class="float-right"><a class="card-subtitle" asp-controller="Home" asp-action="Blog" asp-route-category="@post.Category.Id" asp-route-pageNumber="1">Filed in @post.Category.CategoryName</a></span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<partial name="_BlogPagination" model="Model" />

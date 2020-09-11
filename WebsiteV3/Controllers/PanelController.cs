@@ -61,7 +61,7 @@ namespace WebsiteV3.Controllers
             }
             else
             {
-                var post = _repo.GetPost((int)id);  
+                var post = _repo.GetPost((int)id);
                 return View(new EditPostViewModel
                 {
                     Id = post.Id,
@@ -71,9 +71,10 @@ namespace WebsiteV3.Controllers
                     CurrentImage = post.Image,
                     Description = post.Description,
                     Tags = post.Tags,
+                    CurrentCategoryId = post.Category.Id,
                     CategoryId = post.Category.Id,
-                    CategoryList = dropDownList  
-                });
+                    CategoryList = dropDownList
+                }); ;
             }
         }
         //HttpPost task that actually does the updating and saving of new posts, and redirects the page
@@ -97,11 +98,14 @@ namespace WebsiteV3.Controllers
                 if (!string.IsNullOrEmpty(postvm.CurrentImage))
                     _fileManager.RemovePostImage(postvm.CurrentImage);
                 post.Image = _fileManager.SavePostImage(postvm.Image);
-            }
+            } 
             if (post.Id > 0)
             {
-                var category = _repo.GetCategoryNoTracking(postvm.CategoryId);
-                post.Category = category;
+                if (postvm.CategoryId != postvm.CurrentCategoryId)
+                {
+                    var category = _repo.GetCategoryNoTracking(postvm.CategoryId);
+                    post.Category = category;
+                }
                 _repo.UpdatePost(post);
             }
             else
@@ -163,6 +167,7 @@ namespace WebsiteV3.Controllers
                     CurrentImage = portfolioItem.Image,
                     Description = portfolioItem.Description,
                     Tags = portfolioItem.Tags,
+                    CurrentCategoryId = portfolioItem.Category.Id,
                     CategoryId = portfolioItem.Category.Id,
                     CategoryList = dropDownList,
                     SourceCodeLink = portfolioItem.SourceCodeLink
@@ -195,8 +200,11 @@ namespace WebsiteV3.Controllers
             }
             if (portfolioItem.Id > 0)
             {
-                var category = _repo.GetCategoryNoTracking(portfoliovm.CategoryId);
-                portfolioItem.Category = category;
+                if (portfoliovm.CategoryId != portfoliovm.CurrentCategoryId)
+                {
+                    var category = _repo.GetCategoryNoTracking(portfoliovm.CategoryId);
+                    portfolioItem.Category = category;
+                }
                 _repo.UpdatePortfolioItem(portfolioItem);
             }
             else
@@ -264,7 +272,6 @@ namespace WebsiteV3.Controllers
                 return View(category);
         }
         //Http get to delete a particular category using its id. 
-        //Todo - disable delete button if category has > 0 posts/portfolio items.
         [HttpGet]
         public async Task<IActionResult> DeleteCategory(int id)
         {

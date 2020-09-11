@@ -21,6 +21,7 @@ namespace WebsiteV3.ViewModels
         [Required]
         public string Description { get; set; } = "";
         public string Tags { get; set; } = "";
+        public int CurrentCategoryId { get; set; } = 0;
         //the selected value in drop down 
         [Required]
         public int CategoryId { get; set; } = 0;

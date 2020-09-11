@@ -1,0 +1,37 @@
+﻿@model BlogViewModel
+
+@{
+
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            @if (Model.PageNumber > 1)
+            {
+                <a class="btn btn-sm btn-outline-secondary" asp-controller="Home" asp-action="Blog" asp-route-category="@Model.CategoryId"
+                   asp-route-searchPosts="@Model.SearchPosts" asp-route-pageNumber="@(Model.PageNumber - 1)"> &lArr; </a>
+            }
+            @foreach (var p in Model.Pages)
+            {
+                if (p == -1)
+                {
+                    <span>
+                        ...
+                    </span>
+                }
+                else
+                {
+                    string activeClass = p == Model.PageNumber ? "active" : "";
+                    <a class="btn btn-sm btn-outline-secondary @activeClass" asp-controller="Home" asp-action="Blog" asp-route-category="@Model.CategoryId"
+                       asp-route-searchPosts="@Model.SearchPosts" asp-route-pageNumber="@p"> @p </a>
+                }
+            }
+            @if (Model.NextPage)
+            {
+                <a class="btn btn-sm btn-outline-secondary" asp-controller="Home" asp-action="Blog" asp-route-category="@Model.CategoryId"
+                   asp-route-searchPosts="@Model.SearchPosts" asp-route-pageNumber="@(Model.PageNumber + 1)"> &rArr; </a>
+            }
+        </div>
+    </div>
+</div>

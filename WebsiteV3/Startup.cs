@@ -16,6 +16,7 @@ using WebsiteV3.Data.Repository;
 using WebsiteV3.Data.FileManager;
 using Microsoft.AspNetCore.Mvc;
 using WebsiteV3.Models;
+using Microsoft.Extensions.Logging;
 
 namespace WebsiteV3
 {
@@ -31,9 +32,18 @@ namespace WebsiteV3
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging(loggingBuilder => {
+                loggingBuilder.AddConsole()
+                    .AddFilter(DbLoggerCategory.Database.Command.Name, LogLevel.Information);
+                loggingBuilder.AddDebug();
+            });
+
             //Db context
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.EnableSensitiveDataLogging(true);
+            });
             //Identity & Role Setup
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {

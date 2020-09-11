@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -32,9 +33,9 @@ namespace WebsiteV3.Data.Repository
         public Category GetCategoryNoTracking(int id)
         {
             return _ctx.Categories
-                    .AsNoTracking()
                     .Include(c => c.Posts)
                     .Include(c => c.PortfolioItems)
+                    .AsNoTracking()
                     .FirstOrDefault(c => c.Id == id);
         }
         public List<Category> GetAllCategories()
@@ -86,9 +87,8 @@ namespace WebsiteV3.Data.Repository
 
             if (category > 0)
             {
-                query = (IOrderedQueryable<Post>)_ctx.Categories
-                                             .Include(c => c.Posts)
-                                             .FirstOrDefault(c => c.Id == category);                                            ;
+                query = (IOrderedQueryable<Post>)query.Where(x => 
+                                            EF.Functions.Like(x.Category.Id.ToString(), $"%{category}%"));
                 postsCount = query.Count();
             }
             if (!String.IsNullOrEmpty(searchPosts))
@@ -159,9 +159,9 @@ namespace WebsiteV3.Data.Repository
 
             if (category > 0)
             {
-                query = (IOrderedQueryable<PortfolioItem>)_ctx.Categories
-                                             .Include(c => c.PortfolioItems)
-                                             .FirstOrDefault(c => c.Id == category);
+                query = (IOrderedQueryable<PortfolioItem>)query.Where(x =>
+                                            EF.Functions.Like(x.Category.Id.ToString(), $"%{category}%"));
+                itemCount = query.Count();
             }
             if (!String.IsNullOrEmpty(searchItems))
             {
@@ -177,9 +177,17 @@ namespace WebsiteV3.Data.Repository
             int skipAmount = pageSize * (pageNumber - 1);
             int pageCount = (int)Math.Ceiling((double)itemCount / pageSize);
 
+            var categoryList = _ctx.Categories.AsNoTracking().ToList();
+            var dropDownList = new SelectList(categoryList.Select(item => new SelectListItem
+            {
+                Text = item.CategoryName,
+                Value = item.Id.ToString()
+            }).ToList(), "Value", "Text");
+
             return new PortfolioViewModel
             {
                 CategoryId = category,
+                CategoryList = dropDownList,
                 SearchItems = searchItems,
                 PageNumber = pageNumber,
                 PageCount = pageCount,

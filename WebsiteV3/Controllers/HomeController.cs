@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using WebsiteV3.Data.FileManager;
 using WebsiteV3.Data.Repository;
@@ -65,7 +66,6 @@ namespace WebsiteV3.Controllers
         {
             return View();
         }
-        //FUNCTION STYLE
         //Http method Get - Returns a page with a list of posts, or supply category to have filtered by
         //category. 
         public IActionResult Blog(int pageNumber, int category, string searchPosts)
@@ -77,32 +77,16 @@ namespace WebsiteV3.Controllers
 
             return View(vm);
         }
-        //FUNCTION STYLE
         //Http method Get - Returns the individual post page for a particular post.  
         public IActionResult Post(int id) =>
             View(_repo.GetPost(id));
-        //STATEMENT STYLE
-        //public IActionResult Post(int id)
-        //{
-        //    var post = _repo.GetPost(id);
-        //    return View(post);
-        //}
-
-        //FUNCTION STYLE
+        
         //HttpGet to return the post image through filestream.
         [HttpGet("/PostImage/{postImage}")]
         [ResponseCache(CacheProfileName = "Monthly")]
         public IActionResult PostImage(string postImage) =>
            new FileStreamResult(_fileManager.PostImageStream(postImage),
                $"postImage/{postImage.Substring(postImage.LastIndexOf('.') + 1)}");
-
-        //STATEMENT STYLE
-        //[HttpGet("/PostImage/{postImage}")]
-        //public IActionResult PostImage(string postImage)
-        //{
-        //    var mime = postImage.Substring(postImage.LastIndexOf('.') + 1);
-        //    return new FileStreamResult(_fileManager.PostImageStream(postImage), $"postImage/{mime}");
-        //}
 
         //Http method Get - Returns a page with a list of portfolio items, or supply category to have 
         //filtered by category. 

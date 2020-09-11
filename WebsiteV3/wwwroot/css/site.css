@@ -38,8 +38,23 @@ body {
 .btn-padding {
     padding-right: 1rem;
 }
+.col-padding {
+    padding-bottom: 0.5rem;
+}
 .border-dark-top {
     border-top: 1px solid #3600D8;
+}
+/* Card overrides */
+.card {
+    border: 2px solid #000000;
+    border-radius: 0;
+    background-color: #121212;
+}
+.card-text {
+    font-size: 14px;
+}
+.card-img-top {
+    border-radius: 0;
 }
 
 /*-----------Nav Bar & Footer-----------*/
@@ -92,6 +107,16 @@ body {
     .form-content-editing .padding {
         padding-top: .3rem;
     }
+.search-form {
+    width: 75%;
+    margin: 0 auto;
+    padding-top: 0.5em;
+}
+.form-content-viewing {
+    width: 95%;
+    margin: 0 auto;
+}
+
 /*---------Table Customs-----------*/
 .table {
     color: #C195F4;
