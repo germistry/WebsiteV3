@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebsiteV3.Models.Comments
+namespace WebsiteV3.Models.PortfolioItemComments
 {
-    public class Comment
+    public class PortfolioItemComment
     {
         public int Id { get; set; }
         public string Message { get; set; }

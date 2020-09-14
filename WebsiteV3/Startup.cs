@@ -42,6 +42,7 @@ namespace WebsiteV3
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                //todo disable for production
                 options.EnableSensitiveDataLogging(true);
             });
             //Identity & Role Setup

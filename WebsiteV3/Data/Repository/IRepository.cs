@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebsiteV3.Models;
-using WebsiteV3.Models.Comments;
+using WebsiteV3.Models.PostComments;
+using WebsiteV3.Models.PortfolioItemComments;
 using WebsiteV3.ViewModels;
 
 namespace WebsiteV3.Data.Repository
@@ -39,11 +40,27 @@ namespace WebsiteV3.Data.Repository
         
         //Task to save changes 
         Task<bool> SaveChangesAsync();
-        //Subcomment Methods
-        void AddSubComment(SubComment comment);
-        void DeleteSubComment(int id);
-        SubComment GetSubComment(int id);
 
+        //Post Maincomment Methods
+        void AddPostMainComment(PostMainComment comment);
+        void DeletePostMainComment(int id);
+        PostMainComment GetPostMainComment(int id);
+
+        // Post Subcomment Methods
+        void AddPostSubComment(PostSubComment comment);
+        void DeletePostSubComment(int id);
+        PostSubComment GetPostSubComment(int id);
         
+        //PortfolioItem Maincomment Methods
+        void AddPortfolioItemMainComment(PortfolioItemMainComment comment);
+        void DeletePortfolioItemMainComment(int id);
+        PortfolioItemMainComment GetPortfolioItemMainComment(int id);
+
+        // PortfolioItem Subcomment Methods
+        void AddPortfolioItemSubComment(PortfolioItemSubComment comment);
+        void DeletePortfolioItemSubComment(int id);
+        PortfolioItemSubComment GetPortfolioItemSubComment(int id);
+
+
     }
 }

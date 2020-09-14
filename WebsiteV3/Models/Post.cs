@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebsiteV3.Models.Comments;
+using WebsiteV3.Models.PostComments;
 
 namespace WebsiteV3.Models
 {
@@ -19,6 +19,6 @@ namespace WebsiteV3.Models
         public Category Category { get; set; }
         public bool Featured { get; set; } = false;
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public List<MainComment> MainComments { get; set; }
+        public List<PostMainComment> MainComments { get; set; }
     }
 }

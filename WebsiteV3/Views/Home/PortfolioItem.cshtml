@@ -1,1 +1,93 @@
-﻿
+﻿@model PortfolioItem
+
+@{
+    ViewBag.Title = Model.Title;
+    ViewBag.Description = Model.Description;
+    ViewBag.Keywords = $"{Model.Tags?.Replace(",", " ")} {Model.Category}";
+    var base_path = Context.Request.PathBase;
+    var returnUrl = Context.Request.Path;
+}
+
+<div class="container">
+    @if (!String.IsNullOrEmpty(Model.Image))
+    {
+        <div class="row post text-center">
+            <div class="col-12">
+                <h2>@Model.Title</h2>
+            </div>
+        </div>
+        var image_path = $"{base_path}/PortfolioItemImage/{Model.Image}";
+        <div class="row post">
+            <div class="col-12">
+                <img class="img-fluid" src="@image_path" />
+            </div>
+        </div>
+    }
+    <div class="row post">
+        <div class="col-12">
+            <p>@Html.Raw(Model.Body)</p>
+        </div>
+        <div class="col-12">
+            <hr />
+        </div>
+    </div>
+    <div class="row comment-section">
+        <div class="col-12">
+            <h5>Leave a Comment</h5>
+            <div class="comment-header">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    await Html.RenderPartialAsync("_PortfolioItemComment", new PortfolioItemCommentViewModel { PortfolioItemId = Model.Id, MainCommentId = 0 });
+                }
+                else
+                {
+                    <p>
+                        <br />
+                        <a class="btn btn-outline-secondary btn-sm text-center" asp-route-returnurl="@returnUrl" asp-area="Identity" asp-page="/Account/Login">Log In</a>
+                        &emsp; You must be signed in to leave a comment.
+                    </p>
+                }
+            </div>
+        </div>
+        <div class="comment-body">
+            <div class="col-12">
+                @foreach (var c in Model.MainComments.OrderByDescending(d => d.CreatedDate))
+                {
+                    /*User Photo: something like - var image_path = $"{base_path}/UserImage/{Model.Image}";*/
+
+                    <div>
+                        <p class="username text-info font-weight-bold">@(c.User.UserName)</p>
+                        <p>@c.Message</p>
+                        <p class="message-info text-info">
+                            <a class="message-info text-info font-weight-bold" data-toggle="collapse" href="#reply@(c.Id)">Reply</a> &emsp; @c.CreatedDate
+                        </p>
+                    </div>
+                    <div class="sub-comment">
+                        @foreach (var sc in c.SubComments)
+                        {
+                            <p class="username text-info font-weight-bold">@(sc.User.UserName)</p>
+                            <p>@sc.Message</p>
+                            <p class="message-info text-info">
+                                <a class="message-info text-info font-weight-bold" data-toggle="collapse" href="#reply@(c.Id)">Reply</a> &emsp; @sc.CreatedDate
+                            </p>
+                        }
+                        <div id="reply@(c.Id)" class="collapse">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                await Html.RenderPartialAsync("_PortfolioItemComment", new PortfolioItemCommentViewModel { PortfolioItemId = Model.Id, MainCommentId = c.Id });
+                            }
+                            else
+                            {
+                                <p>
+                                    <a class="btn btn-outline-secondary btn-sm text-center" asp-route-returnurl="@returnUrl" asp-area="Identity" asp-page="/Account/Login">Log In</a>
+                                    &emsp; You must be signed in to leave a comment.
+                                </p>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -10,7 +10,8 @@ using Microsoft.Extensions.Logging;
 using WebsiteV3.Data.FileManager;
 using WebsiteV3.Data.Repository;
 using WebsiteV3.Models;
-using WebsiteV3.Models.Comments;
+using WebsiteV3.Models.PostComments;
+using WebsiteV3.Models.PortfolioItemComments;
 using WebsiteV3.ViewModels;
 
 namespace WebsiteV3.Controllers
@@ -109,93 +110,75 @@ namespace WebsiteV3.Controllers
         public IActionResult PortfolioItemImage(string portfolioItemImage) =>
             new FileStreamResult(_fileManager.PortfolioItemImageStream(portfolioItemImage),
             $"portfolioItemImage/{portfolioItemImage.Substring(portfolioItemImage.LastIndexOf('.') + 1)}");
-
+        //HttpPost to add the new main or subcomment and return the post page.
         [HttpPost]
-        public async Task<IActionResult> Comment(CommentViewModel vm)
+        public async Task<IActionResult> PostComment(PostCommentViewModel vm)
         {
-            if (vm.PostId == 0)
+            if (!ModelState.IsValid)
+                return RedirectToAction("Post", new { id = vm.PostId });
+            else
             {
-                ModelState.Remove("PostId");
-                if (!ModelState.IsValid)
-                    return RedirectToAction("PortfolioItem", new { id = vm.PortfolioItemId });
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                if (vm.MainCommentId == 0)
+                {
+                    var comment = new PostMainComment
+                    {
+                        PostId = vm.PostId,
+                        Message = vm.Message,
+                        CreatedDate = DateTime.Now,
+                        User = user
+                    };
+                    _repo.AddPostMainComment(comment);
+                }
                 else
                 {
-                    var user = await _userManager.GetUserAsync(HttpContext.User);
-                    var portfolioItem = _repo.GetPortfolioItem(vm.PortfolioItemId);
-                    if (vm.MainCommentId == 0)
+                    var comment = new PostSubComment
                     {
-                        portfolioItem.MainComments ??= new List<MainComment>();
-
-                        portfolioItem.MainComments.Add(new MainComment
-                        {
-                            Message = vm.Message,
-                            CreatedDate = DateTime.Now,
-                            User = user
-
-                        });
-                        _repo.UpdatePortfolioItem(portfolioItem);
-                    }
-                    else
-                    {
-                        var comment = new SubComment
-                        {
-                            MainCommentId = vm.MainCommentId,
-                            Message = vm.Message,
-                            CreatedDate = DateTime.Now,
-                            User = user
-
-                        };
-                        _repo.AddSubComment(comment);
-                    }
-                    await _repo.SaveChangesAsync();
-                    return RedirectToAction("PortfolioItem", new { id = vm.PortfolioItemId });
+                        PostMainCommentId = vm.MainCommentId,
+                        Message = vm.Message,
+                        CreatedDate = DateTime.Now,
+                        User = user
+                    };
+                    _repo.AddPostSubComment(comment);
                 }
+                await _repo.SaveChangesAsync();
+                return RedirectToAction("Post", new { id = vm.PostId });
             }
-            else if (vm.PortfolioItemId == 0)
-            {
-                ModelState.Remove("PortfolioItemId");
-                if (!ModelState.IsValid)
-                    return RedirectToAction("Post", new { id = vm.PostId });
-                else
-                {
-                    var user = await _userManager.GetUserAsync(HttpContext.User);
-                    var post = _repo.GetPost(vm.PostId);
-                    if (vm.MainCommentId == 0)
-                    {
-                        post.MainComments ??= new List<MainComment>();
-
-                        post.MainComments.Add(new MainComment
-                        {
-                            Message = vm.Message,
-                            CreatedDate = DateTime.Now,
-                            User = user
-
-                        });
-                        _repo.UpdatePost(post);
-                    }
-                    else
-                    {
-                        var comment = new SubComment
-                        {
-                            MainCommentId = vm.MainCommentId,
-                            Message = vm.Message,
-                            CreatedDate = DateTime.Now,
-                            User = user
-
-                        };
-                        _repo.AddSubComment(comment);
-                    }
-                    await _repo.SaveChangesAsync();
-                    return RedirectToAction("Post", new { id = vm.PostId });
-                }
-            }
-
-            return Redirect("/Error/500");
         }
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        //HttpPost to add the new main or subcomment and return the portfolio item page.
+        [HttpPost]
+        public async Task<IActionResult> PortfolioItemComment(PortfolioItemCommentViewModel vm)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            if (!ModelState.IsValid)
+                return RedirectToAction("PortfolioItem", new { id = vm.PortfolioItemId });
+            else
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                if (vm.MainCommentId == 0)
+                {
+                    var comment = new PortfolioItemMainComment
+                    {
+                        PortfolioItemId = vm.PortfolioItemId,
+                        Message = vm.Message,
+                        CreatedDate = DateTime.Now,
+                        User = user
+                    };
+                    _repo.AddPortfolioItemMainComment(comment);
+                }
+                else
+                {
+                    var comment = new PortfolioItemSubComment
+                    {
+                        PortfolioItemMainCommentId = vm.MainCommentId,
+                        Message = vm.Message,
+                        CreatedDate = DateTime.Now,
+                        User = user
+                    };
+                    _repo.AddPortfolioItemSubComment(comment);
+                }
+                await _repo.SaveChangesAsync();
+                return RedirectToAction("PortfolioItem", new { id = vm.PortfolioItemId });
+            }
         }
     }
 }

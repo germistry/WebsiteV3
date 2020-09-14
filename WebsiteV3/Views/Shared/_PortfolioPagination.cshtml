@@ -9,7 +9,7 @@
         <div class="col-12 text-center">
             @if (Model.PageNumber > 1)
             {
-                <a class="btn btn-sm btn-outline-secondary" asp-controller="Home" asp-action="PortfolioItems" asp-route-category="@Model.CategoryId"
+                <a class="btn btn-sm btn-outline-secondary" asp-controller="Home" asp-action="Portfolio" asp-route-category="@Model.CategoryId"
                    asp-route-searchItems="@Model.SearchItems" asp-route-pageNumber="@(Model.PageNumber - 1)"> &lArr; </a>
             }
             @foreach (var p in Model.Pages)
@@ -23,13 +23,13 @@
                 else
                 {
                     string activeClass = p == Model.PageNumber ? "active" : "";
-                    <a class="btn btn-sm btn-outline-secondary @activeClass" asp-controller="Home" asp-action="PortfolioItems" asp-route-category="@Model.CategoryId"
+                    <a class="btn btn-sm btn-outline-secondary @activeClass" asp-controller="Home" asp-action="Portfolio" asp-route-category="@Model.CategoryId"
                        asp-route-searchItems="@Model.SearchItems" asp-route-pageNumber="@p"> @p </a>
                 }
             }
             @if (Model.NextPage)
             {
-                <a class="btn btn-sm btn-outline-secondary" asp-controller="Home" asp-action="PortfolioItems" asp-route-category="@Model.CategoryId"
+                <a class="btn btn-sm btn-outline-secondary" asp-controller="Home" asp-action="Portfolio" asp-route-category="@Model.CategoryId"
                    asp-route-searchItems="@Model.SearchItems" asp-route-pageNumber="@(Model.PageNumber + 1)"> &rArr; </a>
             }
         </div>

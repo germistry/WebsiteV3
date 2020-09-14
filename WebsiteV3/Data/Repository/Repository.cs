@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 using WebsiteV3.Enums;
 using WebsiteV3.Helpers;
 using WebsiteV3.Models;
-using WebsiteV3.Models.Comments;
+using WebsiteV3.Models.PostComments;
+using WebsiteV3.Models.PortfolioItemComments;
 using WebsiteV3.ViewModels;
 
 namespace WebsiteV3.Data.Repository
@@ -62,17 +63,19 @@ namespace WebsiteV3.Data.Repository
         public Post GetPost(int id)
         {
             return _ctx.Posts
+                .Include(p => p.Category)
+                .AsNoTracking()
                 .Include(p => p.MainComments)
-                    .ThenInclude(mc => mc.User)
+                    .ThenInclude(mc => mc.User).AsNoTracking()
                 .Include(p => p.MainComments)
                     .ThenInclude(mc => mc.SubComments)
-                        .ThenInclude(sc => sc.User)
+                        .ThenInclude(sc => sc.User).AsNoTracking()
                 .FirstOrDefault(p => p.Id == id);
         }
         public List<Post> GetAllPosts()
         {
             return _ctx.Posts
-                        .Include(p => p.Category)
+                        .Include(p => p.Category).AsNoTracking()
                         .OrderByDescending(d => d.CreatedDate)
                         .ToList();
         }
@@ -134,17 +137,20 @@ namespace WebsiteV3.Data.Repository
         public PortfolioItem GetPortfolioItem(int id)
         {
             return _ctx.PortfolioItems
+                .Include(p => p.Category)
+                .AsNoTracking()
                 .Include(p => p.MainComments)
-                    .ThenInclude(mc => mc.User)
+                    .ThenInclude(mc => mc.User).AsNoTracking()
                 .Include(p => p.MainComments)
                     .ThenInclude(mc => mc.SubComments)
-                        .ThenInclude(sc => sc.User)
+                        .ThenInclude(sc => sc.User).AsNoTracking()
                 .FirstOrDefault(p => p.Id == id);
         }
         public List<PortfolioItem> GetAllPortfolioItems()
         {
             return _ctx.PortfolioItems
                         .Include(p => p.Category)
+                        .AsNoTracking()
                         .OrderByDescending(d => d.CreatedDate)
                         .ToList();
         }
@@ -177,17 +183,9 @@ namespace WebsiteV3.Data.Repository
             int skipAmount = pageSize * (pageNumber - 1);
             int pageCount = (int)Math.Ceiling((double)itemCount / pageSize);
 
-            var categoryList = _ctx.Categories.AsNoTracking().ToList();
-            var dropDownList = new SelectList(categoryList.Select(item => new SelectListItem
-            {
-                Text = item.CategoryName,
-                Value = item.Id.ToString()
-            }).ToList(), "Value", "Text");
-
             return new PortfolioViewModel
             {
                 CategoryId = category,
-                CategoryList = dropDownList,
                 SearchItems = searchItems,
                 PageNumber = pageNumber,
                 PageCount = pageCount,
@@ -211,20 +209,6 @@ namespace WebsiteV3.Data.Repository
         {
             _ctx.PortfolioItems.Remove(GetPortfolioItem(id));
         }
-        //Subcomment methods
-        public SubComment GetSubComment(int id)
-        {
-            return _ctx.SubComments
-                    .FirstOrDefault(sc => sc.Id == id);
-        }
-        public void AddSubComment(SubComment comment)
-        {
-            _ctx.SubComments.Add(comment);
-        }
-        public void DeleteSubComment(int id)
-        {
-            _ctx.SubComments.Remove(GetSubComment(id));
-        }
         //Save Changes Async
         public async Task<bool> SaveChangesAsync()
         {
@@ -234,7 +218,61 @@ namespace WebsiteV3.Data.Repository
             }
             return false;
         }
-
-       
+        //Post Main Comments
+        public void AddPostMainComment(PostMainComment comment)
+        {
+            _ctx.PostMainComments.Add(comment);
+        }
+        public void DeletePostMainComment(int id)
+        {
+            _ctx.PostMainComments.Remove(GetPostMainComment(id));
+        }
+        public PostMainComment GetPostMainComment(int id)
+        {
+            return _ctx.PostMainComments.AsNoTracking()
+                   .FirstOrDefault(mc => mc.Id == id);
+        }
+        //Post Sub Comment methods
+        public void AddPostSubComment(PostSubComment comment)
+        {
+            _ctx.PostSubComments.Add(comment);
+        }
+        public void DeletePostSubComment(int id)
+        {
+            _ctx.PostSubComments.Remove(GetPostSubComment(id));
+        }
+        public PostSubComment GetPostSubComment(int id)
+        {
+            return _ctx.PostSubComments.AsNoTracking()
+                   .FirstOrDefault(sc => sc.Id == id);
+        }
+        //Portfolio Item Main comment methods
+        public void AddPortfolioItemMainComment(PortfolioItemMainComment comment)
+        {
+            _ctx.PortfolioItemMainComments.Add(comment);
+        }
+        public void DeletePortfolioItemMainComment(int id)
+        {
+            _ctx.PortfolioItemMainComments.Remove(GetPortfolioItemMainComment(id));
+        }
+        public PortfolioItemMainComment GetPortfolioItemMainComment(int id)
+        {
+            return _ctx.PortfolioItemMainComments.AsNoTracking()
+                   .FirstOrDefault(mc => mc.Id == id);
+        }
+        //Portfolio Item Sub Comment methods
+        public void AddPortfolioItemSubComment(PortfolioItemSubComment comment)
+        {
+            _ctx.PortfolioItemSubComments.Add(comment);
+        }
+        public void DeletePortfolioItemSubComment(int id)
+        {
+            _ctx.PortfolioItemSubComments.Remove(GetPortfolioItemSubComment(id));
+        }
+        public PortfolioItemSubComment GetPortfolioItemSubComment(int id)
+        {
+            return _ctx.PortfolioItemSubComments.AsNoTracking()
+                   .FirstOrDefault(sc => sc.Id == id);
+        }       
     }
 }

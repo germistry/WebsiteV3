@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebsiteV3.Models;
-using WebsiteV3.Models.Comments;
+using WebsiteV3.Models.PostComments;
+using WebsiteV3.Models.PortfolioItemComments;
 
 namespace WebsiteV3.Data
 {
@@ -21,10 +22,16 @@ namespace WebsiteV3.Data
         public DbSet<PortfolioItem> PortfolioItems { get; set; }
         //Table for Main Comments, Inherits properties from parent class 'Comment' and has a list of 
         //SubComments.
-        public DbSet<MainComment> MainComments { get; set; }
+        public DbSet<PostMainComment> PostMainComments { get; set; }
         //Table for SubComments, Inherits properties from parent class 'Comment' and has a MainCommentsId 
         //property which is the comment it is in reply to.
-        public DbSet<SubComment> SubComments { get; set; }
+        public DbSet<PostSubComment> PostSubComments { get; set; }
+        //Table for Main Comments, Inherits properties from parent class 'Comment' and has a list of 
+        //SubComments.
+        public DbSet<PortfolioItemMainComment> PortfolioItemMainComments { get; set; }
+        //Table for SubComments, Inherits properties from parent class 'Comment' and has a MainCommentsId 
+        //property which is the comment it is in reply to.
+        public DbSet<PortfolioItemSubComment> PortfolioItemSubComments { get; set; }
         //Table of Categories
         public DbSet<Category> Categories { get; set; }
 

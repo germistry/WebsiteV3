@@ -1,0 +1,22 @@
+﻿@model PortfolioItemCommentViewModel
+
+@{
+
+}
+
+<div>
+
+    <form method="post" asp-controller="Home" asp-action="PortfolioItemComment">
+        <input asp-for="PortfolioItemId" type="hidden" />
+        <input asp-for="MainCommentId" type="hidden" />
+        
+        <div class="row" style="padding-top: 0.5em">
+            <div class="col-12" style="padding-bottom: 0.5em">
+                <textarea class="form-control" id="message" asp-for="Message"></textarea>
+            </div>
+            <div class="col-12" style="padding-bottom: 0.5em">
+                <input class="btn btn-secondary btn-sm" type="submit" value="Submit" />
+            </div>
+        </div>
+    </form>
+</div>

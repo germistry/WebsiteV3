@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebsiteV3.Models.Comments;
+using WebsiteV3.Models.PortfolioItemComments;
 
 namespace WebsiteV3.Models
 {
@@ -18,7 +18,7 @@ namespace WebsiteV3.Models
         public string Tags { get; set; }
         public Category Category { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public List<MainComment> MainComments { get; set; }
+        public List<PortfolioItemMainComment> MainComments { get; set; }
         public string SourceCodeLink { get; set; }
     }
 }

@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebsiteV3.Models.Comments;
+using WebsiteV3.Models.PostComments;
+using WebsiteV3.Models.PortfolioItemComments;
 
 namespace WebsiteV3.Models
 {
@@ -13,8 +14,10 @@ namespace WebsiteV3.Models
         public int UsernameChangeLimit { get; set; } = 10;
         public byte[] ProfileImage { get; set; }
         public DateTime SignUpDate { get; set; } = DateTime.Now;
-        public List<MainComment> UserMainComments { get; set; }
-        public List<SubComment> UserSubComments { get; set; }
-        
+        public List<PostMainComment> UserPostMainComments { get; set; }
+        public List<PostSubComment> UserPostSubComments { get; set; }
+        public List<PortfolioItemMainComment> UserPortfolioItemMainComments { get; set; }
+        public List<PortfolioItemSubComment> UserPortfolioItemSubComments { get; set; }
+
     }
 }
