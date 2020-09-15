@@ -1,0 +1,16 @@
+﻿@model IList<PortfolioItem>
+@{
+
+}
+
+<div>
+    @foreach (var link in Model)
+    {
+        <a style="font-size: 14px; color: #7454D3" asp-controller="Home" asp-action="Portfolio" asp-route-category="@(link.Category.Id)">
+            In @(link.Category.CategoryName)
+        </a>
+        <a asp-controller="Home" asp-action="PortfolioItem" asp-route-id="@(link.Id)">
+            <p class="text-wrap" style="font-size: 18px;">@(link.Title)</p>
+        </a>
+    }
+</div>

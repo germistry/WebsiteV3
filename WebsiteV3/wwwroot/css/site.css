@@ -29,7 +29,7 @@ html, body {
 body {
     margin: 0;
     background-color: #0A0A0A;
-    padding-top: 4.5rem;
+    padding-top: 3.7rem;
 }
 /* General settings */
 .btn-default {
@@ -43,6 +43,9 @@ body {
 }
 .border-dark-top {
     border-top: 1px solid #3600D8;
+}
+.identity-container {
+    padding-top: 0.8rem;
 }
 /* Card overrides */
 .card {
@@ -96,6 +99,12 @@ body {
 .nav-pills-padding {
     padding-bottom: 1rem;
 }
+/*--------Home Page Customs---------*/
+.jumbotron {
+    border-radius: 0;
+    background-image: url('../content/static/WebsiteIndexBG.png');
+    background-size: cover;
+}
 /*--------Form Customs--------*/
 .form-control {
     border-radius: 0;
@@ -103,7 +112,7 @@ body {
 .form-title {
     width: 95%;
     margin: 0 auto;
-    padding-top: .5rem;
+    padding-top: 1.3rem;
 }
     .form-title hr {
         border-top: 1px solid #5C33D6;

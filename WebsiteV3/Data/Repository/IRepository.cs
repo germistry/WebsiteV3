@@ -13,18 +13,20 @@ namespace WebsiteV3.Data.Repository
 {
     public interface IRepository
     {
+        //Home Index View Model - getting featured stuff
+        HomeIndexViewModel GetFeatures();
 
         //Methods for Category
         Category GetCategory(int id);
         Category GetCategoryNoTracking(int id); //For getting category for updating posts/portfolio items without the tracking as tracking is done on the post or portfolio item.
         List<Category> GetAllCategories();
-        
         void AddCategory(Category category);
         void UpdateCategory(Category category);
         void DeleteCategory(int id);
         //Methods for Posts
         Post GetPost(int id);
         List<Post> GetAllPosts();
+        List<Post> GetPostLinks();
         BlogViewModel GetAllPosts(int pageNumber, int category, string searchPosts);
         void AddPost(Post post);
         void UpdatePost(Post post);
@@ -33,6 +35,7 @@ namespace WebsiteV3.Data.Repository
         //Methods for Portfolio Items
         PortfolioItem GetPortfolioItem(int id);
         List<PortfolioItem> GetAllPortfolioItems();
+        List<PortfolioItem> GetPortfolioItemLinks();
         PortfolioViewModel GetAllPortfolioItems(int pageNumber, int category, string searchItems);
         void AddPortfolioItem(PortfolioItem portfolioItem);
         void UpdatePortfolioItem(PortfolioItem portfolioItem);

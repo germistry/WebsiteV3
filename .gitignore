@@ -13,6 +13,7 @@ ScaffoldingReadMe.txt
 GlobalSuppressions.cs
 *.csproj
 *.csproj.user
+*.sln
 
 
 # User-specific files (MonoDevelop/Xamarin Studio)

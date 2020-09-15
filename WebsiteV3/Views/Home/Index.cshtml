@@ -1,8 +1,86 @@
-﻿@{
+﻿@model HomeIndexViewModel
+
+@{
     ViewData["Title"] = "Home Page";
+    ViewBag.Description = "This is the website of Krystal Ruwoldt, a full stack developer with a vast array of skills across many areas of web and software development.";
+    ViewBag.Keywords = "portfolio blog web software app development design database middleware ui program code sql c# java python html css bootstrap django asp dotnet opengl";
+    var base_path = Context.Request.PathBase;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="jumbotron">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                <img src="~/content/static/NameLogov2.png" class="img-fluid" />
+                <h5>Hey! Welcome to my website!</h5>
+                <p>I'm a full stack software and web developer, with a keen interest in hardware too.</p>
+                <a asp-controller="Home" asp-action="Portfolio" class="btn btn-primary btn-lg">View My Portfolio</a>
+            </div>
+            <div class="d-none d-lg-block col-lg-6">
+                <p class="text-right"><img src="~/content/static/Avatar2Default.png" class="img-fluid" /></p>
+                <h6 class="text-right">germistry &harr; Krystal Ruwoldt</h6>
+                <p class="text-right">Interested to know more about me or what I'm currently working on?</p>
+                <p class="text-right">
+                    <a asp-controller="Home" asp-action="Blog" class="btn btn-outline-primary btn-lg">View My Blog</a>&emsp;
+                    <a asp-controller="Home" asp-action="About" class="btn btn-outline-primary btn-lg">View More About Me</a>
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
+
+@*Featured Posts*@
+<div class="container-fluid">
+    <div class="row text-center">
+        <div class="col-12">
+            <h2 class="display-4">Featured Posts</h2>
+            <hr style="border-top: 1px solid #5C33D6; width: 95%;" />
+        </div>
+        <div class="col-12">
+            <p class="lead text-center">Check out my featured posts to see what I've been working on most recently.</p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    @foreach (var post in Model.Posts)
+    {
+        var image_path = $"/PostImage/{post.Image}";
+        <a class="post" asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">
+            <img src="@image_path" />
+            <span class="title">
+                @post.Title
+            </span>
+            <p>@post.Introduction</p>
+        </a>
+    }
+</div>
+@*First 3 Latest Portfolio Items*@
+<div class="container-fluid">
+    <div class="row text-center">
+        <div class="col-12">
+            <h2 class="display-4">Latest Projects</h2>
+            <hr style="border-top: 1px solid #5C33D6; width: 95%;" />
+        </div>
+        <div class="col-12">
+            <p class="lead text-center">Check out these latest projects in my portfolio.</p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    @foreach (var portfolioItem in Model.PortfolioItems)
+    {
+        var image_path = $"/PortfolioItemImage/{portfolioItem.Image}";
+        <a class="post" asp-controller="Home" asp-action="PortfolioItem" asp-route-id="@portfolioItem.Id">
+            <img src="@image_path" />
+            <span class="title">
+                @portfolioItem.Title
+            </span>
+            <p>@portfolioItem.Introduction</p>
+        </a>
+    }
+</div>
+
+
+

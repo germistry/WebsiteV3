@@ -9,8 +9,7 @@ using WebsiteV3.Models;
 namespace WebsiteV3.ViewModels
 {
     public class PortfolioItemCommentViewModel
-    {
-       
+    {       
         //The PortfolioItemId for the comment
         public int PortfolioItemId { get; set; }
         //The MainCommentId will determine whether it is a maincomment or subcomment
@@ -18,7 +17,5 @@ namespace WebsiteV3.ViewModels
         public int MainCommentId { get; set; }
         [Required]
         public string Message { get; set; }
-        
-
     }
 }

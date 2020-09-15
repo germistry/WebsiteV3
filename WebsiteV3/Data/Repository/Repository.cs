@@ -23,6 +23,30 @@ namespace WebsiteV3.Data.Repository
         {
             _ctx = ctx;        
         }
+        //Home index view model getting all featured stuff
+        public HomeIndexViewModel GetFeatures()
+        {
+            IOrderedQueryable<Post> postsQuery = _ctx.Posts
+                                            .Include(p => p.Category).AsNoTracking()
+                                            .Where(p => p.Featured == true)
+                                            .AsQueryable()
+                                            .OrderByDescending(d => d.CreatedDate);
+            IOrderedQueryable<PortfolioItem> portfolioItemQuery = _ctx.PortfolioItems
+                                            .Include(p => p.Category).AsNoTracking()
+                                            .AsQueryable()
+                                            .OrderByDescending(d => d.CreatedDate);
+            IOrderedQueryable<Category> categoryQuery = _ctx.Categories
+                                            .Include(c => c.Posts).AsNoTracking()
+                                            .Include(c => c.PortfolioItems).AsNoTracking()
+                                            .AsQueryable()
+                                            .OrderBy(c => c.CategoryName);
+            return new HomeIndexViewModel
+            {
+                Posts = postsQuery.ToList(),
+                PortfolioItems = portfolioItemQuery.Take(3).ToList(),
+                Categories = categoryQuery.ToList()
+            };
+        }
         //Category methods
         public Category GetCategory(int id)
         {
@@ -77,6 +101,14 @@ namespace WebsiteV3.Data.Repository
             return _ctx.Posts
                         .Include(p => p.Category).AsNoTracking()
                         .OrderByDescending(d => d.CreatedDate)
+                        .ToList();
+        }
+        public List<Post> GetPostLinks()
+        {
+            return _ctx.Posts
+                        .Include(p => p.Category).AsNoTracking()
+                        .OrderByDescending(d => d.CreatedDate)
+                        .Take(5)
                         .ToList();
         }
         public BlogViewModel GetAllPosts(int pageNumber, int category, string searchPosts)
@@ -152,6 +184,14 @@ namespace WebsiteV3.Data.Repository
                         .Include(p => p.Category)
                         .AsNoTracking()
                         .OrderByDescending(d => d.CreatedDate)
+                        .ToList();
+        }
+        public List<PortfolioItem> GetPortfolioItemLinks()
+        {
+            return _ctx.PortfolioItems
+                        .Include(p => p.Category).AsNoTracking()
+                        .OrderByDescending(d => d.CreatedDate)
+                        .Take(5)
                         .ToList();
         }
         public PortfolioViewModel GetAllPortfolioItems(int pageNumber, int category, string searchItems)
@@ -273,6 +313,6 @@ namespace WebsiteV3.Data.Repository
         {
             return _ctx.PortfolioItemSubComments.AsNoTracking()
                    .FirstOrDefault(sc => sc.Id == id);
-        }       
+        }
     }
 }

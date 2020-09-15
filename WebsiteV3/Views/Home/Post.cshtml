@@ -1,7 +1,6 @@
 ﻿@model Post
 
 @{
-
     ViewData["Title"] = Model.Title;
     ViewBag.Description = Model.Description;
     ViewBag.Keywords = $"{Model.Tags?.Replace(",", " ")} {Model.Category.CategoryName}";
@@ -10,7 +9,7 @@
 }
 
 <div class="container">
-    <div class="row">
+    <div class="row" style="padding-top: 0.8em">
         <div class="col-12">
             <nav class="breadcrumb-nav" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -45,7 +44,7 @@
                         }
                         <div class="card-body">
                             <div style="padding-left: 0.5em; padding-right: 0.5em;">
-                                <h2 class="card-title" style="padding-left: 0.5em; padding-right: 0.5em;">@ViewData["Title"]</h2>
+                                <h2 class="card-title" style="color: #7454D3; padding-left: 0.5em; padding-right: 0.5em;">@ViewData["Title"]</h2>
                                 <hr style="border-top: 1px solid #5C33D6; margin-left: 3px; margin-right: 3px;" />
                                 <div style="padding-left: 0.8em; padding-right: 0.8em">
                                     <div class="card-text" style="font-size: 16px">
@@ -53,13 +52,12 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div class="card-footer">
                         <div class="row" style="padding-top: 0.5em">
                             <div class="col-12">
-                                <h5><a data-toggle="collapse" href="#comment" >Leave a Comment</a></h5>
+                                <h5><a data-toggle="collapse" href="#comment">Leave a Comment</a></h5>
                                 <div id="comment" class="collapse">
                                     @if (User.Identity.IsAuthenticated)
                                     {
@@ -67,7 +65,7 @@
                                     }
                                     else
                                     {
-                                        <p style="padding-top: 0.5em">                                            
+                                        <p style="padding-top: 0.5em">
                                             <a class="btn btn-outline-secondary btn-sm" asp-route-returnurl="@returnUrl" asp-area="Identity" asp-page="/Account/Login">Log In</a>
                                             &emsp; You must be signed in to leave a comment.
                                         </p>
@@ -78,25 +76,45 @@
                                 <div class="col-12">
                                     @foreach (var c in Model.MainComments.OrderByDescending(d => d.CreatedDate))
                                     {
-                                        /*User Photo: something like - var image_path = $"{base_path}/UserImage/{Model.Image}";*/
-
                                         <div style="width: 100%; ">
-                                            <hr style="border-top: 1px solid #5C33D6;"/>
-                                            <p class="username text-info font-weight-bold">@(c.User.UserName)</p>
-                                            <p>@c.Message</p>
-                                            <p class="message-info text-info">
-                                                <a class="message-info text-info font-weight-bold" data-toggle="collapse" href="#reply@(c.Id)">Reply</a> &emsp; @c.CreatedDate
+                                            <hr style="border-top: 1px solid #5C33D6;" />
+                                            <p class="font-weight-bold" style="margin-left: 5px; margin-right: 5px; color: #5C33D6;">
+                                                @if (c.User.ProfileImage != null)
+                                                {
+                                                    <img style="width:41.6px;height:41.6px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(c.User.ProfileImage))">
+                                                }
+                                                else
+                                                {
+                                                    <img style="width: 41.6px; height: 41.6px; object-fit: cover; border-radius: 30px" src="~/content/static/BlankProfilePic.png" />
+                                                }
+                                                &ensp;@(c.User.UserName)
                                             </p>
+                                            <p class="text-wrap" style="margin-left: 5px; margin-right: 5px;">@c.Message</p>
+                                            <span style="line-height: 24px; margin-left: 5px; margin-right: 5px;">
+                                                <a class="font-weight-bold" data-toggle="collapse" href="#reply@(c.Id)">Reply</a>
+                                                <a class="float-right" style="font-size: 14px; color: #5C33D6; margin-right: 5px;">@c.CreatedDate</a>
+                                            </span>
                                         </div>
-                                        <div style="margin-left: 30px">
+                                        <div style="margin-left: 30px; margin-right: 20px">
                                             @foreach (var sc in c.SubComments)
                                             {
-                                                <p class="username text-info font-weight-bold">@(sc.User.UserName)</p>
-                                                <p>@sc.Message</p>
-                                                <p class="message-info text-info">
-                                                    <a class="message-info text-info font-weight-bold" data-toggle="collapse" href="#reply@(c.Id)">Reply</a> &emsp; @sc.CreatedDate
+                                                <hr style="border-top: 1px solid #131313;" />
+                                                <p class="font-weight-bold" style="margin-left: 5px; margin-right: 5px; color: #5C33D6;">
+                                                    @if (sc.User.ProfileImage != null)
+                                                    {
+                                                        <img style="width:41.6px;height:41.6px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(sc.User.ProfileImage))">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img style="width: 41.6px; height: 41.6px; object-fit: cover; border-radius: 30px" src="~/content/static/BlankProfilePic.png" />
+                                                    }
+                                                    &ensp;@(sc.User.UserName)
                                                 </p>
-
+                                                <p class="text-wrap" style="margin-left: 5px; margin-right: 5px;">@sc.Message</p>
+                                                <span style="line-height: 24px; margin-left: 5px; margin-right: 5px;">
+                                                    <a class="font-weight-bold" data-toggle="collapse" href="#reply@(c.Id)">Reply</a>
+                                                    <a class="float-right" style="font-size: 14px; color: #5C33D6; margin-right: 5px;">@sc.CreatedDate</a>
+                                                </span>
                                             }
                                             <div id="reply@(c.Id)" class="collapse">
                                                 @if (User.Identity.IsAuthenticated)
@@ -105,7 +123,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <p>
+                                                    <p style="padding-top: 1em">
                                                         <a class="btn btn-outline-secondary btn-sm text-center" asp-route-returnurl="@returnUrl" asp-area="Identity" asp-page="/Account/Login">Log In</a>
                                                         &emsp; You must be signed in to leave a comment.
                                                     </p>
@@ -113,6 +131,7 @@
                                             </div>
                                         </div>
                                     }
+                                    <hr style="border-top: 1px solid #5C33D6; padding-bottom: 0;" />
                                 </div>
                             </div>
                         </div>
@@ -123,10 +142,20 @@
         </div>
         <div class="col-xs-12 col-lg-4" style="padding-left: 0.5em; padding-right: 0.5em;">
             <div style="padding-left: 0.5em; padding-right: 0.5em;">
-                <div class="row" style="padding-top: 0.5em; padding-bottom: 0.5em;">
-
+                <div class="row" style="padding-bottom: 1.5em">
+                    @*Card start*@
+                    <div class="row w-100" style="padding-left: 2.3em; padding-right: 0.5em;">
+                        <div class="card h-100 w-100">
+                            <div style="background-image: linear-gradient(#3600D8, #131313);">
+                                <h3 class="card-title" style="padding-left: 0.5em; padding-top: 0.3em; color: #C195F4">Also:</h3>
+                            </div>
+                            <div class="card-body">
+                                @(await Component.InvokeAsync("PostLinksViewComponent", Model.Id))
+                            </div>
+                        </div>
+                    </div>
+                    @**Card end*@
                 </div>
-
             </div>
         </div>
     </div>

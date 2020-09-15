@@ -32,13 +32,16 @@ namespace WebsiteV3.Controllers
         }
 
         //Http method Get - Returns the home page. 
-        //Todo - with eventually the 'featured posts', featured portfolio projects
+        //Todo - with eventually the 'featured posts', featured portfolio projects, categories etc
+        //todo - link for uncle les's help page.
         public IActionResult Index()
         {
-            return View();
+            var vm = _repo.GetFeatures();
+            
+            return View(vm);
         }
         //Http method Get - Returns about me page. 
-        //Todo - Now page, with eventually some more 'featured stuff from my portfolio projects.
+        //Todo - Make this about page editable by the admin.
         public IActionResult About()
         {
             return View();
@@ -79,9 +82,12 @@ namespace WebsiteV3.Controllers
             return View(vm);
         }
         //Http method Get - Returns the individual post page for a particular post.  
-        public IActionResult Post(int id) =>
-            View(_repo.GetPost(id));
-        
+        [HttpGet]
+        public IActionResult Post(int id)
+        {
+            return View(_repo.GetPost(id));
+        }
+
         //HttpGet to return the post image through filestream.
         [HttpGet("/PostImage/{postImage}")]
         [ResponseCache(CacheProfileName = "Monthly")]
