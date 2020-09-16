@@ -244,7 +244,8 @@ namespace WebsiteV3.Controllers
                 return View(new EditCategoryViewModel
                 {
                     Id = category.Id,
-                    CategoryName = category.CategoryName
+                    CategoryName = category.CategoryName,
+                    CurrentImage = category.Image
                 });
             }
         }
@@ -258,7 +259,14 @@ namespace WebsiteV3.Controllers
                 Id = categoryvm.Id,
                 CategoryName = categoryvm.CategoryName
             };
-            
+            if (categoryvm.Image == null)
+                category.Image = categoryvm.CurrentImage;
+            else
+            {
+                if (!string.IsNullOrEmpty(categoryvm.CurrentImage))
+                    _fileManager.RemoveCategoryImage(categoryvm.CurrentImage);
+                category.Image = _fileManager.SaveCategoryImage(categoryvm.Image);
+            }
             if (category.Id > 0)
                 _repo.UpdateCategory(category);
             else

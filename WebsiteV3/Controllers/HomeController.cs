@@ -32,14 +32,18 @@ namespace WebsiteV3.Controllers
         }
 
         //Http method Get - Returns the home page. 
-        //Todo - with eventually the 'featured posts', featured portfolio projects, categories etc
         //todo - link for uncle les's help page.
         public IActionResult Index()
-        {
-            var vm = _repo.GetFeatures();
-            
-            return View(vm);
+        {    
+            return View(_repo.GetFeatures());
         }
+        //HttpGet to return the category image through filestream.
+        [HttpGet("/CategoryImage/{categoryImage}")]
+        [ResponseCache(CacheProfileName = "Monthly")]
+        public IActionResult CategoryImage(string categoryImage) =>
+           new FileStreamResult(_fileManager.CategoryImageStream(categoryImage),
+               $"categoryImage/{categoryImage.Substring(categoryImage.LastIndexOf('.') + 1)}");
+
         //Http method Get - Returns about me page. 
         //Todo - Make this about page editable by the admin.
         public IActionResult About()

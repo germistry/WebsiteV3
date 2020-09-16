@@ -40,6 +40,7 @@ namespace WebsiteV3.Data.Repository
                                             .Include(c => c.PortfolioItems).AsNoTracking()
                                             .AsQueryable()
                                             .OrderBy(c => c.CategoryName);
+
             return new HomeIndexViewModel
             {
                 Posts = postsQuery.ToList(),

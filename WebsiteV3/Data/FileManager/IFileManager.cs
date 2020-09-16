@@ -15,13 +15,22 @@ namespace WebsiteV3.Data.FileManager
 
         FileStream PostImageStream(string postImage);
 
+        void RemovePostImage(string postImage);
+
         //Methods for portfolio items
         string SavePortfolioItemImage(IFormFile portfolioItemImage);
 
-        FileStream PortfolioItemImageStream(string portfolioItemImage);
-
-        void RemovePostImage(string postImage);
+        FileStream PortfolioItemImageStream(string portfolioItemImage);     
 
         void RemovePortfolioImage(string portfolioItemImage);
+
+        //Methods for categories
+        string SaveCategoryImage(IFormFile categoryImage);
+
+        FileStream CategoryImageStream(string categoryImage);
+
+        void RemoveCategoryImage(string categoryImage);
+
+
     }
 }

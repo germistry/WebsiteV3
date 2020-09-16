@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace WebsiteV3.ViewModels
     {
         public int Id { get; set; }
         public string CategoryName { get; set; }
-
+        public string CurrentImage { get; set; } = "";
+        public IFormFile Image { get; set; } = null;
     }
 }
