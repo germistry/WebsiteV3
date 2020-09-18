@@ -29,5 +29,6 @@ namespace WebsiteV3.ViewModels
         public IEnumerable<SelectListItem> CategoryList { get; set; }
         public string CurrentImage { get; set; } = "";
         public IFormFile Image { get; set; } = null;
+        public bool Featured { get; set; } = false;
     }
 }

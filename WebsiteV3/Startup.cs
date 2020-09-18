@@ -17,6 +17,7 @@ using WebsiteV3.Data.FileManager;
 using Microsoft.AspNetCore.Mvc;
 using WebsiteV3.Models;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
 
 namespace WebsiteV3
 {
@@ -65,6 +66,13 @@ namespace WebsiteV3
             services.AddTransient<IRepository, Repository>();
             //Makes the filemanager for images available to program
             services.AddTransient<IFileManager, FileManager>();
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
             services.AddMvc(options =>
             {
                 options.CacheProfiles.Add("Monthly", new CacheProfile { Duration = 60 * 60 * 24 * 7 * 4 });
@@ -90,7 +98,7 @@ namespace WebsiteV3
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseCookiePolicy();
             app.UseRouting();
 
             app.UseAuthentication();

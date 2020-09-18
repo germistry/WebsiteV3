@@ -1,0 +1,112 @@
+﻿@model PortfolioItem
+
+@{
+    ViewData["Title"] = "Manage Portfolio Item Comments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row form-title text-center">
+        <div class="col-12">
+            <h2 class="title-padding">@(ViewData["Title"])</h2>
+            <hr />
+            <p>Manage comments for item <b style="color: #7454D3">@Model.Title</b></p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12" style="padding-bottom: 1em;">
+            <span class="btn-padding">
+                <a class="btn btn-primary" asp-action="ManagePortfolio">Manage Portfolio</a>
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12" style="padding-bottom: 1em;">
+            <h5>Comments</h5>
+            @{
+                int mainCommentCount = Model.MainComments.Count();
+
+                <p>Deleted main comments with sub comments will not be deleted, but replaced with a blank comment holder.</p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Created</th>
+                            <th>User</th>
+                            <th>Message</th>
+                            <th style="font-size: small;">Sub Comment Count</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var mc in Model.MainComments.OrderByDescending(d => d.CreatedDate))
+                        {
+                            int scCount = mc.SubComments.Count;
+                        <tr>
+                            <td>
+                                <img width="16" height="16" src="~/content/static/plus.png" />
+                                <div style="display: none;">
+                                    <table class="ChildGrid">
+                                        <thead>
+                                            <tr>
+                                                <th>Created</th>
+                                                <th>User</th>
+                                                <th>Message</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var sc in mc.SubComments)
+                                            {
+                                                <tr>
+                                                    <td>@sc.CreatedDate</td>
+                                                    <td>@sc.User.UserName</td>
+                                                    <td>@sc.Message</td>
+                                                    <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="DeletePortfolioItemSubComment" asp-route-id="@sc.Id">Delete</a></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                            <td>@mc.CreatedDate</td>
+                            @if (!String.IsNullOrEmpty(mc.UserId))
+                            {
+                                <td>@mc.User.UserName</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                            <td>@mc.Message</td>
+                            <td>@scCount</td>
+                            <td>
+                                <a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="DeletePortfolioItemMainComment" asp-route-id="@mc.Id">Delete</a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                <hr class="border-dark-top" />
+            }
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript">
+        //Assign Click event to Plus Image.
+        $("body").on("click", "img[src*='plus.png']", function () {
+            $(this).closest("tr").after("<tr><td></td><td colspan = '999'>" + $(this).next().html() + "</td></tr>");
+            $(this).attr("src", "/content/static/minus.png");
+        });
+        //Assign Click event to Minus Image.
+        $("body").on("click", "img[src*='minus.png']", function () {
+            $(this).attr("src", "/content/static/plus.png");
+            $(this).closest("tr").next().remove();
+        });
+    </script>
+}

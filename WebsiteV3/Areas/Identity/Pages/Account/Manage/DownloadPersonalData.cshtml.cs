@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using WebsiteV3.Data.Repository;
 using WebsiteV3.Models;
+using WebsiteV3.Models.PostComments;
 
 namespace WebsiteV3.Areas.Identity.Pages.Account.Manage
 {
@@ -16,13 +19,15 @@ namespace WebsiteV3.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<DownloadPersonalDataModel> _logger;
+        private readonly IRepository _repo;
 
         public DownloadPersonalDataModel(
-            UserManager<ApplicationUser> userManager,
+            UserManager<ApplicationUser> userManager, IRepository repo,
             ILogger<DownloadPersonalDataModel> logger)
         {
             _userManager = userManager;
             _logger = logger;
+            _repo = repo;
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -35,7 +40,7 @@ namespace WebsiteV3.Areas.Identity.Pages.Account.Manage
 
             _logger.LogInformation("User with ID '{UserId}' asked for their personal data.", _userManager.GetUserId(User));
             //Todo - include users comments in personal data
-            
+
             // Only include personal data for download
             var personalData = new Dictionary<string, string>();
             var personalDataProps = typeof(ApplicationUser).GetProperties().Where(

@@ -30,7 +30,8 @@
                 <th>User Name</th>
                 <th>User Id</th>
                 <th>User Email</th>
-                <th>Comment Count</th>
+                <th>Total Main Comments</th>
+                <th>Total Sub Comments</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -38,15 +39,27 @@
         <tbody>
             @foreach (var user in Model)
             {
+                int totalMainComments = user.UserPostMainComments.Count + user.UserPortfolioItemMainComments.Count;
+                int totalSubComments = user.UserPostSubComments.Count + user.UserPortfolioItemSubComments.Count;
                 <tr>
                     <td>@user.UserName</td>
                     <td style="font-size: small;">@user.UserId</td>
                     <td>@user.Email</td>
-                    <td></td>
-                    <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="ManageUserComments" asp-route-id="@user.UserId">User Comments</a></td>
+                    <td>@totalMainComments</td>
+                    <td>@totalSubComments</td>
+                    <td>
+                        @if ((totalMainComments + totalSubComments) >= 1)
+                        {
+                            <a class="btn btn-secondary btn-sm" asp-action="ManageUserComments" asp-route-userId="@user.UserId">User Comments</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-secondary btn-sm disabled" asp-action="ManageUserComments" asp-route-userId="@user.UserId">User Comments</a>
+                        }
+                    </td>
                     <td>
                         <a class="btn btn-secondary btn-sm" asp-action="BanUser"
-                           asp-route-roleName="@user.Email">Ban User</a>
+                            asp-route-roleName="@user.Email">Ban User</a>
                     </td>
                 </tr>
             }

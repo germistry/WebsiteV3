@@ -9,6 +9,9 @@
         <div class="col-12">
             <h2 class="title-padding">@ViewData["Title"]</h2>
             <hr />
+            <p style="padding-bottom: 1em;">
+                Portfolio items with comments cannot be deleted until these are removed.
+            </p>
         </div>
     </div>
 </div>
@@ -32,10 +35,43 @@
                 <td>@item.Title</td>
                 <td>@item.CreatedDate</td>
                 <td>@item.Category.CategoryName</td>
-                <td></td>
-                <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="ManagePortfolioComments" asp-route-id="@item.Id">User Comments</a></td>
+                <td>
+                    @if (item.MainComments.Count >= 1)
+                    {
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="tableCheck@(item.Id)" checked disabled>
+                            <label class="custom-control-label text-hide" for="tableCheck@(item.Id)">True</label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="tableCheck@(item.Id)" disabled>
+                            <label class="custom-control-label text-hide" for="tableCheck@(item.Id)">False</label>
+                        </div>
+                    }
+                </td>
+                <td>
+                    @if (item.MainComments.Count >= 1)
+                    {
+                        <a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="ManagePortfolioComments" asp-route-id="@item.Id">User Comments</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-secondary btn-sm disabled" asp-controller="Panel" asp-action="ManagePortfolioComments" asp-route-id="@item.Id">User Comments</a>
+                    }
+                </td>
                 <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="EditPortfolioItem" asp-route-id="@item.Id">Edit</a></td>
-                <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="DeletePortfolioItem" asp-route-id="@item.Id">Delete</a></td>
+                <td>
+                    @if (item.MainComments.Count >= 1)
+                    {
+                        <a class="btn btn-secondary btn-sm disabled" asp-controller="Panel" asp-action="DeletePortfolioItem" asp-route-id="@item.Id">Delete</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="DeletePortfolioItem" asp-route-id="@item.Id">Delete</a>
+                    }
+                </td>
             </tr>
             }
         </tbody>

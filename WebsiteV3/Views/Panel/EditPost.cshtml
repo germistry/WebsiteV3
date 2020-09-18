@@ -39,9 +39,15 @@
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Tags</label>
-            <div class="col">
+            <div class="col-sm-2" style="padding-top: 0.5em">
+                <label>Tags</label>
+            </div>
+            <div class="col-sm-8"> 
                 <input class="form-control" asp-for="Tags" />
+            </div>
+            <div class="col-2" style="padding-top: 0.5em">
+                <label>Is Featured?</label>
+                <input type="checkbox" asp-for="Featured"/>
             </div>
         </div>
         <div class="form-group row">

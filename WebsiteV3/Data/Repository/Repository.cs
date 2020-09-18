@@ -101,6 +101,7 @@ namespace WebsiteV3.Data.Repository
         {
             return _ctx.Posts
                         .Include(p => p.Category).AsNoTracking()
+                        .Include(p => p.MainComments).AsNoTracking()
                         .OrderByDescending(d => d.CreatedDate)
                         .ToList();
         }
@@ -182,8 +183,8 @@ namespace WebsiteV3.Data.Repository
         public List<PortfolioItem> GetAllPortfolioItems()
         {
             return _ctx.PortfolioItems
-                        .Include(p => p.Category)
-                        .AsNoTracking()
+                        .Include(p => p.Category).AsNoTracking()
+                        .Include(p => p.MainComments).AsNoTracking()
                         .OrderByDescending(d => d.CreatedDate)
                         .ToList();
         }
@@ -264,6 +265,12 @@ namespace WebsiteV3.Data.Repository
         {
             _ctx.PostMainComments.Add(comment);
         }
+        //Used only to change a post main comment to a blank if user/admin want to delete the comment and 
+        //it has sub comments, so sub comments aren't lost on a thread. 
+        public void UpdatePostMainComment(PostMainComment comment)
+        {
+            _ctx.PostMainComments.Update(comment);
+        }
         public void DeletePostMainComment(int id)
         {
             _ctx.PostMainComments.Remove(GetPostMainComment(id));
@@ -271,6 +278,7 @@ namespace WebsiteV3.Data.Repository
         public PostMainComment GetPostMainComment(int id)
         {
             return _ctx.PostMainComments.AsNoTracking()
+                        .Include(mc => mc.SubComments).AsNoTracking()
                    .FirstOrDefault(mc => mc.Id == id);
         }
         //Post Sub Comment methods
@@ -292,6 +300,12 @@ namespace WebsiteV3.Data.Repository
         {
             _ctx.PortfolioItemMainComments.Add(comment);
         }
+        //Used only to change a portfolio main comment to a blank if user/admin want to delete the comment and 
+        //it has sub comments, so sub comments aren't lost on a thread. 
+        public void UpdatePortfolioItemMainComment(PortfolioItemMainComment comment)
+        {
+            _ctx.PortfolioItemMainComments.Update(comment);
+        }
         public void DeletePortfolioItemMainComment(int id)
         {
             _ctx.PortfolioItemMainComments.Remove(GetPortfolioItemMainComment(id));
@@ -299,6 +313,7 @@ namespace WebsiteV3.Data.Repository
         public PortfolioItemMainComment GetPortfolioItemMainComment(int id)
         {
             return _ctx.PortfolioItemMainComments.AsNoTracking()
+                        .Include(mc => mc.SubComments).AsNoTracking()
                    .FirstOrDefault(mc => mc.Id == id);
         }
         //Portfolio Item Sub Comment methods
@@ -314,6 +329,61 @@ namespace WebsiteV3.Data.Repository
         {
             return _ctx.PortfolioItemSubComments.AsNoTracking()
                    .FirstOrDefault(sc => sc.Id == id);
+        }
+        //User comment methods
+        public List<PostMainComment> GetAllPostMainComments(string userId)
+        {
+            IOrderedQueryable<PostMainComment> query = _ctx.PostMainComments
+                                                            .Include(mc => mc.User).AsNoTracking()
+                                                            .Include(mc => mc.SubComments).AsNoTracking()
+                                                            .AsQueryable()
+                                                            .OrderByDescending(d => d.CreatedDate);
+            if (!String.IsNullOrEmpty(userId))
+            {
+                query = (IOrderedQueryable<PostMainComment>)query.Where(x =>
+                                    EF.Functions.Like(x.UserId, $"%{userId}%"));
+            }
+            return query.ToList();
+        }
+        public List<PostSubComment> GetAllPostSubComments(string userId)
+        {
+            IOrderedQueryable<PostSubComment> query = _ctx.PostSubComments
+                                                        .Include(sc => sc.User).AsNoTracking()
+                                                        .AsQueryable()
+                                                        .OrderByDescending(d => d.CreatedDate);
+            if (!String.IsNullOrEmpty(userId))
+            {
+                query = (IOrderedQueryable<PostSubComment>)query.Where(x =>
+                                    EF.Functions.Like(x.UserId, $"%{userId}%"));
+            }
+            return query.ToList();
+        }
+        public List<PortfolioItemMainComment> GetAllPortfolioItemMainComments(string userId)
+        {
+            IOrderedQueryable<PortfolioItemMainComment> query = _ctx.PortfolioItemMainComments
+                                                            .Include(mc => mc.User).AsNoTracking()
+                                                            .Include(mc => mc.SubComments).AsNoTracking()
+                                                            .AsQueryable()
+                                                            .OrderByDescending(d => d.CreatedDate);
+            if (!String.IsNullOrEmpty(userId))
+            {
+                query = (IOrderedQueryable<PortfolioItemMainComment>)query.Where(x =>
+                                    EF.Functions.Like(x.UserId, $"%{userId}%"));
+            }
+            return query.ToList();
+        }
+        public List<PortfolioItemSubComment> GetAllPortfolioItemSubComments(string userId)
+        {
+            IOrderedQueryable<PortfolioItemSubComment> query = _ctx.PortfolioItemSubComments
+                                                        .Include(sc => sc.User).AsNoTracking()
+                                                        .AsQueryable()
+                                                        .OrderByDescending(d => d.CreatedDate);
+            if (!String.IsNullOrEmpty(userId))
+            {
+                query = (IOrderedQueryable<PortfolioItemSubComment>)query.Where(x =>
+                                    EF.Functions.Like(x.UserId, $"%{userId}%"));
+            }
+            return query.ToList();
         }
     }
 }

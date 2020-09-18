@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using WebsiteV3.Data.FileManager;
 using WebsiteV3.Data.Repository;
 using WebsiteV3.Models;
+using WebsiteV3.Models.PortfolioItemComments;
+using WebsiteV3.Models.PostComments;
 using WebsiteV3.ViewModels;
 
 namespace WebsiteV3.Controllers
@@ -73,7 +75,8 @@ namespace WebsiteV3.Controllers
                     Tags = post.Tags,
                     CurrentCategoryId = post.Category.Id,
                     CategoryId = post.Category.Id,
-                    CategoryList = dropDownList
+                    CategoryList = dropDownList,
+                    Featured = post.Featured
                 }); ;
             }
         }
@@ -89,7 +92,8 @@ namespace WebsiteV3.Controllers
                 Introduction = postvm.Introduction,
                 Body = postvm.Body,
                 Description = postvm.Description,
-                Tags = postvm.Tags
+                Tags = postvm.Tags,
+                Featured = postvm.Featured
             };
             if (postvm.Image == null)
                 post.Image = postvm.CurrentImage;
@@ -230,7 +234,6 @@ namespace WebsiteV3.Controllers
         }
         //HttpGet for category edit page for the selected category. If/else statement just in case the id is null - 
         //prevents an error being thrown, instead redirects to a create a new category.
-        //Todo - add picture for category, number of posts/portfolio items linked to category
         [HttpGet]
         public IActionResult EditCategory(int? id)
         {
@@ -287,5 +290,89 @@ namespace WebsiteV3.Controllers
             await _repo.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+        //Http Get for Manage Blog Comments.
+        [HttpGet]
+        public IActionResult ManageBlogComments(int id)
+        {
+            return View(_repo.GetPost(id));
+        }
+
+        //Http get to delete/or replace a post main comment using its id. 
+        [HttpGet]
+        public async Task<IActionResult> DeletePostMainComment(int id)
+        {
+            var maincomment = _repo.GetPostMainComment(id);
+            bool hasSubs = maincomment.SubComments.Count() > 0;
+
+            if (hasSubs == true)
+            {
+                var comment = new PostMainComment
+                {
+                    Id = maincomment.Id,
+                    CreatedDate = maincomment.CreatedDate,
+                    Message = "This comment has been removed.",
+                    UserId = null,
+                    PostId = maincomment.PostId
+                };
+                _repo.UpdatePostMainComment(comment);
+            }
+            else 
+            {
+                _repo.DeletePostMainComment(id);
+            }
+            await _repo.SaveChangesAsync();
+            return RedirectToAction("ManageBlog");
+        }
+        //Http get to delete a post sub comment using its id. 
+        [HttpGet]
+        public async Task<IActionResult> DeletePostSubComment(int id)
+        {
+            _repo.DeletePostSubComment(id);
+            await _repo.SaveChangesAsync();
+            return RedirectToAction("ManageBlog");
+        }
+        //Http Get for Managing Portfolio Comments.
+        [HttpGet]
+        public IActionResult ManagePortfolioComments(int id)
+        {
+            return View(_repo.GetPortfolioItem(id));
+        }
+        //Http get to delete/or replace a portfolio item main comment using its id. 
+        [HttpGet]
+        public async Task<IActionResult> DeletePortfolioItemMainComment(int id)
+        {
+            var maincomment = _repo.GetPortfolioItemMainComment(id);
+            bool hasSubs = maincomment.SubComments.Count() > 0;
+
+            if (hasSubs == true)
+            {
+                var comment = new PortfolioItemMainComment
+                {
+                    Id = maincomment.Id,
+                    CreatedDate = maincomment.CreatedDate,
+                    Message = "This comment has been removed.",
+                    UserId = null,
+                    PortfolioItemId = maincomment.PortfolioItemId
+                };
+                _repo.UpdatePortfolioItemMainComment(comment);
+            }
+            else
+            {
+                _repo.DeletePortfolioItemMainComment(id);
+            }
+            await _repo.SaveChangesAsync();
+            return RedirectToAction("ManagePortfolio");
+        }
+        //Http get to delete a portfolio item sub comment using its id. 
+        [HttpGet]
+        public async Task<IActionResult> DeletePortfolioItemSubComment(int id)
+        {
+            _repo.DeletePortfolioItemSubComment(id);
+            await _repo.SaveChangesAsync();
+            return RedirectToAction("ManagePortfolio");
+        }
+
+
+        
     }
 }

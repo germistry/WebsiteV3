@@ -79,8 +79,10 @@
                                 <div class="col-12">
                                     @foreach (var c in Model.MainComments.OrderByDescending(d => d.CreatedDate))
                                     {
-                                        <div style="width: 100%; ">
-                                            <hr style="border-top: 1px solid #5C33D6;" />
+                                    <div style="width: 100%; ">
+                                        <hr style="border-top: 1px solid #5C33D6;" />
+                                        @if (!String.IsNullOrEmpty(c.UserId))
+                                        {
                                             <p class="font-weight-bold" style="margin-left: 5px; margin-right: 5px; color: #5C33D6;">
                                                 @if (c.User.ProfileImage != null)
                                                 {
@@ -92,12 +94,19 @@
                                                 }
                                                 &ensp;@(c.User.UserName)
                                             </p>
-                                            <p class="text-wrap" style="margin-left: 5px; margin-right: 5px;">@c.Message</p>
-                                            <span style="line-height: 24px; margin-left: 5px; margin-right: 5px;">
-                                                <a class="font-weight-bold" data-toggle="collapse" href="#reply@(c.Id)">Reply</a>
-                                                <a class="float-right" style="font-size: 14px; color: #5C33D6; margin-right: 5px;">@c.CreatedDate</a>
-                                            </span>
-                                        </div>
+                                        }
+                                        else
+                                        {
+                                            <p class="font-weight-bold" style="margin-left: 5px; margin-right: 5px; color: #5C33D6;">
+                                                <img style="width: 41.6px; height: 41.6px; object-fit: cover; border-radius: 30px" src="~/content/static/BlankProfilePic.png" />
+                                            </p>
+                                        }
+                                        <p class="text-wrap" style="margin-left: 5px; margin-right: 5px;">@c.Message</p>
+                                        <span style="line-height: 24px; margin-left: 5px; margin-right: 5px;">
+                                            <a class="font-weight-bold" data-toggle="collapse" href="#reply@(c.Id)">Reply</a>
+                                            <a class="float-right" style="font-size: 14px; color: #5C33D6; margin-right: 5px;">@c.CreatedDate</a>
+                                        </span>
+                                    </div>
                                         <div style="margin-left: 30px; margin-right: 20px">
                                             @foreach (var sc in c.SubComments)
                                             {

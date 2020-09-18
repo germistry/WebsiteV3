@@ -46,6 +46,7 @@ namespace WebsiteV3.Data.Repository
 
         //Post Maincomment Methods
         void AddPostMainComment(PostMainComment comment);
+        void UpdatePostMainComment(PostMainComment comment);
         void DeletePostMainComment(int id);
         PostMainComment GetPostMainComment(int id);
 
@@ -53,9 +54,10 @@ namespace WebsiteV3.Data.Repository
         void AddPostSubComment(PostSubComment comment);
         void DeletePostSubComment(int id);
         PostSubComment GetPostSubComment(int id);
-        
+
         //PortfolioItem Maincomment Methods
         void AddPortfolioItemMainComment(PortfolioItemMainComment comment);
+        void UpdatePortfolioItemMainComment(PortfolioItemMainComment comment);
         void DeletePortfolioItemMainComment(int id);
         PortfolioItemMainComment GetPortfolioItemMainComment(int id);
 
@@ -64,6 +66,13 @@ namespace WebsiteV3.Data.Repository
         void DeletePortfolioItemSubComment(int id);
         PortfolioItemSubComment GetPortfolioItemSubComment(int id);
 
+        //UserComments Methods
+        List<PostMainComment> GetAllPostMainComments(string userId);
+        List<PostSubComment> GetAllPostSubComments(string userId);
+        List<PortfolioItemMainComment> GetAllPortfolioItemMainComments(string userId);
+        List<PortfolioItemSubComment> GetAllPortfolioItemSubComments(string userId);
+
+       
 
     }
 }

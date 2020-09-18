@@ -78,17 +78,26 @@
                                     {
                                         <div style="width: 100%; ">
                                             <hr style="border-top: 1px solid #5C33D6;" />
-                                            <p class="font-weight-bold" style="margin-left: 5px; margin-right: 5px; color: #5C33D6;">
-                                                @if (c.User.ProfileImage != null)
-                                                {
-                                                    <img style="width:41.6px;height:41.6px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(c.User.ProfileImage))">
-                                                }
-                                                else
-                                                {
+                                            @if (!String.IsNullOrEmpty(c.UserId))
+                                            {
+                                                <p class="font-weight-bold" style="margin-left: 5px; margin-right: 5px; color: #5C33D6;">
+                                                    @if (c.User.ProfileImage != null)
+                                                    {
+                                                        <img style="width:41.6px;height:41.6px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(c.User.ProfileImage))">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img style="width: 41.6px; height: 41.6px; object-fit: cover; border-radius: 30px" src="~/content/static/BlankProfilePic.png" />
+                                                    }
+                                                    &ensp;@(c.User.UserName)
+                                                </p>
+                                            }
+                                            else
+                                            {
+                                                <p class="font-weight-bold" style="margin-left: 5px; margin-right: 5px; color: #5C33D6;">
                                                     <img style="width: 41.6px; height: 41.6px; object-fit: cover; border-radius: 30px" src="~/content/static/BlankProfilePic.png" />
-                                                }
-                                                &ensp;@(c.User.UserName)
-                                            </p>
+                                                </p>
+                                            }
                                             <p class="text-wrap" style="margin-left: 5px; margin-right: 5px;">@c.Message</p>
                                             <span style="line-height: 24px; margin-left: 5px; margin-right: 5px;">
                                                 <a class="font-weight-bold" data-toggle="collapse" href="#reply@(c.Id)">Reply</a>

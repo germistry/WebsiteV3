@@ -1,0 +1,197 @@
+﻿@model ManageUserCommentsViewModel
+
+@{
+    ViewData["Title"] = "Manage User Comments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <div class="row form-title text-center">
+        <div class="col-12">
+            <h2 class="title-padding">@(ViewData["Title"]) for <b>@(ViewBag.UserName)</b></h2>
+            <hr />
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12" style="padding-bottom: 1em;">
+            <span class="btn-padding">
+                <a class="btn btn-primary" asp-action="Index">Manage Users</a>
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12" style="padding-bottom: 1em;">
+            <h5>Post Main Comments</h5>
+            @{
+                int postMCcount = Model.UserPostMainComments.Count();
+
+                if (postMCcount >= 1)
+                {
+                    <p>Deleted main comments with sub comments will not be deleted, but replaced with a blank comment holder.</p>
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Created</th>
+                                <th>Post Id</th>
+                                <th>Message</th>
+                                <th style="font-size: small;">Sub Comment Count</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var postMC in Model.UserPostMainComments)
+                            {
+                                int subCommentCount = postMC.SubComments.Count;
+                                <tr>
+                                    <td>@postMC.CreatedDate</td>
+                                    <td>@postMC.PostId</td>
+                                    <td>@postMC.Message</td>
+                                    <td>@subCommentCount</td>
+                                    <td>
+                                        <a class="btn btn-secondary btn-sm" asp-action="DeletePostMainComment" asp-route-id="@postMC.Id">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <hr class="border-dark-top" />
+                }
+                else
+                {
+                    <p>No comments to display.</p>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12" style="padding-bottom: 1em;">
+            <h5>Post Sub Comments</h5>
+            @{
+                int postSCcount = Model.UserPostSubComments.Count();
+
+                if (postSCcount >= 1)
+                {
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Created</th>
+                                <th style="font-size: small;">Main Comment Id</th>
+                                <th>Message</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var postSC in Model.UserPostSubComments)
+                            {
+                                <tr>
+                                    <td>@postSC.CreatedDate</td>
+                                    <td>@postSC.PostMainCommentId</td>
+                                    <td>@postSC.Message</td>
+                                    <td><a class="btn btn-secondary btn-sm" asp-action="DeletePostSubComment" asp-route-id="@postSC.Id">Delete</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <hr class="border-dark-top" />
+                }
+                else
+                {
+                    <p>No comments to display.</p>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12" style="padding-bottom: 1em;">
+            <h5>Portfolio Item Main Comments</h5>
+            @{
+                int portfolioitemMCcount = Model.UserPortfolioItemMainComments.Count();
+
+                if (portfolioitemMCcount >= 1)
+                {
+                    <p>Deleted main comments with sub comments will not be deleted, but replaced with a blank comment holder.</p>
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Created</th>
+                                <th>Item Id</th>
+                                <th>Message</th>
+                                <th style="font-size: small;">Sub Comment Count</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var portfolioItemMC in Model.UserPortfolioItemMainComments)
+                            {
+                                int subCommentCount = portfolioItemMC.SubComments.Count;
+                                <tr>
+                                    <td>@portfolioItemMC.CreatedDate</td>
+                                    <td>@portfolioItemMC.PortfolioItemId</td>
+                                    <td>@portfolioItemMC.Message</td>
+                                    <td>@subCommentCount</td>
+                                    <td>
+                                        <a class="btn btn-secondary btn-sm" asp-action="DeletePortfolioItemMainComment" asp-route-id="@portfolioItemMC.Id">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <hr class="border-dark-top" />
+                }
+                else
+                {
+                    <p>No comments to display.</p>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12" style="padding-bottom: 1em;">
+            <h5>Portfolio Item Sub Comments</h5>
+            @{
+                int portfolioItemSCcount = Model.UserPortfolioItemSubComments.Count();
+
+                if (portfolioItemSCcount >= 1)
+                {
+                    <div>
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Created</th>
+                                    <th style="font-size: small;">Main Comment Id</th>
+                                    <th>Message</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var portfolioItemSC in Model.UserPortfolioItemSubComments)
+                                {
+                                    <tr>
+                                        <td>@portfolioItemSC.CreatedDate</td>
+                                        <td>@portfolioItemSC.PortfolioItemMainCommentId</td>
+                                        <td>@portfolioItemSC.Message</td>
+                                        <td><a class="btn btn-secondary btn-sm" asp-action="DeletePortfolioItemSubComment" asp-route-id="@portfolioItemSC.Id">Delete</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <hr class="border-dark-top" />
+                    </div>
+                }
+                else
+                {
+                    <p>No comments to display.</p>
+                }
+            }
+        </div>
+    </div>
+</div>
+

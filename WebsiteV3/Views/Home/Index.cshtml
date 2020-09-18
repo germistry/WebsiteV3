@@ -69,6 +69,7 @@
         <div class="col-12">
             <a class="text-decoration-none d-block text-center"
                style="  border: 1px solid #0A0A0A;
+                        outline: none;
                         background-image: linear-gradient(#3600D8, #0A0A0A);
                         color: #7454D3;
                         font-size: 2.5rem;
@@ -86,16 +87,22 @@
                         var image_path = $"/CategoryImage/{category.Image}";
                         if (postCount > 0 | portfolioItemCount > 0)
                         {
-                        <div class="col-xs-12 col-sm-6 col-md-3 text-center" style="padding-bottom: 2em;">
-                            <img style="padding-bottom: 0.5em" src="@image_path" title="@(category.CategoryName)" width="128" height="128" />
-                            <div style="padding-bottom: 0.5em">
-                                <br />
-                                <a class="btn btn-sm btn-secondary">Portfolio Projects</a>
+                            <div class="col-xs-12 col-sm-6 col-md-3 text-center" style="padding-bottom: 1em;">
+                                <img style="padding-bottom: 0.5em" src="@image_path" title="@(category.CategoryName)" width="128" height="128" />
+                                @if (portfolioItemCount != 0)
+                                {
+                                    <div style="padding-bottom: 0.5em">
+                                        <a class="btn btn-sm btn-secondary" asp-controller="Home" asp-action="Portfolio" asp-route-category="@category.Id" asp-route-pageNumber="1">Portfolio Projects</a>
+                                    </div>
+                                }
+                                @if (postCount != 0)
+                                {
+                                    
+                                    <div style="padding-bottom: 0.5em">
+                                        <a class="btn btn-sm btn-secondary" asp-controller="Home" asp-action="Blog" asp-route-category="@category.Id" asp-route-pageNumber="1">View Posts</a>
+                                    </div>
+                                }
                             </div>
-                            <div style="padding-bottom: 0.5em">
-                                <a class="btn btn-sm btn-secondary">View Posts</a>
-                            </div>
-                        </div>
                         }
                     }
                 </div>
