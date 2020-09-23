@@ -13,6 +13,8 @@ using WebsiteV3.Models;
 using WebsiteV3.Models.PostComments;
 using WebsiteV3.Models.PortfolioItemComments;
 using WebsiteV3.ViewModels;
+using WebsiteV3.Services;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace WebsiteV3.Controllers
 {
@@ -22,13 +24,19 @@ namespace WebsiteV3.Controllers
         private readonly IRepository _repo;
         private readonly IFileManager _fileManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailSender _emailSender;
 
-        public HomeController(ILogger<HomeController> logger, IRepository repo, IFileManager fileManager, UserManager<ApplicationUser> userManager)
+        public HomeController(ILogger<HomeController> logger, 
+            IRepository repo, 
+            IFileManager fileManager, 
+            UserManager<ApplicationUser> userManager,
+            IEmailSender emailSender)
         {
             _logger = logger;
             _repo = repo;
             _fileManager = fileManager;
             _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         //Http method Get - Returns the home page. 
@@ -53,20 +61,31 @@ namespace WebsiteV3.Controllers
         //Http method Get - Returns contact me page. 
         public IActionResult Contact()
         {
-            return View();
+            return RedirectToPage("ContactMe");
         }
-        //Http method Post - submitted contact form to generate email sent to me to action.
-        [HttpPost]
-        public IActionResult Contact(ContactViewModel vm)
-        {
-            //Todo - implement action for contact me submission
-            return RedirectToAction("ContactResult");
-        }
-        //Http method Get - Returns contact result and whether it was successful or not. 
-        public IActionResult ContactResult()
-        {
-            return View();
-        }
+        //////Http method Post - submitted contact form to generate email sent to me to action.
+        ////[HttpPost]
+        ////public async Task<IActionResult> Contact(ContactViewModel model)
+        ////{
+        ////    if (ModelState.IsValid)
+        ////    {
+        ////        var vm = new ContactViewModel()
+        ////        {
+        ////            Email = model.Email,
+        ////            Subject = model.Subject,
+        ////            Message = model.Message
+
+        ////        };
+                
+        ////        await _emailSender.SendEmailAsync(vm.Email, vm.Subject, vm.Message);
+          
+        ////        _logger.LogInformation("A Contact Email has been sent.");
+          
+        ////    }
+        ////    return RedirectToAction("ContactResult");
+        ////}
+
+        
         //Http method Get - Returns privacy page. 
         //Todo - Create a privacy policy
 
@@ -190,5 +209,12 @@ namespace WebsiteV3.Controllers
                 return RedirectToAction("PortfolioItem", new { id = vm.PortfolioItemId });
             }
         }
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+
     }
 }

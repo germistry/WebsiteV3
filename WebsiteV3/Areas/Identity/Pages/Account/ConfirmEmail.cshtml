@@ -4,4 +4,11 @@
     ViewData["Title"] = "Confirm email";
 }
 
-<div class="container identity-container"><h1>@ViewData["Title"]</h1></div>
+<div class="container identity-container">
+
+    <h1>@ViewData["Title"]</h1>
+    <partial name="_StatusMessage" model="Model.StatusMessage" />
+    <p>
+        Please <a asp-page="./Login">click here to log in</a>.
+    </p>
+</div>

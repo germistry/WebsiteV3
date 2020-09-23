@@ -1,4 +1,5 @@
-﻿@model ContactViewModel
+﻿@page
+@model ContactMeModel
 @{
     ViewData["Title"] = "Contact Me";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,26 +14,25 @@
             &emsp;<a href="https://github.com/germistry" title="Github"><i class="fab fa-github" style="color: #9C40D6; font-size: xx-large;"></i></a>
         </div>
     </div>
-   
     <div class="container">
-        <form class="form-content-editing" asp-controller="Home" asp-action="Contact" method="post">
+        <form class="form-content-editing" method="post">
             <div asp-validation-summary="All" class="form-group row text-danger"></div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Name</label>
                 <div class="col">
-                    <input class="form-control" asp-for="Name" />
+                    <input class="form-control" asp-for="Input.Name" />
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Email</label>
                 <div class="col">
-                    <input class="form-control" asp-for="Email" />
+                    <input class="form-control" asp-for="Input.Email" />
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Subject</label>
                 <div class="col">
-                    <select class="form-control" asp-for="Subject">
+                    <select class="form-control" asp-for="Input.Subject">
                         <option value="General Enquiry">General Enquiry</option>
                         <option value="Request CV">Request CV</option>
                         <option value="User Enquiry">User Enquiry</option>
@@ -43,16 +43,25 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Message</label>
                 <div class="col">
-                    <textarea class="form-control" asp-for="Message"></textarea>
+                    <textarea class="form-control" asp-for="Input.Message"></textarea>
                 </div>
             </div>
+
+            @*<div class="form-group row">
+                <div class="offset-md-3 col-md-9">
+                    <div class="g-recaptcha"
+                         data-sitekey="enter recaptcha client key here"></div>
+                </div>
+            </div>*@
+
             <div class="form-group row text-center">
                 <div class="col-12">
-                    <input type="submit" value="Submit" class="btn btn-primary" />&emsp;
-                    <a asp-action="Contact" class="btn btn-primary">Cancel</a>
+                    <input type="submit" value="Submit" class="btn btn-primary" />
                 </div>
             </div>
         </form>
     </div>
 </div>
-
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

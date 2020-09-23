@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebsiteV3.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
+using WebsiteV3.Services;
 
 namespace WebsiteV3
 {
@@ -43,7 +44,7 @@ namespace WebsiteV3
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                //todo disable for production
+                //todo - PRODUCTION disable for production
                 options.EnableSensitiveDataLogging(true);
             });
             //Identity & Role Setup
@@ -66,6 +67,9 @@ namespace WebsiteV3
             services.AddTransient<IRepository, Repository>();
             //Makes the filemanager for images available to program
             services.AddTransient<IFileManager, FileManager>();
+            //Email Service config
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -73,6 +77,23 @@ namespace WebsiteV3
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            services.AddAuthentication()
+                //todo - PRODUCTION check google app verification is not gonna cost too much $$
+                .AddGoogle(options =>
+                {
+                    IConfigurationSection googleAuthNSection =
+                        Configuration.GetSection("Authentication:Google");
+
+                    options.ClientId = googleAuthNSection["ClientId"];
+                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                })
+                //todo - PRODUCTION set up facebook verification for deployment
+                .AddFacebook(facebookOptions =>
+                {
+                    facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                    facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                });
+
             services.AddMvc(options =>
             {
                 options.CacheProfiles.Add("Monthly", new CacheProfile { Duration = 60 * 60 * 24 * 7 * 4 });
@@ -102,6 +123,7 @@ namespace WebsiteV3
             app.UseRouting();
 
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

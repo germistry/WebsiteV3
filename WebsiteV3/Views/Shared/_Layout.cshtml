@@ -41,7 +41,7 @@
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+                            <a class="nav-link" asp-area="ContactMe" asp-page="/ContactMe">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -64,7 +64,7 @@
                 <div class="col-md-4 align-self-end text-center social-media-icons">
                     <a href="https://www.facebook.com/krystal.ruwoldt/" title="Facebook"><i class="fab fa-facebook"></i></a>&emsp;
                     <a href="https://github.com/germistry" title="Github"><i class="fab fa-github"></i></a>&emsp;
-                    <a asp-area="" asp-controller="Home" asp-action="Contact" title="Contact Me"><i class="fas fa-envelope"></i></a>
+                    <a asp-area="ContactMe" asp-page="/ContactMe" title="Contact Me"><i class="fas fa-envelope"></i></a>
                 </div>
                 <div class="col-md-4 align-self-center text-center text-wrap  ext-md-right text-lg-right text-xl-right">
                     &copy; @DateTime.Now.Year <i>Designed &amp; Built by Krystal Ruwoldt</i>
