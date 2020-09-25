@@ -78,15 +78,16 @@ namespace WebsiteV3
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddAuthentication()
-                //todo - PRODUCTION check google app verification is not gonna cost too much $$
-                .AddGoogle(options =>
-                {
-                    IConfigurationSection googleAuthNSection =
-                        Configuration.GetSection("Authentication:Google");
+                //not using google as will cost me 
+                //.AddGoogle(options =>
+                //{
+                //    IConfigurationSection googleAuthNSection =
+                //        Configuration.GetSection("Authentication:Google");
 
-                    options.ClientId = googleAuthNSection["ClientId"];
-                    options.ClientSecret = googleAuthNSection["ClientSecret"];
-                })
+                //    options.ClientId = googleAuthNSection["ClientId"];
+                //    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                //})
+                //todo - add twitter authenication? 
                 //todo - PRODUCTION set up facebook verification for deployment
                 .AddFacebook(facebookOptions =>
                 {

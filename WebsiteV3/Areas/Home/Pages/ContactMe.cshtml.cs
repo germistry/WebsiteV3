@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using WebsiteV3.Services;
 
-namespace WebsiteV3.Areas.ContactMe.Pages
+namespace WebsiteV3.Areas.Home.Pages
 {
     [AllowAnonymous]
     public class ContactMeModel : PageModel
@@ -41,10 +41,11 @@ namespace WebsiteV3.Areas.ContactMe.Pages
             [Required]
             [StringLength(1000)]
             public string Message { get; set; }
+            //todo - Check here to consent to this website storing my information so they can respond
         }
 
         public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
-
+        //--------This is for recaptcha if I want to implement this later --------//
         //private bool RecaptchaPassed(string recaptchaResponse)
         //{
         //    _logger.LogDebug("Contact.RecaptchaPassed entered");
@@ -76,7 +77,6 @@ namespace WebsiteV3.Areas.ContactMe.Pages
 
         //    return (jsonData.success == "true");
         //}
-
         public async Task<IActionResult> OnPostAsync()
         {
             _logger.LogDebug("ContactMe.OnPostSync entered");
@@ -87,6 +87,7 @@ namespace WebsiteV3.Areas.ContactMe.Pages
                 return Page();
             }
 
+            //---------This is for recaptcha if I want to implement this later ----------//
             //var gRecaptchaResponse = Request.Form["g-recaptcha-response"];
 
             //if (string.IsNullOrEmpty(gRecaptchaResponse)
@@ -118,13 +119,11 @@ namespace WebsiteV3.Areas.ContactMe.Pages
             {
                 _logger.LogDebug($"Sendgrid problem {response.StatusCode}");
                 throw new ExternalException("Error sending message");
-                //todo - return an error page if email cant be sent
             }
 
-            // On success just go to index page
-            //todo (could refactor later to go to a thank you page instead)
+            // On success go to contact result result which is a thankyou page
             _logger.LogDebug("Email sent via SendGrid");
-            return RedirectToAction("Index", "Home");
+            return RedirectToPage("ContactResult");
         }
     }
 }

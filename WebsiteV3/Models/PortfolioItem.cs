@@ -20,5 +20,7 @@ namespace WebsiteV3.Models
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public List<PortfolioItemMainComment> MainComments { get; set; }
         public string SourceCodeLink { get; set; }
+
+        //Todo - Add option to disallow comments
     }
 }

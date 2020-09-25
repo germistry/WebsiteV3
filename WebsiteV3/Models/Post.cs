@@ -20,5 +20,7 @@ namespace WebsiteV3.Models
         public bool Featured { get; set; } = false;
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public List<PostMainComment> MainComments { get; set; }
+
+        //Todo - add option to disallow comments
     }
 }

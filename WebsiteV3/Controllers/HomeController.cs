@@ -87,9 +87,12 @@ namespace WebsiteV3.Controllers
 
         
         //Http method Get - Returns privacy page. 
-        //Todo - Create a privacy policy
-
         public IActionResult Privacy()
+        {
+            return View();
+        }
+        //Http method Get - Returns terms of use page. 
+        public IActionResult Terms()
         {
             return View();
         }
