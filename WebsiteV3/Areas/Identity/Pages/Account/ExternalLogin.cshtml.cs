@@ -8,12 +8,12 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using WebsiteV3.Models;
+using WebsiteV3.Services;
 
 namespace WebsiteV3.Areas.Identity.Pages.Account
 {
@@ -141,9 +141,9 @@ namespace WebsiteV3.Areas.Identity.Pages.Account
                             values: new { area = "Identity", userId = userId, code = code },
                             protocol: Request.Scheme);
 
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-                        //Todo - check external logins have their email addresses confirmed with real email sender
+                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email for germistry aka Krystal Ruwoldt's Portfolio and Blog",
+                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. <br />If you did not sign up for this website, please DO NOT confirm your email, instead please notify us by replying to this email so any security breach can be investigated.");
+                        //Todo - PRODUCTION check external logins have their email addresses confirmed with real email sender - need a static domain for email sender so it is not blocked on user emails as spam
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)
                         {

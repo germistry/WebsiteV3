@@ -102,9 +102,8 @@ namespace WebsiteV3.Areas.Identity.Pages.Account
                         pageHandler: null,
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
-                   //Todo - provide a real link that sends a notice that user did not sign up on website
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email for germistry aka Krystal Ruwoldt's Portfolio and Blog",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. <br />If you did not sign up for this website, please DO NOT confirm your email, instead please notify us by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. <br />If you did not sign up for this website, please DO NOT confirm your email, instead please notify us by replying to this email so any security breach can be investigated.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

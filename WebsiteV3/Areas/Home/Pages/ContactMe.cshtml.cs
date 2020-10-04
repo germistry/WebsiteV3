@@ -41,7 +41,10 @@ namespace WebsiteV3.Areas.Home.Pages
             [Required]
             [StringLength(1000)]
             public string Message { get; set; }
-            //todo - Check here to consent to this website storing my information so they can respond
+            [Required]
+            [Range(typeof(bool), "true", "true", ErrorMessage = "The Privacy Consent must be confirmed")]
+            [Display(Name = "I consent to the website storing my name and email address so they can respond to my query.")]
+            public bool PrivacyConsent { get; set; }
         }
 
         public AuthMessageSenderOptions Options { get; } //set only via Secret Manager

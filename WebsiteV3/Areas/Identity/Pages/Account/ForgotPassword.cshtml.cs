@@ -56,11 +56,11 @@ namespace WebsiteV3.Areas.Identity.Pages.Account
                     pageHandler: null,
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
-                //Todo - provide a real link that sends a notice that user did not sign up on website 
+                
                 await _emailSender.SendEmailAsync(
                     Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. <br />If you did not sign up for this website, please DO NOT reset your password, instead please notify us by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "Reset Password for germistry aka Krystal Ruwoldt's Portfolio and Blog",
+                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. <br />If you did not sign up for this website, please DO NOT reset your password, instead please notify us by replying to this email so any security breach can be investigated.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

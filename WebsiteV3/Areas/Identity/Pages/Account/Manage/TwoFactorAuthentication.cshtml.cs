@@ -10,6 +10,7 @@ using WebsiteV3.Models;
 
 namespace WebsiteV3.Areas.Identity.Pages.Account.Manage
 {
+    //todo - decide if going to use 2FA
     public class TwoFactorAuthenticationModel : PageModel
     {
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}";

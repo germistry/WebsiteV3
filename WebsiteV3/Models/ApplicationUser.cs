@@ -24,7 +24,6 @@ namespace WebsiteV3.Models
         public List<PortfolioItemMainComment> UserPortfolioItemMainComments { get; set; }
        
         public List<PortfolioItemSubComment> UserPortfolioItemSubComments { get; set; }
-        //todo - age boolean for user to acknowledge over 18
 
     }
 }

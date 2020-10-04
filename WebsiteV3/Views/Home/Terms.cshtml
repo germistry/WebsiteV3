@@ -1,4 +1,8 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
     ViewData["Title"] = "Website Terms of Use";
     ViewBag.Description = "These are the terms and conditions of use for the website germistry aka Krystal Ruwoldt.";
     ViewBag.Keywords = "terms conditions use";
@@ -12,88 +16,415 @@
     </div>
 </div>
 <div class="container">
-    <h1>Terms and Conditions</h1>
     <p>Last updated: September 23, 2020</p>
-    <p>Please read these terms and conditions carefully before using Our Service.</p>
-    <h1>Interpretation and Definitions</h1>
-    <h2>Interpretation</h2>
-    <p>The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.</p>
-    <h2>Definitions</h2>
+    <p class="text-justify">
+        Please read these terms and conditions carefully before using this Service. You should
+        also be aware of and also read the
+        <a asp-area="" asp-controller="Home" asp-action="Privacy" title="Privacy Policy" target="_blank">Privacy Policy</a> and
+        <a asp-area="" asp-controller="Home" asp-action="Cookies" title="Cookie Policy" target="_blank">Cookie Policy</a>. If you
+        are a registered user of the Website you should also read the
+        <a asp-area="" asp-controller="Home" asp-action="CommentaryGuidelines" title="Commentary Guidelines" target="_blank">Commentary Guidelines</a>
+        before submitting any comments on the Website Content.
+    </p>
+    <h3>Interpretation and Definitions</h3>
+    <h4>Interpretation</h4>
+    <p class="text-justify">
+        The words of which the initial letter is capitalized have meanings defined under the
+        following conditions. The following definitions shall have the same meaning regardless of whether they
+        appear in singular or in plural.
+    </p>
+    <h4>Definitions</h4>
     <p>For the purposes of these Terms and Conditions:</p>
     <ul>
-        <li>
-            <p><strong>Affiliate</strong> means an entity that controls, is controlled by or is under common control with a party, where &quot;control&quot; means ownership of 50% or more of the shares, equity interest or other securities entitled to vote for election of directors or other managing authority.</p>
-        </li>
         <li>
             <p><strong>Country</strong> refers to: Western Australia,  Australia</p>
         </li>
         <li>
-            <p><strong>Company</strong> (referred to as either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to germistry aka Krystal Ruwoldt.</p>
+            <p>
+                <strong>Company</strong> (referred to as either &quot;the Company&quot;, &quot;We&quot;,
+                &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to the individual Krystal Ruwoldt.
+            </p>
         </li>
         <li>
-            <p><strong>Device</strong> means any device that can access the Service such as a computer, a cellphone or a digital tablet.</p>
+            <p>
+                <strong>Content</strong> means the textual, aural or visual content published on the Website, whether
+                that be content published by the Company, Users of the Service or Third Party Providers.
+            </p>
+        </li>
+        <li>
+            <p>
+                <strong>Device</strong> means any device that can access the Service such as a computer, a cellphone
+                or a digital tablet.
+            </p>
+        </li>
+        <li>
+            <p>
+                <strong>Links</strong> means any hypertext link, url, button or other interactive user interface
+                element, whether that provides a link within or external to the Website.
+            </p>
         </li>
         <li>
             <p><strong>Service</strong> refers to the Website.</p>
         </li>
         <li>
-            <p><strong>Terms and Conditions</strong> (also referred as &quot;Terms&quot;) mean these Terms and Conditions that form the entire agreement between You and the Company regarding the use of the Service. This Terms and Conditions agreement has been created with the help of the <a href="https://www.termsfeed.com/terms-conditions-generator/" target="_blank">Terms and Conditions Generator</a>.</p>
+            <p>
+                <strong>Terms and Conditions</strong> (also referred as &quot;Terms&quot;) mean these Terms and
+                Conditions that form the entire agreement between You and the Company regarding the use of the Service.
+                This Terms and Conditions agreement has been created with the help of the
+                <a href="https://www.termsfeed.com/terms-conditions-generator/" target="_blank">
+                    Terms and Conditions Generator
+                </a> and <a href="https://lawpath.com.au/" target="_blank">Lawpath</a>.
+            </p>
         </li>
         <li>
-            <p><strong>Third-party Social Media Service</strong> means any services or content (including data, information, products or services) provided by a third-party that may be displayed, included or made available by the Service.</p>
+            <p>
+                <strong>Third-party Service/Provider</strong> means any services or content (including data,
+                information, products or services) provided by a third-party that may be displayed, included or made
+                available by the Service. This includes (but is not limited to) Third Party Social Media Services.
+            </p>
         </li>
         <li>
-            <p><strong>Website</strong> refers to germistry aka Krystal Ruwoldt, accessible from <a href="http://www.germistry.com" rel="external nofollow noopener" target="_blank">http://www.germistry.com</a></p>
+            <p>
+                <strong>Website</strong> refers to germistry aka Krystal Ruwoldt, accessible from
+                <a href="https://www.germistry.com" target="_blank">www.germistry.com</a>.
+            </p>
         </li>
         <li>
-            <p><strong>You</strong> means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.</p>
+            <p>
+                <strong>You</strong> means the individual accessing or using the Service, or the company, or other
+                legal entity on behalf of which such individual is accessing or using the Service, as applicable.
+            </p>
         </li>
     </ul>
-    <h1>Acknowledgment</h1>
-    <p>These are the Terms and Conditions governing the use of this Service and the agreement that operates between You and the Company. These Terms and Conditions set out the rights and obligations of all users regarding the use of the Service.</p>
-    <p>Your access to and use of the Service is conditioned on Your acceptance of and compliance with these Terms and Conditions. These Terms and Conditions apply to all visitors, users and others who access or use the Service.</p>
-    <p>By accessing or using the Service You agree to be bound by these Terms and Conditions. If You disagree with any part of these Terms and Conditions then You may not access the Service.</p>
-    <p>You represent that you are over the age of 18. The Company does not permit those under 18 to use the Service.</p>
-    <p>Your access to and use of the Service is also conditioned on Your acceptance of and compliance with the Privacy Policy of the Company. Our Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your personal information when You use the Application or the Website and tells You about Your privacy rights and how the law protects You. Please read Our Privacy Policy carefully before using Our Service.</p>
-    <h1>Links to Other Websites</h1>
-    <p>Our Service may contain links to third-party web sites or services that are not owned or controlled by the Company.</p>
-    <p>The Company has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party web sites or services. You further acknowledge and agree that the Company shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with the use of or reliance on any such content, goods or services available on or through any such web sites or services.</p>
-    <p>We strongly advise You to read the terms and conditions and privacy policies of any third-party web sites or services that You visit.</p>
-    <h1>Termination</h1>
-    <p>We may terminate or suspend Your access immediately, without prior notice or liability, for any reason whatsoever, including without limitation if You breach these Terms and Conditions.</p>
-    <p>Upon termination, Your right to use the Service will cease immediately.</p>
-    <h1>Limitation of Liability</h1>
-    <p>Notwithstanding any damages that You might incur, the entire liability of the Company and any of its suppliers under any provision of this Terms and Your exclusive remedy for all of the foregoing shall be limited to the amount actually paid by You through the Service or 100 USD if You haven't purchased anything through the Service.</p>
-    <p>To the maximum extent permitted by applicable law, in no event shall the Company or its suppliers be liable for any special, incidental, indirect, or consequential damages whatsoever (including, but not limited to, damages for loss of profits, loss of data or other information, for business interruption, for personal injury, loss of privacy arising out of or in any way related to the use of or inability to use the Service, third-party software and/or third-party hardware used with the Service, or otherwise in connection with any provision of this Terms), even if the Company or any supplier has been advised of the possibility of such damages and even if the remedy fails of its essential purpose.</p>
-    <p>Some states do not allow the exclusion of implied warranties or limitation of liability for incidental or consequential damages, which means that some of the above limitations may not apply. In these states, each party's liability will be limited to the greatest extent permitted by law.</p>
-    <h1>&quot;AS IS&quot; and &quot;AS AVAILABLE&quot; Disclaimer</h1>
-    <p>The Service is provided to You &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; and with all faults and defects without warranty of any kind. To the maximum extent permitted under applicable law, the Company, on its own behalf and on behalf of its Affiliates and its and their respective licensors and service providers, expressly disclaims all warranties, whether express, implied, statutory or otherwise, with respect to the Service, including all implied warranties of merchantability, fitness for a particular purpose, title and non-infringement, and warranties that may arise out of course of dealing, course of performance, usage or trade practice. Without limitation to the foregoing, the Company provides no warranty or undertaking, and makes no representation of any kind that the Service will meet Your requirements, achieve any intended results, be compatible or work with any other software, applications, systems or services, operate without interruption, meet any performance or reliability standards or be error free or that any errors or defects can or will be corrected.</p>
-    <p>Without limiting the foregoing, neither the Company nor any of the company's provider makes any representation or warranty of any kind, express or implied: (i) as to the operation or availability of the Service, or the information, content, and materials or products included thereon; (ii) that the Service will be uninterrupted or error-free; (iii) as to the accuracy, reliability, or currency of any information or content provided through the Service; or (iv) that the Service, its servers, the content, or e-mails sent from or on behalf of the Company are free of viruses, scripts, trojan horses, worms, malware, timebombs or other harmful components.</p>
-    <p>Some jurisdictions do not allow the exclusion of certain types of warranties or limitations on applicable statutory rights of a consumer, so some or all of the above exclusions and limitations may not apply to You. But in such a case the exclusions and limitations set forth in this section shall be applied to the greatest extent enforceable under applicable law.</p>
-    <h1>Governing Law</h1>
-    <p>The laws of the Country, excluding its conflicts of law rules, shall govern this Terms and Your use of the Service. Your use of the Application may also be subject to other local, state, national, or international laws.</p>
-    <h1>Disputes Resolution</h1>
-    <p>If You have any concern or dispute about the Service, You agree to first try to resolve the dispute informally by contacting the Company.</p>
-    <h1>For European Union (EU) Users</h1>
-    <p>If You are a European Union consumer, you will benefit from any mandatory provisions of the law of the country in which you are resident in.</p>
-    <h1>United States Legal Compliance</h1>
-    <p>You represent and warrant that (i) You are not located in a country that is subject to the United States government embargo, or that has been designated by the United States government as a &quot;terrorist supporting&quot; country, and (ii) You are not listed on any United States government list of prohibited or restricted parties.</p>
-    <h1>Severability and Waiver</h1>
-    <h2>Severability</h2>
-    <p>If any provision of these Terms is held to be unenforceable or invalid, such provision will be changed and interpreted to accomplish the objectives of such provision to the greatest extent possible under applicable law and the remaining provisions will continue in full force and effect.</p>
-    <h2>Waiver</h2>
-    <p>Except as provided herein, the failure to exercise a right or to require performance of an obligation under this Terms shall not effect a party's ability to exercise such right or require such performance at any time thereafter nor shall be the waiver of a breach constitute a waiver of any subsequent breach.</p>
-    <h1>Translation Interpretation</h1>
-    <p>
-        These Terms and Conditions may have been translated if We have made them available to You on our Service.
-        You agree that the original English text shall prevail in the case of a dispute.
+    <h3>1. Acknowledgment</h3>
+    <p class="text-justify">
+        <span class="numbered-list">1.1</span> These are the Terms and Conditions governing the use of this Service and the agreement
+        that operates between You and the Company. These Terms and Conditions set out the rights and obligations
+        of all users regarding the use of the Service.
     </p>
-    <h1>Changes to These Terms and Conditions</h1>
-    <p>We reserve the right, at Our sole discretion, to modify or replace these Terms at any time. If a revision is material We will make reasonable efforts to provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at Our sole discretion.</p>
-    <p>By continuing to access or use Our Service after those revisions become effective, You agree to be bound by the revised terms. If You do not agree to the new terms, in whole or in part, please stop using the website and the Service.</p>
-    <h1>Contact Us</h1>
-    <p>If you have any questions about these Terms and Conditions, You can contact us:</p>
-    <ul>
-        <li>By visiting this page on our website: <a href="http://www.germistry.com/ContactMe/ContactMe" rel="external nofollow noopener" target="_blank">http://www.germistry.com/ContactMe/ContactMe</a></li>
-    </ul>
+    <p class="text-justify">
+        <span class="numbered-list">1.2</span> Your access to and use of the Service is conditioned on Your acceptance of
+        and compliance with these Terms and Conditions. These Terms and Conditions apply to all visitors, users and others
+        who access or use the Service.
+    </p>
+    <p class="text-justify">
+        <span class="numbered-list">1.3</span> By accessing or using the Service You agree to be bound by these Terms and Conditions. If You disagree with
+        any part of these Terms and Conditions then You may not access the Service.
+    </p>
+    <p class="text-justify">
+        <span class="numbered-list">1.4</span> Your access to and use of the Service is also conditioned on Your acceptance of and compliance with the
+        Privacy Policy of the Company. Our Privacy Policy describes Our policies and procedures on the collection,
+        use and disclosure of Your personal information when You use the the Website and tells You about Your privacy
+        rights and how the law protects You. Please read Our Privacy Policy carefully before using Our Service.
+    </p>
+    <p class="text-justify">
+        <span class="numbered-list">1.5</span> Your use of the Service as a registered User is conditioned also on Your
+        acceptance and compliance with the Commentary Guidelines.
+    </p>
+    <p class="numbered-list">1.6 United States Legal Compliance</p>
+    <p class="text-justify">You represent and warrant that:
+        <ol type="i">
+            <li>
+                You are not located in a country that is subject to the United States government embargo, or that has
+                been designated by the United States government as a "terrorist supporting" country, and
+            </li>
+            <li>You are not listed on any United States government list of prohibited or restricted parties.</li>
+        </ol>
+    </p>
+    <h3>2. Copyright and Intellectual Property</h3>
+    <p class="text-justify">
+        <span class="numbered-list">2.1</span> The Website, the Content and all related products of the Company are subject to copyright. The material on
+        the Website is protected by copyright under laws of Australia and through international treaties. Unless
+        otherwise indicated, all rights (including copyright) in the Content and compilation of the Website
+        (including but not limited to text, graphics, logos, button icons, video images, audio clips, Website, code,
+        scripts, design elements and interactive features) or the Content itself are owned or controlled for these
+        purposes, and are reserved by the Company.
+    </p>
+    <p class="text-justify">
+        <span class="numbered-list">2.2</span> All trademarks, service marks and trade names are owned, registered and/or licensed by the Company, who
+        grants You a worldwide, non-exclusive, royalty-free, revocable license whilst You are a member to:
+        <ol type="i">
+            <li>use the Website pursuant to the Terms;</li>
+            <li>
+                copy and store the Website and the Content contained in the Website in Your Device's cache memory;
+                and
+            </li>
+            <li>print pages from the Website for Your own personal and non-commercial use.</li>
+        </ol>
+        The Company does not grant You any other rights whatsoever in relation to the Website or the Content. All other
+        rights are expressly reserved by the Company.
+    </p>
+    <p class="text-justify">
+        <span class="numbered-list">2.3</span> The Company retains all rights, title and interest in and to the Website and all related Content. Nothing You
+        do on or in relation to the Website will transfer any:
+        <ol type="i">
+            <li>
+                business name, trading name, domain name, trade mark, industrial design, patent, registered design or
+                copyright, or
+            </li>
+            <li>
+                a right to use or exploit a business name, trading name, domain name, trade mark or industrial design
+                or
+            </li>
+            <li>
+                a thing, system or process that is subject to a patent, registered design or copyright (or an
+                adaption or modification of such a thing, system or process),
+            </li>
+        </ol>
+        to You.
+    </p>
+    <p class="text-justify">
+        <span class="numbered-list">2.4</span> You may not, without the prior written permission of the Company and the permission of any other relevant
+        rights owners: broadcast, republish, up-load to a third party, transmit, post, distribute, show or play in
+        public, adapt or change in any way the Content or Third Party Content for any purpose, unless otherwise
+        provided by these Terms. The prohibition does not extend to Content on the Website which is freely available
+        for re-use or is in the public domain.
+    </p>
+
+    <h3>3. General Disclaimer</h3>
+    <p class="text-justify">
+        <span class="numbered-list">3.1</span> Nothing in the Terms limits or excludes any guarantees, warranties, representations or
+        conditions implied or imposed by law, including the Australian Consumer Law (or any liability under them)
+        which by law may not be limited or excluded.
+    </p>
+    <p class="text-justify">
+        <span class="numbered-list">3.2</span> Subject to this clause 3, and to the extent permitted by law:
+        <ol type="i">
+            <li>
+                all terms, guarantees, warranties, representations or conditions which are not expressly stated in the
+                Terms are excluded; and
+            </li>
+            <li>
+                the Company will not be liable for any special, indirect or consequential loss or damage (unless such a
+                loss or damage is reasonably forseeable resulting from Our failure to meet an applicable Consumer
+                Guarantee), loss of profit or opportunity, or damage to goodwill arising out of or in connection with the
+                Content or these Terms (including as a result of not being able to use the Content or the late supply
+                of the Content), whether at common law, under contract, tort (including negligence), in equity, pursuant
+                to statute or otherwise.
+            </li>
+        </ol>
+    </p>
+    <p class="text-justify">
+        <span class="numbered-list">3.3</span> Use of the Website and the Content is at Your Own risk. Everything on the Website and the
+        Content is provided to you "as is" and "as available" without warranty or condition of any kind. None of the
+        affilates, associates, directors, officers, employees, agents, contributors and/or licensors (as applicable) of
+        the Company make any express or implied representation or warranty about the Content or any product or Content
+        (including the Content of the Company) referred to on the Website. This includes (but is not restricted to) loss
+        or damage you might suffer as a result of the following:
+        <ol type="i">
+            <li>
+                failure of performance, error, omission, interruption, deletion, defect, failure to correct defects
+                or errors or omissions, delay in operation or transmission, computer virus or other harmful component,
+                or theft, destruction, alteration or unauthorised access to records;
+            </li>
+            <li>
+                the accuracy, suitability or currency of any information on the Website, the Content, or any of its
+                Content related products (including any Third Party Content on the Website);
+            </li>
+            <li>costs incurred as a result of You using the Website or the Content; and </li>
+            <li>the Content or operation in respect to Links which are provided for Your convenience.</li>
+        </ol>
+    </p>
+    <h3>4. Limitation of Liability</h3>
+    <p class="text-justify">
+        <span class="numbered-list">4.1</span> The Company's total liability arising out of or in
+        connection with the Content or these Terms, however arising, including under contract, tort (including
+        negligence), in equity, under statute or otherwise, will not exceed the resupply of the Content to You.
+    </p>
+    <p class="text-justify">
+        <span class="numbered-list">4.2</span> You expressly understand and agree that the Company,
+        its affiliates, employees, agents, contributors and/or licensors (as applicable) shall not be liable to You
+        for any direct, indirect, incidental, special consequential or exemplary damages which may be incurred by You,
+        however caused and under any theory of liability. This shall include, but is not limited to, any loss of profit
+        (whether incurred directly or indirectly), any loss of goodwill or business reputation and any other intangible
+        loss.
+    </p>
+    <p class="text-justify">
+        <span class="numbered-list">4.3</span> You acknowledge and agree that the Company holds no
+        liability for any direct, incidential, special consequential or exemplary damages which may be incurred by You
+        as a result of providing Your Content to the Website.
+    </p>
+
+    <h3>5. Termination</h3>
+    <p class="text-justify">
+        <span class="numbered-list">5.1</span> If you want to terminate the Terms, you should
+        immediately:
+        <ol type="i">
+            <li>
+                delete Your user account by
+                <a asp-area="Identity" asp-page="/Account/Login" title="Login" target="_blank">Logging In</a>,
+                clicking Your username in the upper right of the main navigation bar (
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <a asp-area="Identity" asp-page="/Account/Manage/Index" target="_blank">Manage Your Account</a>
+                }
+                else
+                {
+                    <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnurl="@Url.Action("Terms", "Home")">Manage Your Account</a>
+                }
+                ), navigating to the
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <a asp-area="Identity" asp-page="/Account/Manage/PersonalData" target="_blank">Personal Data</a>
+                }
+                else
+                {
+                    <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnurl="@Url.Action("Terms", "Home")">Personal Data</a>
+                }
+                menu item and selecting <strong>Delete Account</strong>; and/or
+            </li>
+            <li>cease using the Website.</li>
+        </ol>
+    </p>
+    <p class="text-justify">
+        <span class="numbered-list">5.2</span> The Company may at any time, terminate the Terms
+        with You if:
+        <ol type="i">
+            <li>You have breached any provision of the Terms or intend to breach any provision;</li>
+            <li>the Company is required to do so by law;</li>
+            <li>
+                the Company is transitioning to no longer providing the Services to members in the country in which you
+                are resident or from which you use the Service; or
+            </li>
+            <li>
+                the provision of the Services to You by the Company, is in the opinion of the Company, no longer
+                commercially viable.
+            </li>
+        </ol>
+    </p>
+    <p class="text-justify">
+        <span class="numbered-list">5.3</span> Subject to local applicable laws, the Company reserves
+        the right to discontinue or cancel Your access at any time and may suspend or deny, in its sole discretion, Your
+        access to all or any portion of the Website or the Services without notice if You breach any provision of the
+        Terms or any applicable law or if Your conduct impacts the Company's name or reputation or violates the rights
+        of those of another party.
+    </p>
+    <p class="text-justify">
+        <span class="numbered-list">5.4</span> When the Terms come to an end, all of the legal rights,
+        obligations and liabilities that You and the Company have benefitted from, been subject to (or which have accrued
+        over time whilst the Terms have been in force) or which are expressed to continue indefinitely, shall be unaffected
+        by this cessation, and the provisions of this clause shall continue to apply to such rights, obligations and
+        liabilities indefinitely.
+    </p>
+
+    <h3>6. Indemnity</h3>
+    <p class="text-justify">
+        <span class="numbered-list">6.1</span> You agree to indemnify the Company, its affiliates,
+        employees, agents, contributors, third party Content providers and/or licensors (as applicable) from and against:
+        <ol type="i">
+            <li>
+                all actions, suits, claims, demands, liabilities, costs, expenses, loss and damage (including legal fees
+                on a full indemnity basis) incurred, suffered or arising out of or in connection with Your Content;
+            </li>
+            <li>
+                any direct or indirect consequences of You accessing, using or transacting on the Website or attempts to
+                do so; and/or
+            </li>
+            <li>any breach of the Terms.</li>
+        </ol>
+    </p>
+
+    <h3>7. Dispute Resolution</h3>
+    <p class="numbered-list">7.1 Compulsory:</p>
+    <p class="text-justify">
+        If a dispute arises out of or relates to the Terms, either party may not commence any
+        Tribunal or Court proceedings in relation to the dispute, unless the following clauses have been compiled
+        with (except where urgent interlocutory relief is sought).
+    </p>
+    <p class="numbered-list">7.2 Notice:</p>
+    <p class="text-justify">
+        A party to the Terms claiming a dispute ('<strong>Dispute</strong>') has arisen under the
+        Terms, must give written notice to the other party detailing the nature of the dispute, the desired outcome
+        and the action required to settle the Dispute.
+    </p>
+    <p class="numbered-list">7.3 Resolution:</p>
+    <p class="text-justify">
+        On receipt of that notice ('<strong>Notice</strong>') by that other party, the parties to
+        the Terms ('<strong>Parties</strong>') must:
+        <ol type="i">
+            <li>
+                Within 30 days of the Notice endeavour in good faith to resolve the Dispute expeditously by negotiation
+                or such other means upon which they may mutually agree;
+            </li>
+            <li>
+                If for any reason whatsoever, 30 days after the date of the Notice, the Dispute has not been resolved,
+                the Parties must either agree upon selection of a mediator or request that an appropriate mediator be
+                appointed by the President of the Conflict Resolution Service or his or her nominee;
+            </li>
+            <li>
+                The Parties are equally liable for the fees and reasonable expenses of a mediator and the cost of the
+                venue of the mediation and without limiting the foregoing undertake to pay any amounts requested by
+                the mediator as a pre-condition to the mediation commencing. The Parties must each pay their own
+                costs associated with the mediation;
+            </li>
+            <li>The mediation will be held in Perth, Western Australia, Australia.</li>
+        </ol>
+    </p>
+    <p class="numbered-list">7.4 Confidential:</p>
+    <p class="text-justify">
+        All communications concerning negotiations made by the Parties arising out of and in connection
+        with this dispute resolution clause are confidential and to the extent possible, must be treated as "without
+        prejudice" negotiations for the purpose of applicable laws of evidence.
+    </p>
+    <p class="numbered-list">7.5 Termination of Mediation:</p>
+    <p class="text-justify">
+        If 30 days have elapsed after the start of a mediation of the Dispute and the Dispute has not
+        been resolved, either Party may ask the mediator to terminate the mediation and the mediator must do so.
+    </p>
+
+    <h3>8. Venue and Jurisdiction</h3>
+    <p class="text-justify">
+        The Service offered by the Company is intended to be viewed primarily by residents of Australia. In the
+        event of any dispute arising out of or in relation to the Website, You agree that the exclusive venue for resolving
+        any dispute shall be in the courts of Western Australia, Australia.
+    </p>
+
+    <h3>9. Governing Law</h3>
+    <p class="text-justify">
+        <span class="numbered-list">9.1</span> These Terms are governed by the laws of Western Australia, Australia. Any dispute, controversy,
+        proceeding or claim of whatever nature arising out of or in any way relating to the Terms and the rights created
+        hereby shall be governed, interpreted and construed by, under and pursuant to the laws of Western Australia,
+        Australia, without reference to conflict of law principles, notwithstanding mandatory rules. The validity of this
+        governing law clause is not contested. The Terms shall be binding to the benefit of the parties hereto and their
+        successors and assigns.
+    </p>
+    <p class="text-justify">
+        <span class="numbered-list">9.2</span> Your use of the Website or Services may also be
+        subject to other local, state, national or international laws.
+    </p>
+
+    <h3>10. Independent Legal Advice</h3>
+    <p class="text-justify">
+        Both parties confirm and declare that the provisions of the Terms are fair and reasonable
+        and both parties having taken the opportunity to obtain independent legal advice and declare the Terms are
+        not against public policy on the grounds of inequality or bargaining power or general grounds of restraint
+        of trade.
+    </p>
+
+    <h3>11. Severence</h3>
+    <p class="text-justify">
+        If any part of these Terms is found to be void or unenforceable by Court of competent
+        jurisdiction, that part shall be severed and the rest of the Terms shall remain in force.
+    </p>
+
+    <h3>12. Changes to These Terms and Conditions</h3>
+    <p class="text-justify">
+        We reserve the right, at Our sole discretion, to modify or replace these Terms at any
+        time. If a revision is material We will make reasonable efforts to provide at least 30 days' notice prior
+        to any new terms taking effect. What constitutes a material change will be determined at Our sole
+        discretion.
+    </p>
+    <p class="text-justify">
+        By continuing to access or use Our Service after those revisions become effective, You
+        agree to be bound by the revised terms. If You do not agree to the new terms, in whole or in part, please
+        cease using the Website and the Service immediately.
+    </p>
+
+    <h3>Contact Us</h3>
+    <p class="text-justify">
+        If you have any questions about these Terms and Conditions, please contact Us by
+        visiting this
+        <a asp-area="Home" asp-page="/ContactMe" title="Contact Me" target="_blank">Contact Page</a>
+        on the Website.
+    </p>
 </div>

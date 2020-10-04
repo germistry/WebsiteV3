@@ -42,7 +42,7 @@ namespace WebsiteV3.Areas.Identity.Pages.Account
             }
 
             Email = email;
-            //Todo - PRODUCTION change to 'false' when using real email sender
+            //PRODUCTION change to 'false' when using real email sender
             DisplayConfirmAccountLink = false;
 
             if (DisplayConfirmAccountLink)

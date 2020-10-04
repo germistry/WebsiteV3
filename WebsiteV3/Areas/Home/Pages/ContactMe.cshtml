@@ -48,16 +48,27 @@
                     <textarea class="form-control" asp-for="Input.Message"></textarea>
                 </div>
             </div>
+            <div class="form-group">
+                <div class="text-xl-right text-lg-right text-md-right text-sm-right checkbox">
+                    <label asp-for="Input.PrivacyConsent">
+                        <input asp-for="Input.PrivacyConsent" />
+                        @Html.DisplayNameFor(m => m.Input.PrivacyConsent)
+                    </label>
+                </div>
+                <div class="text-xl-right text-lg-right text-md-right text-sm-right">
+                    <a asp-controller="Home" asp-action="Privacy">Read the Privacy Policy</a>
+                </div>
+            </div>
 
             @*<div class="form-group row">
-                <div class="offset-md-3 col-md-9">
-                    <div class="g-recaptcha"
-                         data-sitekey="enter recaptcha client key here"></div>
-                </div>
-            </div>*@
+                    <div class="offset-md-3 col-md-9">
+                        <div class="g-recaptcha"
+                             data-sitekey="enter recaptcha client key here"></div>
+                    </div>
+                </div>*@
 
             <div class="form-group row text-center">
-                <div class="col-12">
+                <div class="col-12" style="padding-bottom: 1em;">
                     <input type="submit" value="Submit" class="btn btn-primary" />
                 </div>
             </div>
@@ -66,4 +77,18 @@
 </div>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        // extend jquery range validator to work for required checkboxes
+        var defaultRangeValidator = $.validator.methods.range;
+        $.validator.methods.range = function(value, element, param) {
+            if(element.type === 'checkbox') {
+                // if it's a checkbox return true if it is checked
+                return element.checked;
+            } else {
+                // otherwise run the default validation function
+                return defaultRangeValidator.call(this, value, element, param);
+            }
+        }
+    </script>
+
 }

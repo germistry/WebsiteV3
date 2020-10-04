@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace WebsiteV3.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -58,34 +59,7 @@ namespace WebsiteV3.Controllers
         {
             return View();
         }
-        //Http method Get - Returns contact me page. 
-        public IActionResult Contact()
-        {
-            return RedirectToPage("ContactMe");
-        }
-        //////Http method Post - submitted contact form to generate email sent to me to action.
-        ////[HttpPost]
-        ////public async Task<IActionResult> Contact(ContactViewModel model)
-        ////{
-        ////    if (ModelState.IsValid)
-        ////    {
-        ////        var vm = new ContactViewModel()
-        ////        {
-        ////            Email = model.Email,
-        ////            Subject = model.Subject,
-        ////            Message = model.Message
-
-        ////        };
                 
-        ////        await _emailSender.SendEmailAsync(vm.Email, vm.Subject, vm.Message);
-          
-        ////        _logger.LogInformation("A Contact Email has been sent.");
-          
-        ////    }
-        ////    return RedirectToAction("ContactResult");
-        ////}
-
-        
         //Http method Get - Returns privacy page. 
         public IActionResult Privacy()
         {
@@ -96,6 +70,17 @@ namespace WebsiteV3.Controllers
         {
             return View();
         }
+        //Http method Get - Returns cookie policy page. 
+        public IActionResult Cookies()
+        {
+            return View();
+        }
+        //Http method Get - Returns commentary guidelines policy page. 
+        public IActionResult CommentaryGuidelines()
+        {
+            return View();
+        }
+
         //Http method Get - Returns a page with a list of posts, or supply category to have filtered by
         //category. 
         public IActionResult Blog(int pageNumber, int category, string searchPosts)
@@ -113,7 +98,6 @@ namespace WebsiteV3.Controllers
         {
             return View(_repo.GetPost(id));
         }
-
         //HttpGet to return the post image through filestream.
         [HttpGet("/PostImage/{postImage}")]
         [ResponseCache(CacheProfileName = "Monthly")]
@@ -217,7 +201,5 @@ namespace WebsiteV3.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-
     }
 }

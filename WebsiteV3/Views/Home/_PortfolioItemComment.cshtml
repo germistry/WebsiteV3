@@ -10,7 +10,15 @@
         <input asp-for="MainCommentId" type="hidden" />
         <div class="row" style="padding-top: 1em">
             <div class="col-12" style="padding-bottom: 0.5em">
-                <textarea class="form-control" id="message" asp-for="Message"></textarea>
+                <textarea class="form-control" id="message" asp-for="Message" required></textarea>
+            </div>
+            <div class="col-12" style="padding-bottom: 0.5em">
+                <label>
+                    I have read and acknowledge the
+                    <a asp-area="" asp-controller="Home" asp-action="CommentaryGuidelines" title="Commentary Guidelines"
+                       target="_blank">Commentary Guidelines</a>
+                </label>
+                <input type="checkbox" asp-for="GuidelinesConsent" required />
             </div>
             <div class="col-12" style="padding-bottom: 0.5em">
                 <input class="btn btn-secondary btn-sm" type="submit" value="Submit" />
@@ -18,3 +26,6 @@
         </div>
     </form>
 </div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

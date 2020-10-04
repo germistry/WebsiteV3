@@ -45,15 +45,12 @@ body {
     border-top: 1px solid #3600D8;
     padding-bottom: 0;
     margin-bottom: 0;
-    
 }
 .identity-container {
     padding-top: 0.8rem;
 }
 .cookie-consent {
     border-radius: 0;
-    
-
 }
 /* Card overrides */
 .card {
@@ -112,6 +109,10 @@ body {
     border-radius: 0;
     background-image: url('../content/static/WebsiteIndexBG.png');
     background-size: cover;
+}
+/*------Terms of Use List Customs--------*/
+.numbered-list {
+    color: #5C33D6;
 }
 /*---------Flip cards-----------*/
 /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
