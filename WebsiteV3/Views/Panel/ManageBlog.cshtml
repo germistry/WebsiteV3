@@ -23,6 +23,7 @@
                 <th>Created Date</th>
                 <th>Category</th>
                 <th>Featured</th>
+                <th>Comments Allowed</th>
                 <th>Has Comments</th>
                 <th></th>
                 <th></th>
@@ -32,64 +33,80 @@
         <tbody>
             @foreach (var post in Model)
             {
-                <tr>
-                    <td>@post.Title</td>
-                    <td>@post.CreatedDate</td>
-                    <td>@post.Category.CategoryName</td>
-                    <td>
-                        @if (post.Featured == true)
-                        {
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="tableCheck@(post.Id)" checked disabled >
-                                <label class="custom-control-label text-hide" for="tableCheck@(post.Id)">True</label>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="tableCheck@(post.Id)" disabled>
-                                <label class="custom-control-label text-hide" for="tableCheck@(post.Id)">False</label>
-                            </div>
-                        }
-                    </td>
-                    <td>
-                        @if (post.MainComments.Count >= 1)
-                        {
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="tableCheck@(post.Id)" checked disabled>
-                                <label class="custom-control-label text-hide" for="tableCheck@(post.Id)">True</label>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="tableCheck@(post.Id)" disabled>
-                                <label class="custom-control-label text-hide" for="tableCheck@(post.Id)">False</label>
-                            </div>
-                        }
-                    </td>
-                    <td>
-                        @if (post.MainComments.Count >= 1)
-                        {
-                            <a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="ManageBlogComments" asp-route-id="@post.Id">User Comments</a>
-                        }
-                        else
-                        {
-                            <a class="btn btn-secondary btn-sm disabled" asp-controller="Panel" asp-action="ManageBlogComments" asp-route-id="@post.Id">User Comments</a>
-                        }
-                    </td>
-                    <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="EditPost" asp-route-id="@post.Id">Edit</a></td>
-                    <td>
-                        @if (post.MainComments.Count >= 1)
-                        {
-                            <a class="btn btn-secondary btn-sm disabled" asp-controller="Panel" asp-action="DeletePost" asp-route-id="@post.Id">Delete</a>
-                        }
-                        else
-                        {
-                            <a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="DeletePost" asp-route-id="@post.Id">Delete</a>
-                        }
-                    </td>
-                </tr>
+            <tr>
+                <td>@post.Title</td>
+                <td>@post.CreatedDate</td>
+                <td>@post.Category.CategoryName</td>
+                <td>
+                    @if (post.Featured == true)
+                    {
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="tableCheck@(post.Id)" checked disabled>
+                            <label class="custom-control-label text-hide" for="tableCheck@(post.Id)">True</label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="tableCheck@(post.Id)" disabled>
+                            <label class="custom-control-label text-hide" for="tableCheck@(post.Id)">False</label>
+                        </div>
+                    }
+                </td>
+                <td>
+                    @if (post.CommentsAllowed == true)
+                    {
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="tableCheck@(post.Id)" checked disabled>
+                            <label class="custom-control-label text-hide" for="tableCheck@(post.Id)">True</label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="tableCheck@(post.Id)" disabled>
+                            <label class="custom-control-label text-hide" for="tableCheck@(post.Id)">False</label>
+                        </div>
+                    }
+                </td>
+                <td>
+                    @if (post.MainComments.Count >= 1)
+                    {
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="tableCheck@(post.Id)" checked disabled>
+                            <label class="custom-control-label text-hide" for="tableCheck@(post.Id)">True</label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="tableCheck@(post.Id)" disabled>
+                            <label class="custom-control-label text-hide" for="tableCheck@(post.Id)">False</label>
+                        </div>
+                    }
+                </td>
+                <td>
+                    @if (post.MainComments.Count >= 1)
+                    {
+                        <a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="ManageBlogComments" asp-route-id="@post.Id">User Comments</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-secondary btn-sm disabled" asp-controller="Panel" asp-action="ManageBlogComments" asp-route-id="@post.Id">User Comments</a>
+                    }
+                </td>
+                <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="EditPost" asp-route-id="@post.Id">Edit</a></td>
+                <td>
+                    @if (post.MainComments.Count >= 1)
+                    {
+                        <a class="btn btn-secondary btn-sm disabled" asp-controller="Panel" asp-action="DeletePost" asp-route-id="@post.Id">Delete</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="DeletePost" asp-route-id="@post.Id">Delete</a>
+                    }
+                </td>
+            </tr>
             }
         </tbody>
     </table>

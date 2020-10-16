@@ -134,7 +134,7 @@ namespace WebsiteV3.Controllers
         public async Task<IActionResult> PostComment(PostCommentViewModel vm)
         {
             if (!ModelState.IsValid)
-                return RedirectToAction("Post", new { id = vm.PostId });
+                return RedirectToAction("Post", new { id = vm.PostId, slug = vm.PostSlug });
             else
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -143,6 +143,7 @@ namespace WebsiteV3.Controllers
                     var comment = new PostMainComment
                     {
                         PostId = vm.PostId,
+                        PostSlug = vm.PostSlug,
                         Message = vm.Message,
                         CreatedDate = DateTime.Now,
                         User = user
@@ -161,7 +162,7 @@ namespace WebsiteV3.Controllers
                     _repo.AddPostSubComment(comment);
                 }
                 await _repo.SaveChangesAsync();
-                return RedirectToAction("Post", new { id = vm.PostId });
+                return RedirectToAction("Post", new { id = vm.PostId, slug = vm.PostSlug });
             }
         }
         //HttpPost to add the new main or subcomment and return the portfolio item page.
@@ -169,7 +170,7 @@ namespace WebsiteV3.Controllers
         public async Task<IActionResult> PortfolioItemComment(PortfolioItemCommentViewModel vm)
         {
             if (!ModelState.IsValid)
-                return RedirectToAction("PortfolioItem", new { id = vm.PortfolioItemId });
+                return RedirectToAction("PortfolioItem", new { id = vm.PortfolioItemId, slug = vm.PortfolioItemSlug });
             else
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -178,6 +179,7 @@ namespace WebsiteV3.Controllers
                     var comment = new PortfolioItemMainComment
                     {
                         PortfolioItemId = vm.PortfolioItemId,
+                        PortfolioItemSlug = vm.PortfolioItemSlug,
                         Message = vm.Message,
                         CreatedDate = DateTime.Now,
                         User = user
@@ -196,7 +198,7 @@ namespace WebsiteV3.Controllers
                     _repo.AddPortfolioItemSubComment(comment);
                 }
                 await _repo.SaveChangesAsync();
-                return RedirectToAction("PortfolioItem", new { id = vm.PortfolioItemId });
+                return RedirectToAction("PortfolioItem", new { id = vm.PortfolioItemId, slug = vm.PortfolioItemSlug });
             }
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

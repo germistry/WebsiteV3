@@ -256,6 +256,9 @@ namespace WebsiteV3.Migrations
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("CommentsAllowed")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -302,6 +305,9 @@ namespace WebsiteV3.Migrations
 
                     b.Property<int>("PortfolioItemId")
                         .HasColumnType("int");
+
+                    b.Property<string>("PortfolioItemSlug")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -356,6 +362,9 @@ namespace WebsiteV3.Migrations
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("CommentsAllowed")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -402,6 +411,9 @@ namespace WebsiteV3.Migrations
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
+
+                    b.Property<string>("PostSlug")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");

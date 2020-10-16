@@ -10,6 +10,7 @@ namespace WebsiteV3.Models.PostComments
     {
         public List<PostSubComment> SubComments { get; set; }
         public int PostId { get; set; }
-       
+        public string PostSlug { get; set; }
+
     }
 }

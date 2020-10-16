@@ -15,6 +15,7 @@ using WebsiteV3.ViewModels;
 
 namespace WebsiteV3.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     [Authorize(Roles = "SuperAdmin")]
     public class UserManagerController : Controller
     {

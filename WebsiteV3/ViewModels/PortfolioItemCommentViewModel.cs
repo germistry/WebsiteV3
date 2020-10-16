@@ -12,6 +12,7 @@ namespace WebsiteV3.ViewModels
     {
         //The PortfolioItemId for the comment
         public int PortfolioItemId { get; set; }
+        public string PortfolioItemSlug { get; set; }
         //The MainCommentId will determine whether it is a maincomment or subcomment
         [Required]
         public int MainCommentId { get; set; }

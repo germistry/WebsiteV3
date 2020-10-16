@@ -12,6 +12,7 @@ namespace WebsiteV3.ViewModels
     {
         //The PostId for the comment
         public int PostId { get; set; }
+        public string PostSlug { get; set; }
         //The MainCommentId will determine whether it is a maincomment or subcomment
         [Required]
         public int MainCommentId { get; set; }

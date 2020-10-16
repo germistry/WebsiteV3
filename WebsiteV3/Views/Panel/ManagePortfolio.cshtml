@@ -22,6 +22,7 @@
                 <th>Title</th>
                 <th>Created Date</th>
                 <th>Category</th>
+                <th>Comments Allowed</th>
                 <th>Has Comments</th>
                 <th></th>
                 <th></th>
@@ -35,6 +36,22 @@
                 <td>@item.Title</td>
                 <td>@item.CreatedDate</td>
                 <td>@item.Category.CategoryName</td>
+                <td>
+                    @if (item.CommentsAllowed == true)
+                    {
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="tableCheck@(item.Id)" checked disabled>
+                            <label class="custom-control-label text-hide" for="tableCheck@(item.Id)">True</label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="tableCheck@(item.Id)" disabled>
+                            <label class="custom-control-label text-hide" for="tableCheck@(item.Id)">False</label>
+                        </div>
+                    }
+                </td>
                 <td>
                     @if (item.MainComments.Count >= 1)
                     {

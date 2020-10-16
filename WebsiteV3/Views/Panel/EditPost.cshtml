@@ -22,6 +22,7 @@
     <form class="form-content-editing" asp-controller="Panel" asp-action="EditPost" method="post" enctype="multipart/form-data">
         <input asp-for="Id" type="hidden" />
         <input asp-for="Slug" type="hidden" />
+        <input asp-for="CreatedDate" type="hidden" />
         <div class="form-row">
             <div class="form-group col-md-8">
                 <label>Title</label>
@@ -43,12 +44,16 @@
             <div class="col-sm-2" style="padding-top: 0.5em">
                 <label>Tags</label>
             </div>
-            <div class="col-sm-8"> 
+            <div class="col-sm-10 col-md-10 col-lg-6">
                 <input class="form-control" asp-for="Tags" />
             </div>
-            <div class="col-2" style="padding-top: 0.5em">
+            <div class="col-sm-6 col-md-6 col-lg-2" style="padding-top: 0.5em">
+                <label>Comments Allowed?</label>
+                <input type="checkbox" asp-for="CommentsAllowed" />
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-2" style="padding-top: 0.5em">
                 <label>Is Featured?</label>
-                <input type="checkbox" asp-for="Featured"/>
+                <input type="checkbox" asp-for="Featured" />
             </div>
         </div>
         <div class="form-group row">

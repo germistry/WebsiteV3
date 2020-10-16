@@ -17,6 +17,7 @@ using WebsiteV3.Helpers;
 
 namespace WebsiteV3.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     [Authorize(Roles = "SuperAdmin")]
     public class PanelController : Controller
     {
@@ -70,6 +71,7 @@ namespace WebsiteV3.Controllers
                     Id = post.Id,
                     Title = post.Title,
                     Slug = post.Slug,
+                    CreatedDate = post.CreatedDate,
                     Introduction = post.Introduction,
                     Body = post.Body,
                     CurrentImage = post.Image,
@@ -78,7 +80,8 @@ namespace WebsiteV3.Controllers
                     CurrentCategoryId = post.Category.Id,
                     CategoryId = post.Category.Id,
                     CategoryList = dropDownList,
-                    Featured = post.Featured
+                    Featured = post.Featured,
+                    CommentsAllowed = post.CommentsAllowed
                 }); ;
             }
         }
@@ -96,6 +99,7 @@ namespace WebsiteV3.Controllers
                 Description = postvm.Description,
                 Tags = postvm.Tags,
                 Featured = postvm.Featured,
+                CommentsAllowed = postvm.CommentsAllowed,
                 Slug = SlugGenerator.ToSlug(postvm.Title)
             };
             if (postvm.Image == null)
@@ -113,6 +117,7 @@ namespace WebsiteV3.Controllers
                     var category = _repo.GetCategoryNoTracking(postvm.CategoryId);
                     post.Category = category;
                 }
+                post.CreatedDate = postvm.CreatedDate;
                 _repo.UpdatePost(post);
             }
             else
@@ -170,6 +175,7 @@ namespace WebsiteV3.Controllers
                     Id = portfolioItem.Id,
                     Title = portfolioItem.Title,
                     Slug = portfolioItem.Slug,
+                    CreatedDate = portfolioItem.CreatedDate,
                     Introduction = portfolioItem.Introduction,
                     Body = portfolioItem.Body,
                     CurrentImage = portfolioItem.Image,
@@ -178,8 +184,9 @@ namespace WebsiteV3.Controllers
                     CurrentCategoryId = portfolioItem.Category.Id,
                     CategoryId = portfolioItem.Category.Id,
                     CategoryList = dropDownList,
-                    SourceCodeLink = portfolioItem.SourceCodeLink
-                });
+                    SourceCodeLink = portfolioItem.SourceCodeLink,
+                    CommentsAllowed = portfolioItem.CommentsAllowed
+                }); ;
             }
         }
         //HttpPost task that actually does the updating and saving of new portfolio items, and redirects the page
@@ -195,6 +202,7 @@ namespace WebsiteV3.Controllers
                 Body = portfoliovm.Body,
                 Description = portfoliovm.Description,
                 Tags = portfoliovm.Tags, 
+                CommentsAllowed = portfoliovm.CommentsAllowed,
                 SourceCodeLink = portfoliovm.SourceCodeLink,
                 Slug = SlugGenerator.ToSlug(portfoliovm.Title)
             };
@@ -214,6 +222,7 @@ namespace WebsiteV3.Controllers
                     var category = _repo.GetCategoryNoTracking(portfoliovm.CategoryId);
                     portfolioItem.Category = category;
                 }
+                portfolioItem.CreatedDate = portfoliovm.CreatedDate;
                 _repo.UpdatePortfolioItem(portfolioItem);
             }
             else

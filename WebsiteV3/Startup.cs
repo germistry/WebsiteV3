@@ -87,7 +87,7 @@ namespace WebsiteV3
                 //    options.ClientId = googleAuthNSection["ClientId"];
                 //    options.ClientSecret = googleAuthNSection["ClientSecret"];
                 //})
-                //todo - add twitter authenication? 
+                //todo - FUTURE RELEASE add twitter authenication? 
                 //todo - PRODUCTION set up facebook verification for deployment
                 .AddFacebook(facebookOptions =>
                 {
@@ -98,6 +98,7 @@ namespace WebsiteV3
             services.AddMvc(options =>
             {
                 options.CacheProfiles.Add("Monthly", new CacheProfile { Duration = 60 * 60 * 24 * 7 * 4 });
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
         }
 

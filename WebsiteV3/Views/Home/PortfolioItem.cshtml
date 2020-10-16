@@ -47,104 +47,114 @@
                                 <h2 class="card-title" style="color: #7454D3; padding-left: 0.5em; padding-right: 0.5em;">@ViewData["Title"]</h2>
                                 <hr style="border-top: 1px solid #5C33D6; margin-left: 3px; margin-right: 3px;" />
                                 <div style="padding-left: 0.8em; padding-right: 0.8em">
+                                    <p class="lead" style="color: #C195F4;">
+                                        See the source code for this project: &emsp;
+                                        <a href="@(Model.SourceCodeLink)" title="Github: @(Model.SourceCodeLink)"><i class="fab fa-github social-media-icons"></i></a>
+                                    </p>
                                     <div class="card-text" style="font-size: 16px; padding-bottom: 0.5em;">
                                         <p>@Html.Raw(Model.Body)</p>
                                     </div>
-                                    <p class="lead" style="color: #7454D3;">See the source code for this project: &emsp;
-                                        <a href="@(Model.SourceCodeLink)" title="Github: @(Model.SourceCodeLink)"><i class="fab fa-github social-media-icons"></i></a>
-                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer">
                         <div class="row" style="padding-top: 0.5em">
-                            <div class="col-12">
-                                <h5><a data-toggle="collapse" href="#comment">Leave a Comment</a></h5>
-                                <div id="comment" class="collapse">
-                                    @if (User.Identity.IsAuthenticated)
-                                    {
-                                        await Html.RenderPartialAsync("_PortfolioItemComment", new PortfolioItemCommentViewModel { PortfolioItemId = Model.Id, MainCommentId = 0 });
-                                    }
-                                    else
-                                    {
-                                        <p style="padding-top: 0.5em">
-                                            <a class="btn btn-outline-secondary btn-sm" asp-route-returnurl="@returnUrl" asp-area="Identity" asp-page="/Account/Login">Log In</a>
-                                            &emsp; You must be signed in to leave a comment.
-                                        </p>
-                                    }
-                                </div>
-                            </div>
-                            <div style="padding-bottom: 0.5em; width: 100%;">
+                            @if (Model.CommentsAllowed == true)
+                            {
                                 <div class="col-12">
-                                    @foreach (var c in Model.MainComments.OrderByDescending(d => d.CreatedDate))
-                                    {
-                                    <div style="width: 100%; ">
-                                        <hr style="border-top: 1px solid #5C33D6;" />
-                                        @if (!String.IsNullOrEmpty(c.UserId))
+                                    <h5><a data-toggle="collapse" href="#comment">Leave a Comment</a></h5>
+                                    <div id="comment" class="collapse">
+                                        @if (User.Identity.IsAuthenticated)
                                         {
-                                            <p class="font-weight-bold" style="margin-left: 5px; margin-right: 5px; color: #5C33D6;">
-                                                @if (c.User.ProfileImage != null)
-                                                {
-                                                    <img style="width:41.6px;height:41.6px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(c.User.ProfileImage))">
-                                                }
-                                                else
-                                                {
-                                                    <img style="width: 41.6px; height: 41.6px; object-fit: cover; border-radius: 30px" src="~/content/static/BlankProfilePic.png" />
-                                                }
-                                                &ensp;@(c.User.UserName)
-                                            </p>
+                                            await Html.RenderPartialAsync("_PortfolioItemComment", new PortfolioItemCommentViewModel { PortfolioItemId = Model.Id, PortfolioItemSlug = Model.Slug, MainCommentId = 0 });
                                         }
                                         else
                                         {
-                                            <p class="font-weight-bold" style="margin-left: 5px; margin-right: 5px; color: #5C33D6;">
-                                                <img style="width: 41.6px; height: 41.6px; object-fit: cover; border-radius: 30px" src="~/content/static/BlankProfilePic.png" />
+                                            <p style="padding-top: 0.5em">
+                                                <a class="btn btn-outline-secondary btn-sm" asp-route-returnurl="@returnUrl" asp-area="Identity" asp-page="/Account/Login">Log In</a>
+                                                &emsp; You must be signed in to leave a comment.
                                             </p>
                                         }
-                                        <p class="text-wrap" style="margin-left: 5px; margin-right: 5px;">@c.Message</p>
-                                        <span style="line-height: 24px; margin-left: 5px; margin-right: 5px;">
-                                            <a class="font-weight-bold" data-toggle="collapse" href="#reply@(c.Id)">Reply</a>
-                                            <a class="float-right" style="font-size: 14px; color: #5C33D6; margin-right: 5px;">@c.CreatedDate</a>
-                                        </span>
                                     </div>
-                                        <div style="margin-left: 30px; margin-right: 20px">
-                                            @foreach (var sc in c.SubComments)
-                                            {
-                                                <hr style="border-top: 1px solid #131313;" />
-                                                <p class="font-weight-bold" style="margin-left: 5px; margin-right: 5px; color: #5C33D6;">
-                                                    @if (sc.User.ProfileImage != null)
-                                                    {
-                                                        <img style="width:41.6px;height:41.6px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(sc.User.ProfileImage))">
-                                                    }
-                                                    else
-                                                    {
-                                                        <img style="width: 41.6px; height: 41.6px; object-fit: cover; border-radius: 30px" src="~/content/static/BlankProfilePic.png" />
-                                                    }
-                                                    &ensp;@(sc.User.UserName)
-                                                </p>
-                                                <p class="text-wrap" style="margin-left: 5px; margin-right: 5px;">@sc.Message</p>
-                                                <span style="line-height: 24px; margin-left: 5px; margin-right: 5px;">
-                                                    <a class="font-weight-bold" data-toggle="collapse" href="#reply@(c.Id)">Reply</a>
-                                                    <a class="float-right" style="font-size: 14px; color: #5C33D6; margin-right: 5px;">@sc.CreatedDate</a>
-                                                </span>
-                                            }
-                                            <div id="reply@(c.Id)" class="collapse">
-                                                @if (User.Identity.IsAuthenticated)
+                                </div>
+                                <div style="padding-bottom: 0.5em; width: 100%;">
+                                    <div class="col-12">
+                                        @foreach (var c in Model.MainComments.OrderByDescending(d => d.CreatedDate))
+                                        {
+                                            <div style="width: 100%; ">
+                                                <hr style="border-top: 1px solid #5C33D6;" />
+                                                @if (!String.IsNullOrEmpty(c.UserId))
                                                 {
-                                                    await Html.RenderPartialAsync("_PortfolioItemComment", new PortfolioItemCommentViewModel { PortfolioItemId = Model.Id, MainCommentId = c.Id });
-                                                }
-                                                else
-                                                {<p style="padding-top: 1em">
-                                                        <a class="btn btn-outline-secondary btn-sm text-center" asp-route-returnurl="@returnUrl" asp-area="Identity" asp-page="/Account/Login">Log In</a>
-                                                        &emsp; You must be signed in to leave a comment.
+                                                    <p class="font-weight-bold" style="margin-left: 5px; margin-right: 5px; color: #5C33D6;">
+                                                        @if (c.User.ProfileImage != null)
+                                                        {
+                                                            <img style="width:41.6px;height:41.6px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(c.User.ProfileImage))">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img style="width: 41.6px; height: 41.6px; object-fit: cover; border-radius: 30px" src="~/content/static/BlankProfilePic.png" />
+                                                        }
+                                                        &ensp;@(c.User.UserName)
                                                     </p>
                                                 }
+                                                else
+                                                {
+                                                    <p class="font-weight-bold" style="margin-left: 5px; margin-right: 5px; color: #5C33D6;">
+                                                        <img style="width: 41.6px; height: 41.6px; object-fit: cover; border-radius: 30px" src="~/content/static/BlankProfilePic.png" />
+                                                    </p>
+                                                }
+                                                <p class="text-wrap" style="margin-left: 5px; margin-right: 5px;">@c.Message</p>
+                                                <span style="line-height: 24px; margin-left: 5px; margin-right: 5px;">
+                                                    <a class="font-weight-bold" data-toggle="collapse" href="#reply@(c.Id)">Reply</a>
+                                                    <a class="float-right" style="font-size: 14px; color: #5C33D6; margin-right: 5px;">@c.CreatedDate</a>
+                                                </span>
                                             </div>
-                                        </div>
-                                    }
-                                    <hr style="border-top: 1px solid #5C33D6; padding-bottom: 0;" />
+                                            <div style="margin-left: 30px; margin-right: 20px">
+                                                @foreach (var sc in c.SubComments)
+                                                {
+                                                    <hr style="border-top: 1px solid #131313;" />
+                                                    <p class="font-weight-bold" style="margin-left: 5px; margin-right: 5px; color: #5C33D6;">
+                                                        @if (sc.User.ProfileImage != null)
+                                                        {
+                                                            <img style="width:41.6px;height:41.6px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(sc.User.ProfileImage))">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img style="width: 41.6px; height: 41.6px; object-fit: cover; border-radius: 30px" src="~/content/static/BlankProfilePic.png" />
+                                                        }
+                                                        &ensp;@(sc.User.UserName)
+                                                    </p>
+                                                    <p class="text-wrap" style="margin-left: 5px; margin-right: 5px;">@sc.Message</p>
+                                                    <span style="line-height: 24px; margin-left: 5px; margin-right: 5px;">
+                                                        <a class="font-weight-bold" data-toggle="collapse" href="#reply@(c.Id)">Reply</a>
+                                                        <a class="float-right" style="font-size: 14px; color: #5C33D6; margin-right: 5px;">@sc.CreatedDate</a>
+                                                    </span>
+                                                }
+                                                <div id="reply@(c.Id)" class="collapse">
+                                                    @if (User.Identity.IsAuthenticated)
+                                                    {
+                                                        await Html.RenderPartialAsync("_PortfolioItemComment", new PortfolioItemCommentViewModel { PortfolioItemId = Model.Id, PortfolioItemSlug = Model.Slug, MainCommentId = c.Id });
+                                                    }
+                                                    else
+                                                    {<p style="padding-top: 1em">
+                                                            <a class="btn btn-outline-secondary btn-sm text-center" asp-route-returnurl="@returnUrl" asp-area="Identity" asp-page="/Account/Login">Log In</a>
+                                                            &emsp; You must be signed in to leave a comment.
+                                                        </p>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                        <hr style="border-top: 1px solid #5C33D6; padding-bottom: 0;" />
+                                    </div>
                                 </div>
+                            }
+                            else
+                            {
+                            <div class="col-12">
+                                <h5>Comments have been disabled for this Project.</h5>
                             </div>
+                            }
                         </div>
                     </div>
                 </div>

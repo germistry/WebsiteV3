@@ -16,6 +16,7 @@ namespace WebsiteV3.Areas.Identity.Pages.Account.Manage
 {
     public class EnableAuthenticatorModel : PageModel
     {
+        //TODO PRODUCTION check 2FA works
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<EnableAuthenticatorModel> _logger;
         private readonly UrlEncoder _urlEncoder;
@@ -149,7 +150,7 @@ namespace WebsiteV3.Areas.Identity.Pages.Account.Manage
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("WebsiteV3"),
+                _urlEncoder.Encode("germistry aka Krystal Ruwoldt"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

@@ -33,5 +33,7 @@ namespace WebsiteV3.ViewModels
         public IFormFile Image { get; set; } = null;
         [Required]
         public string SourceCodeLink { get; set; }
+        public bool CommentsAllowed { get; set; } = true;
+        public DateTime CreatedDate { get; set; }
     }
 }

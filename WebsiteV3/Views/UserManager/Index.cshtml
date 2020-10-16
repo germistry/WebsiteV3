@@ -27,9 +27,9 @@
     <table class="table table-responsive">
         <thead>
             <tr>
+                <th>User Email</th>
                 <th>User Name</th>
                 <th>User Id</th>
-                <th>User Email</th>
                 <th>Total Main Comments</th>
                 <th>Total Sub Comments</th>
                 <th></th>
@@ -37,14 +37,14 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var user in Model)
+            @foreach (var user in Model.OrderBy(u => u.Email))
             {
                 int totalMainComments = user.UserPostMainComments.Count + user.UserPortfolioItemMainComments.Count;
                 int totalSubComments = user.UserPostSubComments.Count + user.UserPortfolioItemSubComments.Count;
                 <tr>
+                    <td>@user.Email</td>
                     <td>@user.UserName</td>
                     <td style="font-size: small;">@user.UserId</td>
-                    <td>@user.Email</td>
                     <td>@totalMainComments</td>
                     <td>@totalSubComments</td>
                     <td>
