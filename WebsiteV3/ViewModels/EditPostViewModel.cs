@@ -15,6 +15,8 @@ namespace WebsiteV3.ViewModels
         [Required]
         public string Title { get; set; } = "";
         [Required]
+        public string Slug { get; set; } = "";
+        [Required]
         public string Introduction { get; set; }
         [Required]
         public string Body { get; set; } = "";

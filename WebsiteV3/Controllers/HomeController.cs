@@ -93,10 +93,10 @@ namespace WebsiteV3.Controllers
             return View(vm);
         }
         //Http method Get - Returns the individual post page for a particular post.  
-        [HttpGet]
+        [HttpGet("/Post/{id}/{slug}")]
         public IActionResult Post(int id)
         {
-            return View(_repo.GetPost(id));
+           return View(_repo.GetPost(id));
         }
         //HttpGet to return the post image through filestream.
         [HttpGet("/PostImage/{postImage}")]
@@ -117,8 +117,11 @@ namespace WebsiteV3.Controllers
             return View(vm);
         }
         //Http method Get - Returns the individual portfolio page for a particular portfolio item.  
-        public IActionResult PortfolioItem(int id) =>
-            View(_repo.GetPortfolioItem(id));
+        [HttpGet("/Portfolio/{id}/{slug}")]
+        public IActionResult PortfolioItem(int id)
+        {
+            return View(_repo.GetPortfolioItem(id));
+        }
 
         //HttpGet to return the portfolio item image through filestream.
         [HttpGet("/PortfolioItemImage/{portfolioItemImage}")]

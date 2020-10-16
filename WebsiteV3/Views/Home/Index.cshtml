@@ -54,8 +54,15 @@
                         <a style="font-size: 16px; color: #7454D3;" asp-controller="Home" asp-action="Portfolio" asp-route-category="@portfolioItem.Category.Id" asp-route-pageNumber="1">
                             Filed in @portfolioItem.Category.CategoryName
                         </a>
-                        <p class="card-text text-justify" style="padding-top: 0.5em">@portfolioItem.Introduction</p>
-                        <a class="btn btn-primary" asp-controller="Home" asp-action="PortfolioItem" asp-route-id="@portfolioItem.Id">Read More &rArr;</a>
+                        @if (portfolioItem.Introduction.Length > 200)
+                        {
+                            <p class="card-text text-justify" style="padding-top: 0.5em">@portfolioItem.Introduction.Substring(0, Math.Min(portfolioItem.Introduction.Length, 200)) ...</p>
+                        }
+                        else
+                        {
+                            <p class="card-text text-justify" style="padding-top: 0.5em">@portfolioItem.Introduction</p>
+                        }
+                        <a class="btn btn-primary" asp-controller="Home" asp-action="PortfolioItem" asp-route-id="@portfolioItem.Id" asp-route-slug="@portfolioItem.Slug">Read More &rArr;</a>
                     </div>
                 </div>
             </div>
@@ -136,8 +143,15 @@
                         <a style="font-size: 16px; color: #7454D3;" asp-controller="Home" asp-action="Blog" asp-route-category="@post.Category.Id" asp-route-pageNumber="1">
                             Filed in @post.Category.CategoryName
                         </a>
-                        <p class="card-text text-justify" style="padding-top: 0.5em">@post.Introduction</p>
-                        <a class="btn btn-primary" asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">Read More &rArr;</a>
+                        @if (post.Introduction.Length > 200)
+                        {
+                            <p class="card-text text-justify" style="padding-top: 0.5em">@post.Introduction.Substring(0, Math.Min(post.Introduction.Length, 200)) ...</p>
+                        }
+                        else
+                        {
+                            <p class="card-text text-justify" style="padding-top: 0.5em">@post.Introduction</p>
+                        }
+                        <a class="btn btn-primary" asp-controller="Home" asp-action="Post" asp-route-id="@post.Id" asp-route-slug="@post.Slug">Read More &rArr;</a>
                     </div>
                 </div>
             </div>

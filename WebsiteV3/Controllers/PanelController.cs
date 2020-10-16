@@ -13,6 +13,7 @@ using WebsiteV3.Models;
 using WebsiteV3.Models.PortfolioItemComments;
 using WebsiteV3.Models.PostComments;
 using WebsiteV3.ViewModels;
+using WebsiteV3.Helpers;
 
 namespace WebsiteV3.Controllers
 {
@@ -68,6 +69,7 @@ namespace WebsiteV3.Controllers
                 {
                     Id = post.Id,
                     Title = post.Title,
+                    Slug = post.Slug,
                     Introduction = post.Introduction,
                     Body = post.Body,
                     CurrentImage = post.Image,
@@ -93,7 +95,8 @@ namespace WebsiteV3.Controllers
                 Body = postvm.Body,
                 Description = postvm.Description,
                 Tags = postvm.Tags,
-                Featured = postvm.Featured
+                Featured = postvm.Featured,
+                Slug = SlugGenerator.ToSlug(postvm.Title)
             };
             if (postvm.Image == null)
                 post.Image = postvm.CurrentImage;
@@ -166,6 +169,7 @@ namespace WebsiteV3.Controllers
                 {
                     Id = portfolioItem.Id,
                     Title = portfolioItem.Title,
+                    Slug = portfolioItem.Slug,
                     Introduction = portfolioItem.Introduction,
                     Body = portfolioItem.Body,
                     CurrentImage = portfolioItem.Image,
@@ -191,7 +195,8 @@ namespace WebsiteV3.Controllers
                 Body = portfoliovm.Body,
                 Description = portfoliovm.Description,
                 Tags = portfoliovm.Tags, 
-                SourceCodeLink = portfoliovm.SourceCodeLink                
+                SourceCodeLink = portfoliovm.SourceCodeLink,
+                Slug = SlugGenerator.ToSlug(portfoliovm.Title)
             };
 
             if (portfoliovm.Image == null)

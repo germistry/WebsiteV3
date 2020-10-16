@@ -11,6 +11,7 @@ namespace WebsiteV3.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public string Slug { get; set; }
         public string Introduction { get; set; }
         public string Body { get; set; }
         public string Image { get; set; }

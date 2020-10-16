@@ -72,6 +72,12 @@ namespace WebsiteV3.Data.Repository
                 .OrderBy(c => c.CategoryName)
                 .ToList();
         }
+        public List<Category> GetCategoryLinks()
+        {
+            return _ctx.Categories
+                        .OrderBy(c => c.CategoryName)
+                        .ToList();
+        }
         public void AddCategory(Category category)
         {
             _ctx.Categories.Add(category);
@@ -224,7 +230,7 @@ namespace WebsiteV3.Data.Repository
             int pageSize = 6;
             int skipAmount = pageSize * (pageNumber - 1);
             int pageCount = (int)Math.Ceiling((double)itemCount / pageSize);
-
+            
             return new PortfolioViewModel
             {
                 CategoryId = category,

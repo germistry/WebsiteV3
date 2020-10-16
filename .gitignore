@@ -349,3 +349,4 @@ healthchecksdb
 /WebsiteV3/wwwroot/content/blog
 /WebsiteV3/wwwroot/content/portfolio
 /WebsiteV3/wwwroot/content/category
+/WebsiteV3/Migrations/20201016060544_SlugFieldOnPosts.Designer.cs

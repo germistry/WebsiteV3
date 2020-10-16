@@ -20,11 +20,13 @@ namespace WebsiteV3.Data.Repository
         Category GetCategory(int id);
         Category GetCategoryNoTracking(int id); //For getting category for updating posts/portfolio items without the tracking as tracking is done on the post or portfolio item.
         List<Category> GetAllCategories();
+        List<Category> GetCategoryLinks();
         void AddCategory(Category category);
         void UpdateCategory(Category category);
         void DeleteCategory(int id);
         //Methods for Posts
         Post GetPost(int id);
+        
         List<Post> GetAllPosts();
         List<Post> GetPostLinks();
         BlogViewModel GetAllPosts(int pageNumber, int category, string searchPosts);
@@ -34,6 +36,7 @@ namespace WebsiteV3.Data.Repository
         
         //Methods for Portfolio Items
         PortfolioItem GetPortfolioItem(int id);
+        
         List<PortfolioItem> GetAllPortfolioItems();
         List<PortfolioItem> GetPortfolioItemLinks();
         PortfolioViewModel GetAllPortfolioItems(int pageNumber, int category, string searchItems);

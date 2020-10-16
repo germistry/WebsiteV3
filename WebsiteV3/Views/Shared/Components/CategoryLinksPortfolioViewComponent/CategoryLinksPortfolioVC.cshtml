@@ -1,0 +1,13 @@
+﻿@model IList<Category>
+@{
+
+}
+
+<div>
+    @foreach (var link in Model)
+    {
+        <div class="row" style="padding-top: 0.5em; padding-bottom: 0.5em;">
+            <a class="btn btn-lg btn-default btn-block text-wrap" asp-controller="Home" asp-action="Portfolio" asp-route-category="@(link.Id)">@(link.CategoryName)</a>
+        </div>
+    }
+</div>
