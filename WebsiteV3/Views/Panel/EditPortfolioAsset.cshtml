@@ -1,0 +1,42 @@
+﻿@model PortfolioAssetViewModel
+@{
+    ViewData["Title"] = "Add/Change Portfolio Asset";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+<div class="container-fluid">
+    <div class="row form-title text-center">
+        <div class="col-12">
+            <h2 class="title-padding">@ViewData["Title"]</h2>
+            <hr />
+        </div>
+    </div>
+</div>
+<div class="container">
+    <form class="form-content-editing" style="padding-top: 1em;" asp-controller="Panel" asp-action="EditPortfolioAsset" method="post" enctype="multipart/form-data">
+        <input asp-for="Id" type="hidden" />
+        <input asp-for="PortfolioItemId" type="hidden" />
+        <input asp-for="ReturnUrl" type="hidden" />
+        <div class="form-group row">
+            <label class="col-md-2 col-form-label">Caption</label>
+            <div class="col">
+                <input class="form-control" asp-for="Caption" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-2 col-form-label">Asset</label>
+            <div class="col">
+                <input asp-for="CurrentAsset" type="hidden" />
+                <input class="form-control-file" asp-for="Asset" style="padding-top: 0.5em" />
+            </div>
+        </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group row">
+            <div class="offset-md-2 col-10">
+                <input class="btn btn-primary" type="submit" value="Submit" />
+            </div>
+        </div>
+    </form>
+</div>
+@section scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

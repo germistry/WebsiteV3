@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Create/Edit Portfolio Item";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var returnUrl = Context.Request.Path;
 }
 
 <link href="~/lib/Trumbowyg-master/ui/trumbowyg.min.css" rel="stylesheet" />
@@ -19,65 +20,93 @@
             <hr />
         </div>
     </div>
-    <form class="form-content-editing" asp-controller="Panel" asp-action="EditPortfolioItem" method="post" enctype="multipart/form-data">
-        <input asp-for="Id" type="hidden" />
-        <input asp-for="Slug" type="hidden" />
-        <input asp-for="CreatedDate" type="hidden" />
-        <div class="form-row">
-            <div class="form-group col-md-8">
-                <label>Title</label>
-                <input class="form-control" asp-for="Title" />
-            </div>
-            <div class="form-group col-md-4">
-                <label>Category</label>
-                <input asp-for="CurrentCategoryId" type="hidden" />
-                @Html.DropDownListFor(a => a.CategoryId, Model.CategoryList, "Select Category", new { @class = "form-control" })
-            </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-9 col-md-12" style="padding-top: 1em;">
+            <form class="form-content-editing" asp-controller="Panel" asp-action="EditPortfolioItem" method="post" enctype="multipart/form-data">
+                <input asp-for="Id" type="hidden" />
+                <input asp-for="Slug" type="hidden" />
+                <input asp-for="CreatedDate" type="hidden" />
+                <div class="form-group row">
+                    <label class="col-md-2" style="margin-top: 7px;">Title</label>
+                    <div class="col">
+                        <input class="form-control" asp-for="Title" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-2" style="margin-top: 7px;">Category</label>
+                    <div class="col">
+                        <input asp-for="CurrentCategoryId" type="hidden" />
+                        @Html.DropDownListFor(a => a.CategoryId, Model.CategoryList, "Select Category", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-2" style="margin-top: 7px;">Description</label>
+                    <div class="col">
+                        <input class="form-control" asp-for="Description" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-2" style="margin-top: 7px;">Tags</label>
+                    <div class="col">
+                        <input class="form-control" asp-for="Tags" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="offset-md-2 col-md-4">
+                        <label>Comments Allowed?</label>
+                        <input type="checkbox" asp-for="CommentsAllowed" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-2" style="margin-top: 7px;">Source Code Link</label>
+                    <div class="col">
+                        <input class="form-control" asp-for="SourceCodeLink" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-2" style="margin-top: 7px;">Intro for Feature</label>
+                    <div class="col">
+                        <input class="form-control" asp-for="Introduction" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2" style="margin-top: 7px;">Main Image</label>
+                    <div class="col" style="margin-top: 7px;">
+                        <input asp-for="CurrentImage" type="hidden" />
+                        <input class="form-control-file" asp-for="Image" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style="margin-top: 7px;">Body</label>
+                    <textarea id="editor" asp-for="Body"></textarea>
+                </div>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <input class="btn btn-primary" type="submit" value="Submit" style="margin-bottom: 1em;" />
+                </div>
+            </form>
         </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Description</label>
-            <div class="col">
-                <input class="form-control" asp-for="Description" />
-            </div> 
+        <div class="col-lg-3 col-md-12" style="padding-top: 1em;">
+            @if (Model.Id > 0)
+            {
+                <p style="font-size: 12px;">&rArr; Use '&frasl;PortfolioAsset&frasl;' then filename as URL and caption for description when using text editor.</p>
+                <p style="font-size: 12px;">&rArr; Images MUST have class="img-fluid" assigned to view properly on pages.</p>
+                <p style="font-size: 12px;">&rArr; Files can be inserted into body content by &lt;a class="btn btn-primary" href="/PortfolioAsset/(AssetName)">Click to download&lt;/a></p>
+                <span>
+                    <a class="btn btn-primary" style="margin-bottom: 0.5em;" asp-controller="Panel" asp-action="EditPortfolioAsset" asp-route-portfolioitemid="@Model.Id" asp-route-returnurl="@returnUrl">Add New Asset</a>
+                </span>
+                <div class="card" style="margin-bottom: 0.5em;">
+                    @(await Component.InvokeAsync("PortfolioAssetsViewComponent", Model.Id))
+                </div>
+            }
+            else
+            {
+                <p>Save the Portfolio Item to Generate ID for Assets.</p>
+            }
         </div>
-        <div class="form-group row">
-            <div class="col-sm-2" style="padding-top: 0.5em">
-                <label>Tags</label>
-            </div>
-            <div class="col-sm-10 col-md-10 col-lg-8">
-                <input class="form-control" asp-for="Tags" />
-            </div>
-            <div class="col" style="padding-top: 0.5em">
-                <label>Comments Allowed?</label>
-                <input type="checkbox" asp-for="CommentsAllowed" />
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Source Code Link</label>
-            <div class="col">
-                <input class="form-control" asp-for="SourceCodeLink" />
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Intro for Feature</label>
-            <div class="col">
-                <input class="form-control" asp-for="Introduction" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Body</label>
-            <textarea id="editor" asp-for="Body"></textarea>
-        </div>
-        <div class="form-group">
-            <label>Image</label>
-            <input asp-for="CurrentImage" type="hidden" />
-            <input class="form-control-file" asp-for="Image" />
-        </div>
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="form-group">
-            <input class="btn btn-primary" type="submit" value="Submit" />
-        </div>
-    </form>
+    </div>
 </div>
 @section scripts {
     <partial name="_ValidationScriptsPartial" />

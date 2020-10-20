@@ -385,8 +385,173 @@ namespace WebsiteV3.Controllers
             await _repo.SaveChangesAsync();
             return RedirectToAction("ManagePortfolio");
         }
+        //HttpGet for admin panel post assets page, shows all post assets.
+        public IActionResult ManageBlogAssets()
+        {
+            var postAssets = _repo.GetAllPostAssets();
+            return View(postAssets);
+        }
+        //Http Get for Managing Post Assets.
+        [HttpGet]
+        public IActionResult ManageAssetsForPost(int id)
+        {
+            return View(_repo.GetPost(id));
+        }
+        //HttpGet for post asset edit page for the selected post. If/else statement just in case the id is null - 
+        //prevents an error being thrown, instead redirects to a create a new post.
+        [HttpGet]
+        public IActionResult EditPostAsset(int? id, int postid, string returnurl)
+        {
+            if (id == null)
+            {
+                var vm = new PostAssetViewModel()
+                {
+                    PostId = postid,
+                    ReturnUrl = returnurl
 
+                };
+                return View(vm);
+            }
+            else
+            {
+                var postAsset = _repo.GetPostAsset((int)id);
+                return View(new PostAssetViewModel
+                {
+                    Id = postAsset.Id,
+                    PostId = postid,
+                    CurrentAsset = postAsset.Asset,
+                    Caption = postAsset.Caption,
+                    ReturnUrl = returnurl
+                });
+            }
+        }
+        //HttpPost task that actually does the updating and saving of new post assets, and redirects the page
+        //back to index even if it's taking some time for the changes to be saved to the database.
+        [HttpPost]
+        public async Task<IActionResult> EditPostAsset(PostAssetViewModel assetvm)
+        {
+            string returnurl = assetvm.ReturnUrl;
+            var postAsset = new PostAsset
+            {
+                Id = assetvm.Id,
+                Caption = assetvm.Caption,
+            };
+            if (assetvm.Asset == null)
+                postAsset.Asset = assetvm.CurrentAsset;
+            else
+            {
+                if (!string.IsNullOrEmpty(assetvm.CurrentAsset))
+                    _fileManager.RemovePostAsset(assetvm.CurrentAsset);
+                postAsset.Asset = _fileManager.SavePostAsset(assetvm.Asset);
+            }
+            if (postAsset.Id > 0)
+            {
+                _repo.UpdatePostAsset(postAsset);
+            }
+            else
+            {
+                var post = _repo.GetPostForAssets(assetvm.PostId);
+                postAsset.Post = post;
+                _repo.AddPostAsset(postAsset);
+            }
+            if (await _repo.SaveChangesAsync())
+            {
+                return LocalRedirect(returnurl);
+            }
+            else
+                return View(postAsset);
+        }
+        //Http get to delete a particular post asset using its id.
+        [HttpGet]
+        public async Task<IActionResult> DeletePostAsset(int id, string returnurl)
+        {
+            _repo.DeletePostAsset(id);
+            await _repo.SaveChangesAsync();
+            return LocalRedirect(returnurl);
+        }
+        //HttpGet for admin panel portfolio assets page, shows all portfolio assets. 
+        public IActionResult ManagePortfolioAssets()
+        {
+            var portfolioAssets = _repo.GetAllPortfolioAssets();
+            return View(portfolioAssets);
+        }
+        //Http Get for Managing Portfolio Assets.
+        [HttpGet]
+        public IActionResult ManageAssetsForPortfolioItem(int id)
+        {
+            return View(_repo.GetPortfolioItem(id));
+        }
+        //HttpGet for portfolio asset edit page for the selected item. If/else statement just in case the id is null - 
+        //prevents an error being thrown, instead redirects to a create a new portfolio item.
+        [HttpGet]
+        public IActionResult EditPortfolioAsset(int? id, int portfolioitemid, string returnurl)
+        {
+            if (id == null)
+            {
+                var vm = new PortfolioAssetViewModel()
+                {
+                    PortfolioItemId = portfolioitemid,
+                    ReturnUrl = returnurl
 
-        
+                };
+                return View(vm);
+            }
+            else
+            {
+                var portfolioAsset = _repo.GetPortfolioAsset((int)id);
+                return View(new PortfolioAssetViewModel
+                {
+                    Id = portfolioAsset.Id,
+                    PortfolioItemId = portfolioitemid,
+                    CurrentAsset = portfolioAsset.Asset,
+                    Caption = portfolioAsset.Caption,
+                    ReturnUrl = returnurl
+                });
+            }
+        }
+        //HttpPost task that actually does the updating and saving of new portfolio item assets, and redirects the page
+        //back to index even if it's taking some time for the changes to be saved to the database.
+        [HttpPost]
+        public async Task<IActionResult> EditPortfolioAsset(PortfolioAssetViewModel assetvm)
+        {
+            string returnurl = assetvm.ReturnUrl;
+            var portfolioAsset = new PortfolioAsset
+            {
+                Id = assetvm.Id,
+                Caption = assetvm.Caption
+            };
+            if (assetvm.Asset == null)
+                portfolioAsset.Asset = assetvm.CurrentAsset;
+            else
+            {
+                if (!string.IsNullOrEmpty(assetvm.CurrentAsset))
+                    _fileManager.RemovePortfolioAsset(assetvm.CurrentAsset);
+                portfolioAsset.Asset = _fileManager.SavePortfolioAsset(assetvm.Asset);
+            }
+            if (portfolioAsset.Id > 0)
+            {
+                _repo.UpdatePortfolioAsset(portfolioAsset);
+            }
+            else
+            {
+                var item = _repo.GetPortfolioItemForAssets(assetvm.PortfolioItemId);
+                portfolioAsset.PortfolioItem = item;
+                _repo.AddPortfolioAsset(portfolioAsset);
+            }
+            if (await _repo.SaveChangesAsync())
+            {
+                return LocalRedirect(returnurl);
+            }
+            else
+                return View(portfolioAsset);
+        }
+        //Http get to delete a particular portfolio asset using its id. 
+        [HttpGet]
+        public async Task<IActionResult> DeletePortfolioAsset(int id, string returnurl)
+        {
+            _repo.DeletePortfolioAsset(id);
+            await _repo.SaveChangesAsync();
+            return LocalRedirect(returnurl);
+        }
     }
 }

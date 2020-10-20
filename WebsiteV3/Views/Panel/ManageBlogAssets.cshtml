@@ -1,0 +1,62 @@
+﻿@model IEnumerable<PostAsset>
+@{
+    ViewData["Title"] = "Manage All Post Assets";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var base_path = Context.Request.PathBase;
+    var returnUrl = Context.Request.Path;
+    string[] images = new[] { ".png", ".jpg", ".jpeg", ".gif" };
+}
+<div class="container-fluid">
+    <div class="row form-title text-center">
+        <div class="col-12">
+            <h2 class="title-padding">@ViewData["Title"]</h2>
+            <hr style="padding-bottom: 1em;"/>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="padding-bottom: 1em;">
+    <div class="row">
+        <div class="col-12" style="padding-bottom: 1em;">
+            <span class="btn-padding">
+                <a class="btn btn-primary" asp-controller="Panel" asp-action="ManageBlog">Manage Blog</a>
+            </span>
+        </div>
+    </div>
+    @foreach (var postAsset in Model)
+    {
+        var asset_path = $"{base_path}/PostAsset/{postAsset.Asset}";
+        string mime = postAsset.Asset.Substring(postAsset.Asset.LastIndexOf('.'));
+        <div class="row" style="margin-bottom: 5px; padding-top: 0.5em; padding-bottom: 0.5em; padding-left: 1em; padding-right: 1em;">
+            <div class="card h-100 w-100">
+                <div class="row" style="display: flex; justify-content: center;">
+                    <div class="col-xs-12 col-lg-5" style="display: flex; flex-direction: column; justify-content: center;">
+                        @if (images.Contains(mime))
+                        {
+                            <div class="text-center"><img class="card-img" style="padding: 1em" src="@asset_path" alt="" /></div>
+                        }
+                        else
+                        {
+                            <div class="text-center"><a class="btn btn-primary" href="@asset_path">Click to download</a></div>
+                        }
+                        </div>
+                    <div class="col-xs-12 col-lg">
+                        <div class="card-body" style="display: flex; flex-direction: column;">
+                            <h4 class="card-title">For Post <b style="color: #7454D3">@postAsset.Post.Title</b></h4>
+                            <h6>@postAsset.Asset</h6>
+                            <p class="card-text text-justify">@postAsset.Caption</p>
+                            <span>
+                                <a class="btn btn-primary btn-sm" style="margin-right: 0.5em;" asp-controller="Panel" asp-action="EditPost" asp-route-id="@(postAsset.Post.Id)">Edit Post</a>
+                                <a class="btn btn-primary btn-sm" style="margin-right: 0.5em;" asp-controller="Home" asp-action="Post" asp-route-id="@(postAsset.Post.Id)" asp-route-slug="@(postAsset.Post.Slug)">View Post</a>
+                                <a class="btn btn-secondary btn-sm" style="margin-right: 0.5em;" asp-controller="Panel" asp-action="EditPostAsset" asp-route-id="@(postAsset.Id)" asp-route-returnurl="@returnUrl">Edit Asset</a>
+                                <a class="btn btn-secondary btn-sm" style="margin-right: 0.5em;" asp-controller="Panel" asp-action="DeletePostAsset" asp-route-id="@(postAsset.Id)" asp-route-returnurl="@returnUrl">Delete Asset</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+

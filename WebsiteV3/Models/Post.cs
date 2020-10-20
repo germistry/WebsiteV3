@@ -22,6 +22,7 @@ namespace WebsiteV3.Models
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public List<PostMainComment> MainComments { get; set; }
         public bool CommentsAllowed { get; set; } = true;
-        
+        public List<PostAsset> PostAssets { get; set; }
+
     }
 }

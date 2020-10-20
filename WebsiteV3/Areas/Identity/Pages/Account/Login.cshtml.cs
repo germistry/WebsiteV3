@@ -94,8 +94,19 @@ namespace WebsiteV3.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    var user = await _userManager.FindByNameAsync(userName);
+                    if (user.IsBanned == false)
+                    {
+                        _logger.LogInformation("User logged in.");
+                        return LocalRedirect(returnUrl);
+                    }
+                    else
+                    {
+                        await _signInManager.SignOutAsync();
+                        _logger.LogWarning("Banned user tried to login.");
+                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        return Page();
+                    }  
                 }
                 if (result.RequiresTwoFactor)
                 {

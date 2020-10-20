@@ -9,96 +9,96 @@
         <div class="col-12">
             <h2 class="title-padding">@ViewData["Title"]</h2>
             <hr />
+            <span>
+                <a class="btn btn-primary" style="margin-top:1em; margin-bottom:1em; margin-right: 0.5em;" asp-controller="Panel" asp-action="EditPortfolioItem">Create New Portfolio Item</a>
+                <a class="btn btn-primary" style="margin-top: 1em; margin-bottom: 1em;" asp-controller="Panel" asp-action="ManagePortfolioAssets">Manage Portfolio Assets</a>
+            </span>
             <p style="padding-bottom: 1em;">
                 Portfolio items with comments cannot be deleted until these are removed.
             </p>
         </div>
     </div>
 </div>
-<div class="container">
-    <table class="table table-responsive">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Created Date</th>
-                <th>Category</th>
-                <th>Comments Allowed</th>
-                <th>Has Comments</th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-            <tr>
-                <td>@item.Title</td>
-                <td>@item.CreatedDate</td>
-                <td>@item.Category.CategoryName</td>
-                <td>
-                    @if (item.CommentsAllowed == true)
-                    {
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="tableCheck@(item.Id)" checked disabled>
-                            <label class="custom-control-label text-hide" for="tableCheck@(item.Id)">True</label>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="tableCheck@(item.Id)" disabled>
-                            <label class="custom-control-label text-hide" for="tableCheck@(item.Id)">False</label>
-                        </div>
-                    }
-                </td>
-                <td>
-                    @if (item.MainComments.Count >= 1)
-                    {
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="tableCheck@(item.Id)" checked disabled>
-                            <label class="custom-control-label text-hide" for="tableCheck@(item.Id)">True</label>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="tableCheck@(item.Id)" disabled>
-                            <label class="custom-control-label text-hide" for="tableCheck@(item.Id)">False</label>
-                        </div>
-                    }
-                </td>
-                <td>
-                    @if (item.MainComments.Count >= 1)
-                    {
-                        <a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="ManagePortfolioComments" asp-route-id="@item.Id">User Comments</a>
-                    }
-                    else
-                    {
-                        <a class="btn btn-secondary btn-sm disabled" asp-controller="Panel" asp-action="ManagePortfolioComments" asp-route-id="@item.Id">User Comments</a>
-                    }
-                </td>
-                <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="EditPortfolioItem" asp-route-id="@item.Id">Edit</a></td>
-                <td>
-                    @if (item.MainComments.Count >= 1)
-                    {
-                        <a class="btn btn-secondary btn-sm disabled" asp-controller="Panel" asp-action="DeletePortfolioItem" asp-route-id="@item.Id">Delete</a>
-                    }
-                    else
-                    {
-                        <a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="DeletePortfolioItem" asp-route-id="@item.Id">Delete</a>
-                    }
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
-    <div class="row">
-        <div class="col-12" style="padding-bottom: 1em;">
-            <a class="btn btn-primary" asp-controller="Panel" asp-action="EditPortfolioItem">Create New Portfolio Item</a>
-        </div>
-        <div class="col-12">
-            <hr class="border-dark-top" />
-        </div>
+<div class="container-fluid">
+    <div class="table table-responsive">
+        <table class="mx-auto w-auto">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Created Date</th>
+                    <th>Category</th>
+                    <th>Comments Allowed</th>
+                    <th>Has Comments</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.CreatedDate</td>
+                    <td>@item.Category.CategoryName</td>
+                    <td>
+                        @if (item.CommentsAllowed == true)
+                        {
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="tableCheck@(item.Id)" checked disabled>
+                                <label class="custom-control-label text-hide" for="tableCheck@(item.Id)">True</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="tableCheck@(item.Id)" disabled>
+                                <label class="custom-control-label text-hide" for="tableCheck@(item.Id)">False</label>
+                            </div>
+                        }
+                    </td>
+                    <td>
+                        @if (item.MainComments.Count >= 1)
+                        {
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="tableCheck@(item.Id)" checked disabled>
+                                <label class="custom-control-label text-hide" for="tableCheck@(item.Id)">True</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="tableCheck@(item.Id)" disabled>
+                                <label class="custom-control-label text-hide" for="tableCheck@(item.Id)">False</label>
+                            </div>
+                        }
+                    </td>
+                    <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="ManageAssetsForPortfolioItem" asp-route-id="@item.Id">Assets</a></td>
+                    <td>
+                        @if (item.MainComments.Count >= 1)
+                        {
+                            <a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="ManagePortfolioComments" asp-route-id="@item.Id">User Comments</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-secondary btn-sm disabled" asp-controller="Panel" asp-action="ManagePortfolioComments" asp-route-id="@item.Id">User Comments</a>
+                        }
+                    </td>
+                    <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="EditPortfolioItem" asp-route-id="@item.Id">Edit</a></td>
+                    <td>
+                        @if (item.MainComments.Count >= 1)
+                        {
+                            <a class="btn btn-secondary btn-sm disabled" asp-controller="Panel" asp-action="DeletePortfolioItem" asp-route-id="@item.Id">Delete</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="DeletePortfolioItem" asp-route-id="@item.Id">Delete</a>
+                        }
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>

@@ -96,12 +96,19 @@ namespace WebsiteV3.Data.Repository
             return _ctx.Posts
                 .Include(p => p.Category)
                 .AsNoTracking()
+                .Include(p => p.PostAssets).AsNoTracking()
                 .Include(p => p.MainComments)
                     .ThenInclude(mc => mc.User).AsNoTracking()
                 .Include(p => p.MainComments)
                     .ThenInclude(mc => mc.SubComments)
                         .ThenInclude(sc => sc.User).AsNoTracking()
                 .FirstOrDefault(p => p.Id == id);
+        }
+        public Post GetPostForAssets(int id)
+        {
+            return _ctx.Posts
+                       .Include(p => p.PostAssets)
+                       .FirstOrDefault(p => p.Id == id);
         }
         public List<Post> GetAllPosts()
         {
@@ -179,12 +186,19 @@ namespace WebsiteV3.Data.Repository
             return _ctx.PortfolioItems
                 .Include(p => p.Category)
                 .AsNoTracking()
+                .Include(p => p.PortfolioAssets).AsNoTracking()
                 .Include(p => p.MainComments)
                     .ThenInclude(mc => mc.User).AsNoTracking()
                 .Include(p => p.MainComments)
                     .ThenInclude(mc => mc.SubComments)
                         .ThenInclude(sc => sc.User).AsNoTracking()
                 .FirstOrDefault(p => p.Id == id);
+        }
+        public PortfolioItem GetPortfolioItemForAssets(int id)
+        {
+            return _ctx.PortfolioItems
+                       .Include(p => p.PortfolioAssets)
+                       .FirstOrDefault(p => p.Id == id);
         }
         public List<PortfolioItem> GetAllPortfolioItems()
         {
@@ -390,6 +404,66 @@ namespace WebsiteV3.Data.Repository
                                     EF.Functions.Like(x.UserId, $"%{userId}%"));
             }
             return query.ToList();
+        }
+        //Post Asset Methods
+        public PostAsset GetPostAsset(int id)
+        {
+            return _ctx.PostAssets
+                .Include(p => p.Post).AsNoTracking()
+                .FirstOrDefault(p => p.Id == id);
+        }
+
+        public List<PostAsset> GetAllPostAssets()
+        {
+            return _ctx.PostAssets
+                        .Include(p => p.Post).AsNoTracking()
+                        .OrderBy(a => a.Asset)
+                        .ToList();
+        }
+
+        public void AddPostAsset(PostAsset postAsset)
+        {
+            _ctx.PostAssets.Add(postAsset);
+        }
+
+        public void UpdatePostAsset(PostAsset postAsset)
+        {
+            _ctx.PostAssets.Update(postAsset);
+        }
+
+        public void DeletePostAsset(int id)
+        {
+            _ctx.PostAssets.Remove(GetPostAsset(id));
+        }
+        //Portfolio Asset Methods
+        public PortfolioAsset GetPortfolioAsset(int id)
+        {
+            return _ctx.PortfolioAssets
+                .Include(p => p.PortfolioItem).AsNoTracking()
+                .FirstOrDefault(p => p.Id == id);
+        }
+
+        public List<PortfolioAsset> GetAllPortfolioAssets()
+        {
+            return _ctx.PortfolioAssets
+                        .Include(p => p.PortfolioItem).AsNoTracking()
+                        .OrderBy(a => a.Asset)
+                        .ToList();
+        }
+
+        public void AddPortfolioAsset(PortfolioAsset portfolioAsset)
+        {
+            _ctx.PortfolioAssets.Add(portfolioAsset);
+        }
+
+        public void UpdatePortfolioAsset(PortfolioAsset portfolioAsset)
+        {
+            _ctx.PortfolioAssets.Update(portfolioAsset);
+        }
+
+        public void DeletePortfolioAsset(int id)
+        {
+            _ctx.PortfolioAssets.Remove(GetPortfolioAsset(id));
         }
     }
 }

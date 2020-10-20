@@ -13,10 +13,13 @@ namespace WebsiteV3.Models
     {
         public int UsernameChangeLimit { get; set; } = 10;
         
-        public byte[] ProfileImage { get; set; }
+        public byte[] ProfileImage { get; set; } 
+
         [PersonalData]
         public DateTime SignUpDate { get; set; } = DateTime.Now;
-        
+
+        public bool IsBanned { get; set; } = false;
+
         public List<PostMainComment> UserPostMainComments { get; set; }
         
         public List<PostSubComment> UserPostSubComments { get; set; }

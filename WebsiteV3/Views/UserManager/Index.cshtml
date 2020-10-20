@@ -58,8 +58,14 @@
                         }
                     </td>
                     <td>
-                        <a class="btn btn-secondary btn-sm" asp-action="BanUser"
-                            asp-route-roleName="@user.Email">Ban User</a>
+                        @if (user.IsBanned == true)
+                        {
+                        <a class="btn btn-secondary btn-sm" asp-action="BanUser" asp-route-userId="@user.UserId">Restore</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-secondary btn-sm" asp-action="BanUser" asp-route-userId="@user.UserId">Ban</a>
+                        }
                     </td>
                 </tr>
             }

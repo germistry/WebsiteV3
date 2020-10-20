@@ -26,7 +26,9 @@ namespace WebsiteV3.Controllers
         private readonly IFileManager _fileManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
-
+        //For designating image types
+        private readonly string[] ImageTypes = new[] { ".png", ".jpg", ".jpeg", ".gif" };
+        
         public HomeController(ILogger<HomeController> logger, 
             IRepository repo, 
             IFileManager fileManager, 
@@ -105,6 +107,24 @@ namespace WebsiteV3.Controllers
            new FileStreamResult(_fileManager.PostImageStream(postImage),
                $"postImage/{postImage.Substring(postImage.LastIndexOf('.') + 1)}");
 
+        //HttpGet to return the post asset through filestream.
+        [HttpGet("/PostAsset/{postAsset}")]
+        [ResponseCache(CacheProfileName = "Monthly")]
+        public IActionResult PostAsset(string postAsset)
+        {
+            var mime = postAsset.Substring(postAsset.LastIndexOf('.'));
+
+            if (ImageTypes.Contains(mime))
+            {
+                return new FileStreamResult(_fileManager.PostAssetImageStream(postAsset),
+                            $"postAsset/{postAsset.Substring(postAsset.LastIndexOf('.') + 1)}");
+            }
+            else 
+            {
+                return new FileStreamResult(_fileManager.PostAssetFileStream(postAsset),
+                            $"postAsset/{postAsset.Substring(postAsset.LastIndexOf('.') + 1)}");
+            }
+        }
         //Http method Get - Returns a page with a list of portfolio items, or supply category to have 
         //filtered by category. 
         public IActionResult Portfolio(int pageNumber, int category, string searchItems)
@@ -129,6 +149,26 @@ namespace WebsiteV3.Controllers
         public IActionResult PortfolioItemImage(string portfolioItemImage) =>
             new FileStreamResult(_fileManager.PortfolioItemImageStream(portfolioItemImage),
             $"portfolioItemImage/{portfolioItemImage.Substring(portfolioItemImage.LastIndexOf('.') + 1)}");
+
+        //HttpGet to return the portfolio asset image through filestream.
+        [HttpGet("/PortfolioAsset/{portfolioAsset}")]
+        [ResponseCache(CacheProfileName = "Monthly")]
+        public IActionResult PortfolioAsset(string portfolioAsset)
+        {
+            var mime = portfolioAsset.Substring(portfolioAsset.LastIndexOf('.'));
+
+            if (ImageTypes.Contains(mime))
+            {
+                return new FileStreamResult(_fileManager.PortfolioAssetStream(portfolioAsset),
+                $"portfolioAsset/{portfolioAsset.Substring(portfolioAsset.LastIndexOf('.') + 1)}");
+            }
+            else
+            {
+                return new FileStreamResult(_fileManager.PortfolioAssetFileStream(portfolioAsset),
+                            $"portfolioAsset/{portfolioAsset.Substring(portfolioAsset.LastIndexOf('.') + 1)}");
+            }
+        }
+
         //HttpPost to add the new main or subcomment and return the post page.
         [HttpPost]
         public async Task<IActionResult> PostComment(PostCommentViewModel vm)

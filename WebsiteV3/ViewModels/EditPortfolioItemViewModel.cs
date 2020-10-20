@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebsiteV3.Models;
 
 namespace WebsiteV3.ViewModels
 {
@@ -35,5 +36,6 @@ namespace WebsiteV3.ViewModels
         public string SourceCodeLink { get; set; }
         public bool CommentsAllowed { get; set; } = true;
         public DateTime CreatedDate { get; set; }
+       
     }
 }

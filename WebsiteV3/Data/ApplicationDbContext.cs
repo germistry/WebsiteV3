@@ -34,6 +34,10 @@ namespace WebsiteV3.Data
         public DbSet<PortfolioItemSubComment> PortfolioItemSubComments { get; set; }
         //Table of Categories
         public DbSet<Category> Categories { get; set; }
+        //Table for Post Assets, images or other assets used in post content
+        public DbSet<PostAsset> PostAssets { get; set; }
+        //Table for Portfolio  Assets, images or other assets used in portfolio item content
+        public DbSet<PortfolioAsset> PortfolioAssets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

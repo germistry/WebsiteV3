@@ -45,7 +45,7 @@
     <div class="row" style="margin-bottom: 5px; padding-left: 1em; padding-right: 1em;">
         @foreach (var portfolioItem in Model.PortfolioItems)
         {
-            var image_path = $"/PortfolioItemImage/{portfolioItem.Image}";
+            var image_path = $"{base_path}/PortfolioItemImage/{portfolioItem.Image}";
             <div class="col-lg-4" style="padding-bottom: 1.5em;">
                 <div class="card h-100">
                     <img class="card-img-top" src="@image_path" />
@@ -91,7 +91,7 @@
                     {
                         int postCount = category.Posts.Count();
                         int portfolioItemCount = category.PortfolioItems.Count();
-                        var image_path = $"/CategoryImage/{category.Image}";
+                        var image_path = $"{base_path}/CategoryImage/{category.Image}";
                         if (postCount > 0 | portfolioItemCount > 0)
                         {
                             <div class="col-xs-12 col-sm-6 col-md-3 text-center" style="padding-bottom: 1em;">
@@ -134,7 +134,7 @@
     <div class="row" style="margin-bottom: 5px; padding-left: 1em; padding-right: 1em;">
         @foreach (var post in Model.Posts)
         {
-            var image_path = $"/PostImage/{post.Image}";
+            var image_path = $"{base_path}/PostImage/{post.Image}";
             <div class="col-lg-4" style="padding-bottom: 1.5em;">
                 <div class="card h-100">
                     <img class="card-img-top" src="@image_path" />

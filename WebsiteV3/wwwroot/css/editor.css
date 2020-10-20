@@ -1,12 +1,17 @@
 ﻿/*------For Text Editor on Admin Post & Portfolio Item Pages------*/
 .trumbowyg-box {
     border: 1px solid #3600D8;
+    min-height: 500px;
 }
 .trumbowyg-editor {
     border-top: 1px solid #3600D8;
+    min-height: 500px;
 }
     .trumbowyg-box, .trumbowyg-editor {
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.trumbowyg-textarea {
+    min-height: 500px;
 }
 .trumbowyg-box.trumbowyg-fullscreen {
     background: #0A0A0A;

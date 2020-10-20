@@ -137,7 +137,8 @@
                                                         await Html.RenderPartialAsync("_PortfolioItemComment", new PortfolioItemCommentViewModel { PortfolioItemId = Model.Id, PortfolioItemSlug = Model.Slug, MainCommentId = c.Id });
                                                     }
                                                     else
-                                                    {<p style="padding-top: 1em">
+                                                    {
+                                                        <p style="padding-top: 1em">
                                                             <a class="btn btn-outline-secondary btn-sm text-center" asp-route-returnurl="@returnUrl" asp-area="Identity" asp-page="/Account/Login">Log In</a>
                                                             &emsp; You must be signed in to leave a comment.
                                                         </p>

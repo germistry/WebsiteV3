@@ -15,7 +15,7 @@ namespace WebsiteV3.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.8")
+                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -243,6 +243,29 @@ namespace WebsiteV3.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("WebsiteV3.Models.PortfolioAsset", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Asset")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Caption")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PortfolioItemId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PortfolioItemId");
+
+                    b.ToTable("PortfolioAssets");
+                });
+
             modelBuilder.Entity("WebsiteV3.Models.PortfolioItem", b =>
                 {
                     b.Property<int>("Id")
@@ -396,6 +419,29 @@ namespace WebsiteV3.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("WebsiteV3.Models.PostAsset", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Asset")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Caption")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("PostAssets");
+                });
+
             modelBuilder.Entity("WebsiteV3.Models.PostComments.PostMainComment", b =>
                 {
                     b.Property<int>("Id")
@@ -458,6 +504,9 @@ namespace WebsiteV3.Migrations
             modelBuilder.Entity("WebsiteV3.Models.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<bool>("IsBanned")
+                        .HasColumnType("bit");
 
                     b.Property<byte[]>("ProfileImage")
                         .HasColumnType("varbinary(max)");
@@ -522,6 +571,13 @@ namespace WebsiteV3.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebsiteV3.Models.PortfolioAsset", b =>
+                {
+                    b.HasOne("WebsiteV3.Models.PortfolioItem", "PortfolioItem")
+                        .WithMany("PortfolioAssets")
+                        .HasForeignKey("PortfolioItemId");
+                });
+
             modelBuilder.Entity("WebsiteV3.Models.PortfolioItem", b =>
                 {
                     b.HasOne("WebsiteV3.Models.Category", "Category")
@@ -560,6 +616,13 @@ namespace WebsiteV3.Migrations
                     b.HasOne("WebsiteV3.Models.Category", "Category")
                         .WithMany("Posts")
                         .HasForeignKey("CategoryId");
+                });
+
+            modelBuilder.Entity("WebsiteV3.Models.PostAsset", b =>
+                {
+                    b.HasOne("WebsiteV3.Models.Post", "Post")
+                        .WithMany("PostAssets")
+                        .HasForeignKey("PostId");
                 });
 
             modelBuilder.Entity("WebsiteV3.Models.PostComments.PostMainComment", b =>

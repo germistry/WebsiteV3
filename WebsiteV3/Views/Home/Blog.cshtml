@@ -4,6 +4,7 @@
     ViewData["Title"] = "The Blog";
     ViewBag.Description = "This is the blog of Krystal Ruwoldt, a full stack developer from the Midwest of Western Australia.";
     ViewBag.Keywords = "web software development blog database middleware ui modding tutorial programming coding sql c# java python html css nerd cats";
+    var base_path = Context.Request.PathBase;
 }
 <div class="container-fluid">
     <div class="row form-title text-center">
@@ -45,7 +46,7 @@
 
                 @foreach (var post in Model.Posts)
                 {
-                    var image_path = $"/PostImage/{post.Image}";
+                    var image_path = $"{base_path}/PostImage/{post.Image}";
                     <div class="row" style="margin-bottom: 5px; padding-top: 0.5em; padding-bottom: 0.5em; padding-left: 1em; padding-right: 1em;">
                         <div class="card h-100 w-100">
                             <div class="row" style="display: flex; justify-content: center;">

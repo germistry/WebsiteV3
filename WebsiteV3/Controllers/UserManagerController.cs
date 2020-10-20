@@ -22,11 +22,18 @@ namespace WebsiteV3.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IRepository _repo;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public UserManagerController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IRepository repo)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        
+        public UserManagerController(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager, 
+            IRepository repo)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _repo = repo;
+            _signInManager = signInManager;
         }
         public async Task<IActionResult> Index()
         {
@@ -42,6 +49,8 @@ namespace WebsiteV3.Controllers
                 thisvm.UserId = user.Id;
                 thisvm.UserName = user.UserName;
                 thisvm.Email = user.Email;
+                thisvm.IsBanned = user.IsBanned;
+                thisvm.SignUpDate = user.SignUpDate;
                 thisvm.UserPortfolioItemMainComments = _repo.GetAllPortfolioItemMainComments(userId);
                 thisvm.UserPortfolioItemSubComments = _repo.GetAllPortfolioItemSubComments(userId);
                 thisvm.UserPostMainComments = _repo.GetAllPostMainComments(userId);
@@ -139,8 +148,32 @@ namespace WebsiteV3.Controllers
             await _repo.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+        //PRODUCTION - Test that a signed Externally logged in user gets signed off or cookie deleted if banned.
+        public async Task<IActionResult> BanUser(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
 
-        //Todo - Need some kind of "BanUser" action for naughty users, using the email address. 
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id = {userId} cannot be found";
+                return View("NotFound");
+            }
+            //To ban a user & lockout.  
+            if (user.IsBanned == false)
+            {
+                user.IsBanned = true;
+                user.LockoutEnd = new DateTime(2100, 12, 12, 0, 0, 0);
+                await _userManager.UpdateAsync(user);
+            }
+            //To unban a user
+            else
+            {
+                user.IsBanned = false;
+                user.LockoutEnd = null;
+                await _userManager.UpdateAsync(user);
+            }
+            return RedirectToAction("Index");
+        }
         //Todo - search fields for finding users
     }
 }

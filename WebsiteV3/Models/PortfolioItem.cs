@@ -22,5 +22,6 @@ namespace WebsiteV3.Models
         public List<PortfolioItemMainComment> MainComments { get; set; }
         public string SourceCodeLink { get; set; }
         public bool CommentsAllowed { get; set; } = true;
+        public List<PortfolioAsset> PortfolioAssets { get; set; }
     }
 }
