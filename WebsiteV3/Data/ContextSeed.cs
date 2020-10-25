@@ -32,7 +32,7 @@ namespace WebsiteV3.Data
                 var user = await userManager.FindByEmailAsync(defaultUser.Email);
                 if (user == null)
                 {
-                    await userManager.CreateAsync(defaultUser, "password");
+                    await userManager.CreateAsync(defaultUser, "Password12!@");
                     await userManager.AddToRoleAsync(defaultUser, Enums.Roles.Moderator.ToString());
                     await userManager.AddToRoleAsync(defaultUser, Enums.Roles.SuperAdmin.ToString());
                 }

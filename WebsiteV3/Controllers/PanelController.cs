@@ -553,5 +553,151 @@ namespace WebsiteV3.Controllers
             await _repo.SaveChangesAsync();
             return LocalRedirect(returnurl);
         }
+        //HttpGet for admin panel about page, shows all sections. 
+        public IActionResult ManageAbout()
+        {
+            var vm = _repo.GetAllAbout();
+            return View(vm);
+        }
+        //HttpGet for about edit page for the selected section. If/else statement just in case the id is null - 
+        //prevents an error being thrown, instead redirects to a create a section.
+        [HttpGet]
+        public IActionResult EditAbout(int? id)
+        {
+            if (id == null)
+                return View(new EditAboutViewModel());
+            
+            else
+            {
+                var about = _repo.GetAbout((int)id);
+                return View(new EditAboutViewModel
+                {
+                    Id = about.Id,
+                    Heading = about.Heading,
+                    PageOrder = about.PageOrder,
+                    Body = about.Body
+                }); 
+            }
+        }
+        //HttpPost task that actually does the updating and saving of about sections, and redirects the page
+        //back to index even if it's taking some time for the changes to be saved to the database.
+        [HttpPost]
+        public async Task<IActionResult> EditAbout(EditAboutViewModel vm)
+        {
+            var about = new About
+            {
+                Id = vm.Id,
+                Heading = vm.Heading,
+                PageOrder = vm.PageOrder,
+                Body = vm.Body
+            };
+            
+            if (about.Id > 0)
+            {
+                _repo.UpdateAbout(about);
+            }
+            else
+            {
+                _repo.AddAbout(about);
+            }
+            if (await _repo.SaveChangesAsync())
+            {
+                return RedirectToAction("ManageAbout");
+            }
+            else
+                return View(about);
+        }
+        //Http get to delete a particular about section using its id. 
+        [HttpGet]
+        public async Task<IActionResult> DeleteAbout(int id)
+        {
+            _repo.DeleteAbout(id);
+            await _repo.SaveChangesAsync();
+            return RedirectToAction("ManageAbout");
+        }
+        //HttpGet for admin panel about assets page, shows all about assets.
+        public IActionResult ManageAboutAssets()
+        {
+            var aboutAssets = _repo.GetAllAboutAssets();
+            return View(aboutAssets);
+        }
+        //Http Get for Managing About Assets.
+        [HttpGet]
+        public IActionResult ManageAssetsForAbout(int id)
+        {
+            return View(_repo.GetAbout(id));
+        }
+        //HttpGet for about asset edit page for the selected about section. If/else statement just in case the id is null - 
+        //prevents an error being thrown, instead redirects to a create a new asset.
+        [HttpGet]
+        public IActionResult EditAboutAsset(int? id, int aboutid, string returnurl)
+        {
+            if (id == null)
+            {
+                var vm = new AboutAssetViewModel()
+                {
+                    AboutId = aboutid,
+                    ReturnUrl = returnurl
+
+                };
+                return View(vm);
+            }
+            else
+            {
+                var aboutAsset = _repo.GetAboutAsset((int)id);
+                return View(new AboutAssetViewModel
+                {
+                    Id = aboutAsset.Id,
+                    AboutId = aboutid,
+                    CurrentAsset = aboutAsset.Asset,
+                    Caption = aboutAsset.Caption,
+                    ReturnUrl = returnurl
+                });
+            }
+        }
+        //HttpPost task that actually does the updating and saving of new about assets, and redirects the page
+        //back to index even if it's taking some time for the changes to be saved to the database.
+        [HttpPost]
+        public async Task<IActionResult> EditAboutAsset(AboutAssetViewModel assetvm)
+        {
+            string returnurl = assetvm.ReturnUrl;
+            var aboutAsset = new AboutAsset
+            {
+                Id = assetvm.Id,
+                Caption = assetvm.Caption,
+            };
+            if (assetvm.Asset == null)
+                aboutAsset.Asset = assetvm.CurrentAsset;
+            else
+            {
+                if (!string.IsNullOrEmpty(assetvm.CurrentAsset))
+                    _fileManager.RemoveAboutAsset(assetvm.CurrentAsset);
+                aboutAsset.Asset = _fileManager.SaveAboutAsset(assetvm.Asset);
+            }
+            if (aboutAsset.Id > 0)
+            {
+                _repo.UpdateAboutAsset(aboutAsset);
+            }
+            else
+            {
+                var about = _repo.GetAboutForAssets(assetvm.AboutId);
+                aboutAsset.About = about;
+                _repo.AddAboutAsset(aboutAsset);
+            }
+            if (await _repo.SaveChangesAsync())
+            {
+                return LocalRedirect(returnurl);
+            }
+            else
+                return View(aboutAsset);
+        }
+        //Http get to delete a particular about asset using its id.
+        [HttpGet]
+        public async Task<IActionResult> DeleteAboutAsset(int id, string returnurl)
+        {
+            _repo.DeleteAboutAsset(id);
+            await _repo.SaveChangesAsync();
+            return LocalRedirect(returnurl);
+        }
     }
 }

@@ -1,0 +1,29 @@
+﻿@model IList<AboutAsset>
+@{
+    var base_path = Context.Request.PathBase;
+    var returnUrl = Context.Request.Path;
+    string[] images = new[] { ".png", ".jpg", ".jpeg", ".gif" };
+}
+<div>
+    @foreach (var asset in Model)
+    {
+        var asset_path = $"{base_path}/AboutAsset/{asset.Asset}";
+        string mime = asset.Asset.Substring(asset.Asset.LastIndexOf('.'));
+        if (images.Contains(mime))
+        {
+            <img class="card-img-top" src="@asset_path" alt="" />
+        }
+        else
+        {
+            <img class="card-img-top" src="~/content/static/FilePic.jpg" alt="" />
+            <div class="text-center" style="margin-top: 1em;"><a class="btn btn-primary" href="@asset_path">Click to download</a></div>
+        }
+        <div class="card-body">
+            <h5 class="card-title">@asset.Asset</h5>
+            <h6>@asset.About.Heading</h6>
+            <p class="card-text text-justify">@asset.Caption</p>
+            <a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="EditAboutAsset" asp-route-id="@(asset.Id)" asp-route-aboutid="@(asset.About.Id)" asp-route-returnurl="@returnUrl">Edit</a>
+            <a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="DeleteAboutAsset" asp-route-id="@(asset.Id)" asp-route-returnurl="@returnUrl">Delete</a>
+        </div>
+    }
+</div>

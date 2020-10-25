@@ -1,5 +1,60 @@
-﻿@{
-
-
+﻿@model IEnumerable<About>
+@{
+    ViewData["Title"] = "About";
+    ViewBag.Description = "This is the about page of the website germistry aka Krystal Ruwoldt.";
+    ViewBag.Keywords = "portfolio blog web software app development design database middleware ui program code sql c# java python html css bootstrap django asp dotnet opengl";
+    var base_path = Context.Request.PathBase;
 }
+<div class="container">
+
+    <div class="row" style="padding-top: 0.8em">
+        <div class="col-12">
+            <nav class="breadcrumb-about" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="padding-top: 1em; padding-bottom: 1em;">
+    <div class="row">
+        <div class="col-12">
+            <h5 class="text-justify" style="padding-bottom: 0.5em; padding-left: 1em; padding-right: 1em; color: #7454D3;">If you are new to this site, this is a good place to start to learn about me and the purpose of this website.</h5>
+            <p class="text-justify" style="padding-bottom: 1em; padding-left: 1.3em; padding-right: 1.3em;">I update this about page regularly, so if you have been here before, you may find something new!</p>
+            <ul class="about-list">
+                @foreach (var about in Model)
+                {
+                    <li>
+                        <a href="#aboutsect@(about.Id)">@about.Heading</a>
+                    </li>
+                }
+            </ul>
+
+        </div>
+        @foreach (var about in Model)
+        {
+            <div id="aboutsect@(about.Id)"></div>          
+            <div class="card h-100 w-100" style="margin-left: 1em; margin-right: 1em; margin-bottom: 1em;">
+        
+                <div class="card-body">
+                    <h3 class="card-title" id="aboutsection@(about.Id)" style="color: #7454D3;">@about.Heading</h3>
+                    <hr style="border-top: 1px solid #3600d8;" />
+                    <div class="card-text" style="font-size: 16px;">
+                        <p>@Html.Raw(about.Body)</p>
+                    </div>
+                    <hr style="border-top: 1px solid #3600d8;" />
+                    <h6><a href="#topofpage">Click to Return to Top</a></h6>
+                </div>
+
+            </div>
+            
+        }
+    </div>
+</div>
+
+
+
 

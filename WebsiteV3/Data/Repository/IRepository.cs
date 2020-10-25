@@ -15,6 +15,20 @@ namespace WebsiteV3.Data.Repository
     {
         //Home Index View Model - getting featured stuff
         HomeIndexViewModel GetFeatures();
+        //Methods for About Page
+        About GetAbout(int id);
+        About GetAboutForAssets(int id); //Get about for updating about assets with tracking on.
+        List<About> GetAllAbout();
+        void AddAbout(About about);
+        void UpdateAbout(About about);
+        void DeleteAbout(int id);
+
+        //Methods for About Assets
+        AboutAsset GetAboutAsset(int id);
+        List<AboutAsset> GetAllAboutAssets();
+        void AddAboutAsset(AboutAsset aboutAsset);
+        void UpdateAboutAsset(AboutAsset aboutAsset);
+        void DeleteAboutAsset(int id);
 
         //Methods for Category
         Category GetCategory(int id);
@@ -27,7 +41,7 @@ namespace WebsiteV3.Data.Repository
         
         //Methods for Posts
         Post GetPost(int id);
-        Post GetPostForAssets(int id); //Get post for updating post assets without other tables included.
+        Post GetPostForAssets(int id); //Get post for updating post assets without other tables included and tracking on
         List<Post> GetAllPosts();
         List<Post> GetPostLinks();
         BlogViewModel GetAllPosts(int pageNumber, int category, string searchPosts);
@@ -44,7 +58,7 @@ namespace WebsiteV3.Data.Repository
 
         //Methods for Portfolio Items
         PortfolioItem GetPortfolioItem(int id);
-        PortfolioItem GetPortfolioItemForAssets(int id); //Get portfolio item for updating portfolio assets without other tables included.
+        PortfolioItem GetPortfolioItemForAssets(int id); //Get portfolio item for updating portfolio assets without other tables included and tracking on
         List<PortfolioItem> GetAllPortfolioItems();
         List<PortfolioItem> GetPortfolioItemLinks();
         PortfolioViewModel GetAllPortfolioItems(int pageNumber, int category, string searchItems);

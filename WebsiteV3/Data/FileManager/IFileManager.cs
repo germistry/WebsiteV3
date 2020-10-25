@@ -37,7 +37,10 @@ namespace WebsiteV3.Data.FileManager
         string SaveCategoryImage(IFormFile categoryImage);
         FileStream CategoryImageStream(string categoryImage);
         void RemoveCategoryImage(string categoryImage);
-
+        //Methods for about assets 
+        string SaveAboutAsset(IFormFile aboutAsset);
+        FileStream AboutAssetStream(string aboutAsset);
+        void RemoveAboutAsset(string aboutAsset);
 
     }
 }

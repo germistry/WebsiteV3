@@ -12,16 +12,19 @@ using WebsiteV3.Models;
 using WebsiteV3.Models.PostComments;
 using WebsiteV3.Models.PortfolioItemComments;
 using WebsiteV3.ViewModels;
+using WebsiteV3.Data.FileManager;
 
 namespace WebsiteV3.Data.Repository
 {
     public class Repository : IRepository
     {
         private ApplicationDbContext _ctx;
+        private IFileManager _fileManager;
 
-        public Repository(ApplicationDbContext ctx)
+        public Repository(ApplicationDbContext ctx, IFileManager fileManager)
         {
-            _ctx = ctx;        
+            _ctx = ctx;
+            _fileManager = fileManager;
         }
         //Home index view model getting all featured stuff
         public HomeIndexViewModel GetFeatures()
@@ -88,7 +91,20 @@ namespace WebsiteV3.Data.Repository
         }
         public void DeleteCategory(int id)
         {
-            _ctx.Categories.Remove(GetCategory(id));
+            var query = GetCategory(id);
+            string imageFileName = query.Image;
+            if (!String.IsNullOrEmpty(imageFileName))
+            {
+                try
+                {
+                    _fileManager.RemoveCategoryImage(imageFileName);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            _ctx.Categories.Remove(query);
         }
         //Post methods
         public Post GetPost(int id)
@@ -178,8 +194,39 @@ namespace WebsiteV3.Data.Repository
         }
         public void DeletePost(int id)
         {
-            _ctx.Posts.Remove(GetPost(id));
+            var queryPost = GetPost(id);
+            string imageFileName = queryPost.Image;
+            if (!String.IsNullOrEmpty(imageFileName))
+            {
+                try
+                {
+                    _fileManager.RemovePostImage(imageFileName);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            var queryAssets = queryPost.PostAssets;
+            foreach (var asset in queryAssets)
+            {
+                string assetFileName = asset.Asset;
+                if (!String.IsNullOrEmpty(assetFileName))
+                {
+                    try
+                    {
+                        _fileManager.RemovePostAsset(assetFileName);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+                _ctx.PostAssets.Remove(asset);
+            }
+            _ctx.Posts.Remove(queryPost);
         }
+
         //Portfolio methods
         public PortfolioItem GetPortfolioItem(int id)
         {
@@ -269,8 +316,39 @@ namespace WebsiteV3.Data.Repository
         }
         public void DeletePortfolioItem(int id)
         {
-            _ctx.PortfolioItems.Remove(GetPortfolioItem(id));
+            var queryItem = GetPortfolioItem(id);
+            string imageFileName = queryItem.Image;
+            if (!String.IsNullOrEmpty(imageFileName))
+            {
+                try
+                {
+                    _fileManager.RemovePortfolioImage(imageFileName);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            var queryAssets = queryItem.PortfolioAssets;
+            foreach (var asset in queryAssets)
+            {
+                string assetFileName = asset.Asset;
+                if (!String.IsNullOrEmpty(assetFileName))
+                {
+                    try
+                    {
+                        _fileManager.RemovePortfolioAsset(assetFileName);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+                _ctx.PortfolioAssets.Remove(asset);
+            }
+            _ctx.PortfolioItems.Remove(queryItem);
         }
+
         //Save Changes Async
         public async Task<bool> SaveChangesAsync()
         {
@@ -433,7 +511,20 @@ namespace WebsiteV3.Data.Repository
 
         public void DeletePostAsset(int id)
         {
-            _ctx.PostAssets.Remove(GetPostAsset(id));
+            var query = GetPostAsset(id);
+            string assetFileName = query.Asset;
+            if (!String.IsNullOrEmpty(assetFileName))
+            {
+                try
+                {
+                    _fileManager.RemovePostAsset(assetFileName);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            _ctx.PostAssets.Remove(query);
         }
         //Portfolio Asset Methods
         public PortfolioAsset GetPortfolioAsset(int id)
@@ -463,7 +554,116 @@ namespace WebsiteV3.Data.Repository
 
         public void DeletePortfolioAsset(int id)
         {
-            _ctx.PortfolioAssets.Remove(GetPortfolioAsset(id));
+            var query = GetPortfolioAsset(id);
+            string assetFileName = query.Asset;
+            if (!String.IsNullOrEmpty(assetFileName))
+            {
+                try
+                {
+                    _fileManager.RemovePortfolioAsset(assetFileName);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            _ctx.PortfolioAssets.Remove(query);
+        }
+        //About methods
+        public About GetAbout(int id)
+        {
+            return _ctx.About
+                .Include(p => p.AboutAssets).AsNoTracking()
+                .FirstOrDefault(p => p.Id == id);
+        }
+
+        public List<About> GetAllAbout()
+        {
+            return _ctx.About
+                        .OrderBy(a => a.PageOrder)
+                        .ToList();
+        }
+        public About GetAboutForAssets(int id)
+        {
+           return _ctx.About
+                       .Include(p => p.AboutAssets)
+                       .FirstOrDefault(p => p.Id == id);
+        }
+        public void AddAbout(About about)
+        {
+            _ctx.About.Add(about);
+        }
+
+        public void UpdateAbout(About about)
+        {
+            _ctx.About.Update(about);
+        }
+
+        public void DeleteAbout(int id)
+        {
+            var queryAbout = GetAbout(id);
+            var queryAssets = queryAbout.AboutAssets;
+           
+            foreach (var asset in queryAssets)
+            {
+                string assetFileName = asset.Asset;
+                if (!String.IsNullOrEmpty(assetFileName))
+                {
+                    try
+                    {
+                        _fileManager.RemoveAboutAsset(assetFileName);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+                _ctx.AboutAssets.Remove(asset);
+            }; 
+            _ctx.About.Remove(queryAbout);
+        }
+        //Methods for about assets
+        public AboutAsset GetAboutAsset(int id)
+        {
+            return _ctx.AboutAssets
+                .Include(p => p.About).AsNoTracking()
+                .FirstOrDefault(p => p.Id == id);
+        }
+
+        public List<AboutAsset> GetAllAboutAssets()
+        {
+            return _ctx.AboutAssets
+                        .Include(p => p.About).AsNoTracking()
+                        .OrderBy(a => a.Asset)
+                        .ToList();
+        }
+
+        public void AddAboutAsset(AboutAsset aboutAsset)
+        {
+            _ctx.AboutAssets.Add(aboutAsset);
+        }
+
+        public void UpdateAboutAsset(AboutAsset aboutAsset)
+        {
+            _ctx.AboutAssets.Update(aboutAsset);
+        }
+
+        public void DeleteAboutAsset(int id)
+        {
+            var query = GetAboutAsset(id);
+            string assetFileName = query.Asset;
+            if (!String.IsNullOrEmpty(assetFileName))
+            {
+                try
+                {
+                    _fileManager.RemoveAboutAsset(assetFileName);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            _ctx.AboutAssets.Remove(query);
         }
     }
 }

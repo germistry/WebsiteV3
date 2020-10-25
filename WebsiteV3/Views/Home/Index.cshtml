@@ -8,18 +8,26 @@
 }
 
 <div class="jumbotron">
-    <div class="container-fluid">
+    <div class="container-fluid" style="padding-bottom: 80px">
         <div class="row">
             <div class="col-lg-6">
-                <img src="~/content/static/NameLogov2.png" class="img-fluid" />
-                <h5>Hey! Welcome to my website!</h5>
-                <p>I'm a full stack software and web developer, with a keen interest in hardware too.</p>
+                <img src="~/content/static/NameLogov2.png" alt="germistry aka Krystal Ruwoldt" class="img-fluid" />
+                <h2 style="font-size: 24px; padding-top: 1em;">Hey! Welcome to my website!</h2>
+                <h3 style="font-size: 18px; color: #C195F4; padding-bottom: 1em;">I'm a full stack software and web developer, with a keen interest in hardware too.</h3>
                 <a asp-controller="Home" asp-action="Portfolio" class="btn btn-primary btn-lg">View My Portfolio</a>
             </div>
             <div class="d-none d-lg-block col-lg-6">
-                <p class="text-right"><img src="~/content/static/Avatar2Default.png" class="img-fluid" /></p>
-                <h6 class="text-right">germistry &harr; Krystal Ruwoldt</h6>
-                <p class="text-right">Interested to know more about me or what I'm currently working on?</p>
+                <div class="row">
+                    <div class="offset-8 col-4">
+                        <div id="cf">
+                            <img class="img-fluid bottom" src="~/content/static/Avatar2Default.png" />
+                            <img class="img-fluid top" src="~/content/static/20200603_152616.jpg" />
+                        </div>
+                        <img class="img-fluid" src="~/content/static/blankImgPlaceholder.png" />
+                        <h6 class="text-center">germistry &harr; Krystal Ruwoldt</h6>
+                    </div>
+                </div>
+                <p class="text-right" style="margin-top: 0.5em; font-size: 18px;">Interested to know more about me or what I'm currently working on?</p>
                 <p class="text-right">
                     <a asp-controller="Home" asp-action="Blog" class="btn btn-outline-primary btn-lg">View My Blog</a>&emsp;
                     <a asp-controller="Home" asp-action="About" class="btn btn-outline-primary btn-lg">View More About Me</a>

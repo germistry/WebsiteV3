@@ -42,8 +42,9 @@ namespace WebsiteV3.Controllers
             _emailSender = emailSender;
         }
 
+        //todo - FUTURE link for uncle les's help page.
+        
         //Http method Get - Returns the home page. 
-        //todo - link for uncle les's help page.
         public IActionResult Index()
         {    
             return View(_repo.GetFeatures());
@@ -56,12 +57,17 @@ namespace WebsiteV3.Controllers
                $"categoryImage/{categoryImage.Substring(categoryImage.LastIndexOf('.') + 1)}");
 
         //Http method Get - Returns about me page. 
-        //Todo - Make this about page editable by the admin.
         public IActionResult About()
         {
-            return View();
+            return View(_repo.GetAllAbout());
         }
-                
+        //HttpGet to return the about asset through filestream.
+        [HttpGet("/AboutAsset/{aboutAsset}")]
+        [ResponseCache(CacheProfileName = "Monthly")]
+        public IActionResult AboutAsset(string aboutAsset) =>
+            new FileStreamResult(_fileManager.AboutAssetStream(aboutAsset),
+                $"aboutAsset/{aboutAsset.Substring(aboutAsset.LastIndexOf('.') + 1)}");
+
         //Http method Get - Returns privacy page. 
         public IActionResult Privacy()
         {

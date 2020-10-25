@@ -38,6 +38,10 @@ namespace WebsiteV3.Data
         public DbSet<PostAsset> PostAssets { get; set; }
         //Table for Portfolio  Assets, images or other assets used in portfolio item content
         public DbSet<PortfolioAsset> PortfolioAssets { get; set; }
+        //Table for about sections 
+        public DbSet<About> About { get; set; }
+        //Table for About Assets, images or other assets used in about page content
+        public DbSet<AboutAsset> AboutAssets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

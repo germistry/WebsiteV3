@@ -225,6 +225,50 @@ namespace WebsiteV3.Migrations
                     b.ToTable("UserTokens");
                 });
 
+            modelBuilder.Entity("WebsiteV3.Models.About", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Heading")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PageOrder")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("About");
+                });
+
+            modelBuilder.Entity("WebsiteV3.Models.AboutAsset", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AboutId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Asset")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Caption")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AboutId");
+
+                    b.ToTable("AboutAssets");
+                });
+
             modelBuilder.Entity("WebsiteV3.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -569,6 +613,13 @@ namespace WebsiteV3.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WebsiteV3.Models.AboutAsset", b =>
+                {
+                    b.HasOne("WebsiteV3.Models.About", "About")
+                        .WithMany("AboutAssets")
+                        .HasForeignKey("AboutId");
                 });
 
             modelBuilder.Entity("WebsiteV3.Models.PortfolioAsset", b =>

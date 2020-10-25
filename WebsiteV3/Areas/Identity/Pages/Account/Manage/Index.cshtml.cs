@@ -43,8 +43,8 @@ namespace WebsiteV3.Areas.Identity.Pages.Account.Manage
             public string PhoneNumber { get; set; }
             [Display(Name = "Profile Image")]
             public byte[] ProfileImage { get; set; }
-            //Todo - add option for user to subscribe or unsubscribe to marketing emails put on the register page also
-            //Todo - add link from index to allow users to delete individual comments 
+            //Todo - FUTURE add option for user to subscribe or unsubscribe to marketing emails put on the register page also
+            //Todo - FUTURE add link from index to allow users to delete individual comments 
         }
 
         private async Task LoadAsync(ApplicationUser user)

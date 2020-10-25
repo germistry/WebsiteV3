@@ -19,6 +19,7 @@ namespace WebsiteV3.Data.FileManager
         private string _postAssetFilesPath;
         private string _portfolioAssetPath;
         private string _portfolioAssetFilesPath;
+        private string _aboutAssetFilePath;
 
         private readonly string[] ImageTypes = new[] { ".png", ".jpg", ".jpeg", ".gif" };
         
@@ -31,6 +32,7 @@ namespace WebsiteV3.Data.FileManager
             _postAssetFilesPath = config["Path:PostAssetsFiles"];
             _portfolioAssetPath = config["Path:PortfolioAssets"];
             _portfolioAssetFilesPath = config["Path:PortfolioAssetsFiles"];
+            _aboutAssetFilePath = config["Path:AboutAssets"];
         }
 
         //Imaging resizing (for post and portfolio images and Asset Images)
@@ -53,6 +55,16 @@ namespace WebsiteV3.Data.FileManager
             JpegQuality = 100,
             JpegSubsampleMode = ChromaSubsampleMode.Subsample420
         };
+        //Asset Imaging resizing (no resizing)
+        private ProcessImageSettings AssetImageOptions() => new ProcessImageSettings
+        {
+            Width = 0,
+            Height = 0,
+            ResizeMode = CropScaleMode.Max,
+            SaveFormat = FileFormat.Jpeg,
+            JpegQuality = 100,
+            JpegSubsampleMode = ChromaSubsampleMode.Subsample420
+        };
         //Save post image 
         public string SavePostImage(IFormFile postImage)
         {
@@ -66,7 +78,12 @@ namespace WebsiteV3.Data.FileManager
                 }
                 //Get the mime & fileName, done this way to prevent internet explorer errors
                 var mime = postImage.FileName.Substring(postImage.FileName.LastIndexOf('.'));
-                var fileName = $"img_{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}{mime}";
+                //Generate just the file name so it can be copied over to asset files instead of generic tag
+                string fileWithExt = postImage.FileName;
+                string[] file = fileWithExt.Split('.');
+                string fileNoExt = file[0];
+
+                var fileName = $"{fileNoExt}_{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}{mime}";
                 //Get the filestream and then save the image
                 using (var fileStream = new FileStream(Path.Combine(save_path, fileName), FileMode.Create))
                 {
@@ -115,7 +132,12 @@ namespace WebsiteV3.Data.FileManager
                 }
                 //Get the mime & fileName, done this way to prevent internet explorer errors
                 var mime = portfolioItemImage.FileName.Substring(portfolioItemImage.FileName.LastIndexOf('.'));
-                var fileName = $"img_{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}{mime}";
+                //Generate just the file name so it can be copied over to asset files instead of generic tag
+                string fileWithExt = portfolioItemImage.FileName;
+                string[] file = fileWithExt.Split('.');
+                string fileNoExt = file[0];
+
+                var fileName = $"{fileNoExt}_{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}{mime}";
                 //Get the filestream and then save the image
                 using (var fileStream = new FileStream(Path.Combine(save_path, fileName), FileMode.Create))
                 {
@@ -164,7 +186,12 @@ namespace WebsiteV3.Data.FileManager
                 }
                 //Get the mime & fileName, done this way to prevent internet explorer errors
                 var mime = categoryImage.FileName.Substring(categoryImage.FileName.LastIndexOf('.'));
-                var fileName = $"img_{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}{mime}";
+                //Generate just the file name so it can be copied over to asset files instead of generic tag
+                string fileWithExt = categoryImage.FileName;
+                string[] file = fileWithExt.Split('.');
+                string fileNoExt = file[0];
+
+                var fileName = $"{fileNoExt}_{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}{mime}";
                 //Get the filestream and then save the image
                 using (var fileStream = new FileStream(Path.Combine(save_path, fileName), FileMode.Create))
                 {
@@ -220,12 +247,12 @@ namespace WebsiteV3.Data.FileManager
                     {
                         Directory.CreateDirectory(save_path);
                     }
-                    var fileName = $"img_{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}{mime}";
+                    var fileName = $"{fileNoExt}_{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}{mime}";
                     //Get the filestream and then save the image
                     using (var fileStream = new FileStream(Path.Combine(save_path, fileName), FileMode.Create))
                     {
                         //Imagine processing to make files smaller, same size etc doesnt have an async method
-                        MagicImageProcessor.ProcessImage(postAsset.OpenReadStream(), fileStream, BlogPortfolioImageOptions());
+                        MagicImageProcessor.ProcessImage(postAsset.OpenReadStream(), fileStream, AssetImageOptions());
                     }
                     return fileName;
                 }
@@ -312,12 +339,12 @@ namespace WebsiteV3.Data.FileManager
                     {
                         Directory.CreateDirectory(save_path);
                     }
-                    var fileName = $"img_{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}{mime}";
+                    var fileName = $"{fileNoExt}_{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}{mime}";
                     //Get the filestream and then save the image
                     using (var fileStream = new FileStream(Path.Combine(save_path, fileName), FileMode.Create))
                     {
                         //Imagine processing to make files smaller, same size etc doesnt have an async method
-                        MagicImageProcessor.ProcessImage(portfolioAsset.OpenReadStream(), fileStream, BlogPortfolioImageOptions());
+                        MagicImageProcessor.ProcessImage(portfolioAsset.OpenReadStream(), fileStream, AssetImageOptions());
                     }
                     return fileName;
                 }
@@ -377,6 +404,75 @@ namespace WebsiteV3.Data.FileManager
                     {
                         File.Delete(file);
                     }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        //Save an about asset
+        public string SaveAboutAsset(IFormFile aboutAsset)
+        {
+            try
+            {
+                //Get the mime & fileName, done this way to prevent internet explorer errors
+                var mime = aboutAsset.FileName.Substring(aboutAsset.FileName.LastIndexOf('.'));
+                //Generate just the file name so it can be copied over to asset files instead of generic tag
+                string fileWithExt = aboutAsset.FileName;
+                string[] file = fileWithExt.Split('.');
+                string fileNoExt = file[0];
+                //Get the path & if path can't be saved because doesn't exist then create it
+                var save_path = Path.Combine(_aboutAssetFilePath);
+                if (!Directory.Exists(save_path))
+                {
+                    Directory.CreateDirectory(save_path);
+                }
+
+                if (ImageTypes.Contains(mime))
+                {
+                    
+                    var fileName = $"{fileNoExt}_{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}{mime}";
+                    //Get the filestream and then save the image
+                    using (var fileStream = new FileStream(Path.Combine(save_path, fileName), FileMode.Create))
+                    {
+                        //Imagine processing to make files smaller, same size etc doesnt have an async method
+                        MagicImageProcessor.ProcessImage(aboutAsset.OpenReadStream(), fileStream, AssetImageOptions());
+                    }
+                    return fileName;
+                }
+                else
+                {
+                    //Get the mime & fileName, done this way to prevent internet explorer errors
+                    var fileName = $"{fileNoExt}_{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}{mime}";
+
+                    using (FileStream fileStream = new FileStream(Path.Combine(save_path, fileName), FileMode.Create, FileAccess.Write))
+                    {
+                        aboutAsset.CopyTo(fileStream);
+                    }
+                    return fileName;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return "Error";
+            }
+        }
+        //Get an about asset
+        public FileStream AboutAssetStream(string aboutAsset)
+        {
+            return new FileStream(Path.Combine(_aboutAssetFilePath, aboutAsset), FileMode.Open, FileAccess.Read);
+        }
+        //Delete an about asset
+        public void RemoveAboutAsset(string aboutAsset)
+        {
+            try
+            {
+                var file = Path.Combine(_aboutAssetFilePath, aboutAsset);
+                if (File.Exists(file))
+                {
+                    File.Delete(file);
                 }
             }
             catch (Exception e)

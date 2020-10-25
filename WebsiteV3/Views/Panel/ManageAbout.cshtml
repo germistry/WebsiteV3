@@ -1,0 +1,47 @@
+﻿@model IEnumerable<About>
+@{
+    ViewData["Title"] = "Manage About Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row form-title text-center">
+        <div class="col-12">
+            <h2 class="title-padding">@ViewData["Title"]</h2>
+            <hr />
+            <span>
+                <a class="btn btn-primary" style="margin-top: 1em; margin-bottom: 1em; margin-right: 0.5em;" asp-controller="Panel" asp-action="EditAbout">Create New About Section</a>
+                <a class="btn btn-primary" style="margin-top: 1em; margin-bottom: 1em;" asp-controller="Panel" asp-action="ManageAboutAssets">Manage About Assets</a>
+            </span>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="table table-responsive">
+        <table class="mx-auto w-auto">
+            <thead>
+                <tr>
+                    <th>Heading</th>
+                    <th>Page Order</th>
+                    <th style="max-width: 300px">Body Snippet</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var about in Model)
+                {
+                    <tr>
+                        <td>@about.Heading</td>
+                        <td>@about.PageOrder</td>
+                        <td style="max-width: 500px">@about.Body.Substring(0, Math.Min(about.Body.Length, 100)) ...</td>
+                        <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="ManageAssetsForAbout" asp-route-id="@about.Id">Assets</a></td>
+                        <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="EditAbout" asp-route-id="@about.Id">Edit</a></td>
+                        <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="DeleteAbout" asp-route-id="@about.Id">Delete</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

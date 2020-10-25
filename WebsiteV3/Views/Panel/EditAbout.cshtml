@@ -1,0 +1,85 @@
+﻿@model EditAboutViewModel
+
+@{
+    ViewData["Title"] = "Add/Change About Section";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var returnUrl = Context.Request.Path;
+}
+<link href="~/lib/Trumbowyg-master/ui/trumbowyg.min.css" rel="stylesheet" />
+<environment include="Development">
+    <link href="~/css/editor.css" rel="stylesheet" />
+</environment>
+<environment include="Production">
+    <link href="~/css/editor.min.css" rel="stylesheet" />
+</environment>
+
+<div class="container-fluid">
+    <div class="row form-title text-center">
+        <div class="col-12">
+            <h2 class="title-padding">@ViewData["Title"]</h2>
+            <hr />
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-9 col-md-12" style="padding-top: 1em;">
+            <form class="form-content-editing" asp-controller="Panel" asp-action="EditAbout" method="post" enctype="multipart/form-data">
+                <input asp-for="Id" type="hidden" />
+                <div class="form-group row">
+                    <label class="col-md-2 col-form-label">Heading</label>
+                    <div class="col">
+                        <input class="form-control" asp-for="Heading" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-2 col-form-label">Page Order</label>
+                    <div class="col">
+                        <input class="form-control" asp-for="PageOrder" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style="margin-top: 7px;">Body</label>
+                    <textarea id="editor" asp-for="Body"></textarea>
+                </div>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group row">
+                    <div class="offset-md-2 col-10">
+                        <input class="btn btn-primary" type="submit" value="Submit" />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-3 col-md-12" style="padding-top: 1em;">
+            @if (Model.Id > 0)
+            {
+                <p style="font-size: 12px;">&rArr; Use '&frasl;AboutAsset&frasl;' then filename as URL and caption for description when using text editor.</p>
+                <p style="font-size: 12px;">&rArr; Images MUST have class="img-fluid" assigned to view properly on pages.</p>
+                <p style="font-size: 12px;">&rArr; Files can be inserted into body content by &lt;a class="btn btn-primary" href="/AboutAsset/(AssetName)">Click to download&lt;/a></p>
+                <span>
+                    <a class="btn btn-primary" style="margin-bottom: 0.5em;" asp-controller="Panel" asp-action="EditAboutAsset" asp-route-aboutid="@Model.Id" asp-route-returnurl="@returnUrl">Add New Asset</a>
+                </span>
+                <div class="card" style="margin-bottom: 0.5em;">
+                    @(await Component.InvokeAsync("AboutAssetsViewComponent", Model.Id))
+                </div>
+            }
+            else
+            {
+                <p>NOTE: Save the About Section to Generate ID for Assets.</p>
+            }
+        </div>
+    </div>
+</div>
+@section scripts {
+    <partial name="_ValidationScriptsPartial" />
+    @*-- scripts for Trumbowyg Text Editor--*@
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="~/lib/Trumbowyg-master/trumbowyg.min.js"></script>
+    @*-- plugins for Trumbowyg--*@
+
+    @*<-- Init Trumbowyg -->*@
+    <script>
+        // . is class, # is an id, nav is html element
+        $('#editor').trumbowyg();
+    </script>
+}

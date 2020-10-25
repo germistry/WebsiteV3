@@ -90,6 +90,14 @@ body {
         background-color: #111111;
         border-color: #0A0A0A;
 }
+.breadcrumb-about {
+    width: 100%;
+    padding-top: 0.3em;
+}
+    .breadcrumb-about ol {
+        background-color: #111111;
+        border-color: #0A0A0A;
+    }
 .footer-custom {
     border-top: 2px solid #111111;
     width: 100%;
@@ -110,57 +118,62 @@ body {
     background-image: url('../content/static/WebsiteIndexBG.png');
     background-size: cover;
 }
+
+#cf {
+    position: relative;
+    margin: 0 auto;
+}
+
+    #cf img {
+        position: absolute;
+        left: 0;
+        -webkit-transition: opacity 1s ease-in-out;
+        -moz-transition: opacity 1s ease-in-out;
+        -o-transition: opacity 1s ease-in-out;
+        transition: opacity 1s ease-in-out;
+    }
+
+@keyframes cfFadeInOut {
+    0% {
+        opacity: 1;
+    }
+
+    45% {
+        opacity: 1;
+    }
+
+    55% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+#cf img.top {
+    animation-name: cfFadeInOut;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-duration: 8s;
+    animation-direction: alternate;
+}
+        
 /*------Terms of Use List Customs--------*/
 .numbered-list {
     color: #5C33D6;
 }
-/*---------Flip cards-----------*/
-/* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
-.flip-card {
-    background-color: transparent;
-    width: 128px;
-    height: 128px;
-    border: 1px solid #131313;
-    perspective: 1000px; /* Remove this if you don't want the 3D effect */
+
+/*------About Page Customs--------*/
+
+.about-list {
+    padding-bottom: 1em;
+    list-style-type: square;
+    color: #3600D8
 }
-
-/* This container is needed to position the front and back side */
-.flip-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.8s;
-    transform-style: preserve-3d;
-}
-
-/* Do an horizontal flip when you move the mouse over the flip box container */
-.flip-card:hover .flip-card-inner {
-    transform: rotateY(180deg);
-}
-
-/* Position the front and back side */
-.flip-card-front, .flip-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    -webkit-backface-visibility: hidden; /* Safari */
-    backface-visibility: hidden;
-}
-
-/* Style the front side (fallback if image is missing) */
-.flip-card-front {
-    background-color: #0A0A0A;
-    color: #7454D3;
-}
-
-/* Style the back side */
-.flip-card-back {
-    background-color: #0a0a0a;
-    transform: rotateY(180deg);
-} 
-
-
+    .about-list li {
+        line-height: 32px;
+    }
 /*--------Form Customs--------*/
 .form-control {
     border-radius: 0;

@@ -50,7 +50,7 @@ namespace WebsiteV3
             //Identity & Role Setup
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
-                //change to all true when deployed
+                //todo PRODUCTION- change to all true when deployed
                 options.Password.RequireDigit = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
