@@ -23,4 +23,4 @@ I use:
     Microsoft ASP.NET Core Identity 
   </li>
 </ul>
-I am hosting this site with [I'm an inline-style link with title](https://www.smarterasp.net "SmarterAsp") - and so far I have found them to be excellent, especially for hosting an ASP application. Total breeze deploying the site through VS to their servers AND they have great response times to any query (like 10 minutes!)
+I am hosting this site with https://www.smarterasp.net "SmarterAsp" - and so far I have found them to be excellent, especially for hosting an ASP application. Total breeze deploying the site through VS to their servers AND they have great response times to any query (like 10 minutes!)
