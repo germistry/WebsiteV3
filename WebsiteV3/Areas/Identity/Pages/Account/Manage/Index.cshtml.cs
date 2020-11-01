@@ -94,7 +94,7 @@ namespace WebsiteV3.Areas.Identity.Pages.Account.Manage
                     var userNameExists = await _userManager.FindByNameAsync(Input.Username);
                     if (userNameExists != null)
                     {
-                        StatusMessage = "User name already taken. Select a different username.";
+                        StatusMessage = "Unexpected error when trying to set user name.";
                         return Page();
                     }
                     var setUserName = await _userManager.SetUserNameAsync(user, Input.Username);

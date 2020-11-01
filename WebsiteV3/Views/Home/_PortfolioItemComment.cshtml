@@ -9,11 +9,11 @@
         <input asp-for="PortfolioItemId" type="hidden" />
         <input asp-for="MainCommentId" type="hidden" />
         <input asp-for="PortfolioItemSlug" type="hidden"/>
-        <div class="row" style="padding-top: 1em">
-            <div class="col-12" style="padding-bottom: 0.5em">
+        <div class="row padding-top-1">
+            <div class="col-12 padding-btm-05">
                 <textarea class="form-control" id="message" asp-for="Message" required></textarea>
             </div>
-            <div class="col-12" style="padding-bottom: 0.5em">
+            <div class="col-12 padding-btm-05">
                 <label>
                     I have read and acknowledge the
                     <a asp-area="" asp-controller="Home" asp-action="CommentaryGuidelines" title="Commentary Guidelines"
@@ -21,7 +21,7 @@
                 </label>
                 <input type="checkbox" asp-for="GuidelinesConsent" required />
             </div>
-            <div class="col-12" style="padding-bottom: 0.5em">
+            <div class="col-12 padding-btm-05">
                 <input class="btn btn-secondary btn-sm" type="submit" value="Submit" />
             </div>
         </div>

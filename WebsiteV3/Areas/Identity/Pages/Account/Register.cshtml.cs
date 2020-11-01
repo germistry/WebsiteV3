@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
-using System.Net.Mail;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using NETCore.MailKit.Core;
 using WebsiteV3.Models;
-using WebsiteV3.Services;
+
 
 namespace WebsiteV3.Areas.Identity.Pages.Account
 {
@@ -25,18 +25,20 @@ namespace WebsiteV3.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailService _emailService; //this net.core mailkit service
+        private readonly string _templatesPath;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailService emailService, IConfiguration pathConfig)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
+            _emailService = emailService;
+            _templatesPath = pathConfig["Path:Templates"];
         }
 
         [BindProperty]
@@ -78,7 +80,7 @@ namespace WebsiteV3.Areas.Identity.Pages.Account
             var emailExists = await _userManager.FindByEmailAsync(Input.Email);
             if (emailExists != null)
             {
-                ModelState.AddModelError(string.Empty, "Email address already taken. Select a different email address.");
+                ModelState.AddModelError(string.Empty, "Not valid. Please enter a valid email address.");
                 return Page();
             }
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -102,8 +104,19 @@ namespace WebsiteV3.Areas.Identity.Pages.Account
                         pageHandler: null,
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email for germistry aka Krystal Ruwoldt's Portfolio and Blog",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. <br />If you did not sign up for this website, please DO NOT confirm your email, instead please notify us by replying to this email so any security breach can be investigated.");
+                    
+                    var body = $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. <br />If you did not sign up for this website, please DO NOT confirm your email, instead please notify us by replying to this email so any security breach can be investigated.";
+                    string path = Path.Combine(_templatesPath);
+                    string template = "IdentityTemplate.html";
+                    string FilePath = Path.Combine(path, template);
+
+                    StreamReader str = new StreamReader(FilePath);
+                    string mailText = str.ReadToEnd();
+                    str.Close();
+                    mailText = mailText.Replace("[username]", user.UserName).Replace("[body]", body);
+                    var subject = "Confirm your email for germistry aka Krystal Ruwoldt's Portfolio and Blog";
+
+                    await _emailService.SendAsync(user.Email, subject, mailText, true);
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

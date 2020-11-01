@@ -4,18 +4,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Krystal Ruwoldt</title>
+    <meta property="og:title" content="@ViewData["Title"] - Krystal Ruwoldt">
     <meta name="description" content="@ViewBag.Description" />
+    <meta property="og:description" content="@ViewBag.Description" />
+    <meta property="og:url" content="https://germistry.com"/>
+    <meta property="og:type" content="website"/>
+    <meta property="fb:app_id" content="336221897620013" />
+    <meta property="og:image" content="https://germistry.com/content/static/ogimageNameLogo.png"/>
     <meta name="keywords" content="@ViewBag.Keywords" />
     <link rel="icon" type="image/x-icon" href="~/content/static/favicon.png" />
-    <link rel="stylesheet" href="~/css/bootstrap.custom.min.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap-table/dist/bootstrap-table.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/bootstrap.custom.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/bootstrap-table/dist/bootstrap-table.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/fontawesome-free/css/fontawesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/fontawesome-free/css/solid.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/fontawesome-free/css/brands.min.css" />
     <environment include="Development">
-        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" type="text/css" href="~/css/site.css" />
     </environment>
     <environment include="Production">
-        <link href="~/css/site.min.css" rel="stylesheet" />
+        <link href="~/css/site.min.css" type="text/css" rel="stylesheet" />
     </environment>
-    <script src="https://kit.fontawesome.com/7f105cc73c.js" crossorigin="anonymous"></script>
 
 </head>
 <body class="d-flex flex-column h-100" id="topofpage">
@@ -71,10 +79,10 @@
             </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/bootstrap-table/dist/bootstrap-table.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    @*<script type="text/javascript" src="~/js/site.min.js"></script>*@
     @RenderSection("scripts", required: false)
 </body>
 </html>

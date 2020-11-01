@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using WebsiteV3.Models;
+using NETCore.MailKit.Core;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace WebsiteV3.Areas.Identity.Pages.Account.Manage
 {
@@ -18,16 +17,18 @@ namespace WebsiteV3.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailService _emailService;
+        private readonly string _templatesPath;
 
         public EmailModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender)
+            IEmailService emailService, IConfiguration pathConfig)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailSender = emailSender;
+            _emailService = emailService;
+            _templatesPath = pathConfig["Path:Templates"];
         }
 
         public string Username { get; set; }
@@ -78,31 +79,44 @@ namespace WebsiteV3.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnPostChangeEmailAsync()
         {
             var user = await _userManager.GetUserAsync(User);
+            var emailExists = await _userManager.FindByEmailAsync(Input.NewEmail);
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-
+            if (emailExists != null)
+            {
+                StatusMessage = "Not valid. Please enter a valid email address.";
+                return RedirectToPage();
+            }
             if (!ModelState.IsValid)
             {
                 await LoadAsync(user);
                 return Page();
             }
-
             var email = await _userManager.GetEmailAsync(user);
             if (Input.NewEmail != email)
             {
                 var userId = await _userManager.GetUserIdAsync(user);
                 var code = await _userManager.GenerateChangeEmailTokenAsync(user, Input.NewEmail);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 var callbackUrl = Url.Page(
                     "/Account/ConfirmEmailChange",
                     pageHandler: null,
                     values: new { userId = userId, email = Input.NewEmail, code = code },
                     protocol: Request.Scheme);
-                await _emailSender.SendEmailAsync(
-                    Input.NewEmail,
-                    "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                var body = $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. <br />If you did not sign up for this website, please DO NOT confirm your email, instead please notify us by replying to this email so any security breach can be investigated.";
+                string path = Path.Combine(_templatesPath);
+                string template = "IdentityTemplate.html";
+                string FilePath = Path.Combine(path, template);
+
+                StreamReader str = new StreamReader(FilePath);
+                string mailText = str.ReadToEnd();
+                str.Close();
+                mailText = mailText.Replace("[username]", user.UserName).Replace("[body]", body);
+                var subject = "Confirm your change of email for germistry aka Krystal Ruwoldt's Portfolio and Blog";
+               
+                await _emailService.SendAsync(Input.NewEmail, subject, mailText, true);
 
                 StatusMessage = "Confirmation link to change email sent. Please check your email.";
                 return RedirectToPage();
@@ -135,10 +149,18 @@ namespace WebsiteV3.Areas.Identity.Pages.Account.Manage
                 pageHandler: null,
                 values: new { area = "Identity", userId = userId, code = code },
                 protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(
-                email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            var body = $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. <br />If you did not sign up for this website, please DO NOT confirm your email, instead please notify us by replying to this email so any security breach can be investigated.";
+            string path = Path.Combine(_templatesPath);
+            string template = "IdentityTemplate.html";
+            string FilePath = Path.Combine(path, template);
+
+            StreamReader str = new StreamReader(FilePath);
+            string mailText = str.ReadToEnd();
+            str.Close();
+            mailText = mailText.Replace("[username]", user.UserName).Replace("[body]", body);
+            var subject = "Confirm your account for germistry aka Krystal Ruwoldt's Portfolio and Blog";
+
+            await _emailService.SendAsync(user.Email, subject, mailText, true);
 
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToPage();

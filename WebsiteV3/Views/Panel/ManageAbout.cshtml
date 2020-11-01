@@ -10,8 +10,8 @@
             <h2 class="title-padding">@ViewData["Title"]</h2>
             <hr />
             <span>
-                <a class="btn btn-primary" style="margin-top: 1em; margin-bottom: 1em; margin-right: 0.5em;" asp-controller="Panel" asp-action="EditAbout">Create New About Section</a>
-                <a class="btn btn-primary" style="margin-top: 1em; margin-bottom: 1em;" asp-controller="Panel" asp-action="ManageAboutAssets">Manage About Assets</a>
+                <a class="btn btn-primary margin-top-1 margin-btm-1 margin-right-05" asp-controller="Panel" asp-action="EditAbout">Create New About Section</a>
+                <a class="btn btn-primary margin-top-1 margin-btm-1" asp-controller="Panel" asp-action="ManageAboutAssets">Manage About Assets</a>
             </span>
         </div>
     </div>
@@ -23,7 +23,7 @@
                 <tr>
                     <th>Heading</th>
                     <th>Page Order</th>
-                    <th style="max-width: 300px">Body Snippet</th>
+                    <th class="max-width-300">Body Snippet</th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -35,7 +35,7 @@
                     <tr>
                         <td>@about.Heading</td>
                         <td>@about.PageOrder</td>
-                        <td style="max-width: 500px">@about.Body.Substring(0, Math.Min(about.Body.Length, 100)) ...</td>
+                        <td class="max-width-500">@about.Body.Substring(0, Math.Min(about.Body.Length, 100)) ...</td>
                         <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="ManageAssetsForAbout" asp-route-id="@about.Id">Assets</a></td>
                         <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="EditAbout" asp-route-id="@about.Id">Edit</a></td>
                         <td><a class="btn btn-secondary btn-sm" asp-controller="Panel" asp-action="DeleteAbout" asp-route-id="@about.Id">Delete</a></td>

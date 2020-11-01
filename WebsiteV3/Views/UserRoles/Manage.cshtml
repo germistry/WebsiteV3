@@ -15,7 +15,7 @@
 
 <div class="container">
     <form method="post">
-        <p>Add/Remove Roles for User <b style="color: #7454D3;">@ViewBag.UserName</b></p>   
+        <p>Add/Remove Roles for User <b class="pgh-color">@ViewBag.UserName</b></p>   
         <div>
             @for (int i = 0; i < Model.Count; i++)
             {
@@ -30,11 +30,9 @@
             }
             <div asp-validation-summary="All" class="text-danger"></div>
         </div>
-            <div class="">
-                <input type="submit" value="Update" class="btn btn-secondary"
-                       style="width:auto" />
-                <a asp-action="Index"
-                   class="btn btn-secondary" style="width:auto">Cancel</a>
+            <div class="input-width">
+                <input type="submit" value="Update" class="btn btn-secondary" />
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
             </div>
         
     </form>

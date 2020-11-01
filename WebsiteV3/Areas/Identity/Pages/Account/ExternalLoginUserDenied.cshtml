@@ -1,0 +1,14 @@
+﻿@page
+@model AccessDeniedModel
+@{
+    ViewData["Title"] = "Access denied";
+}
+
+<div class="container identity-container">
+    <header>
+        <h1 class="text-danger">@ViewData["Title"]</h1>
+        <p class="text-danger">Your attempt to login with an external login provider has been denied.</p>
+        <p>Please try an alternative method. <a asp-page="./Login">Login</a></p>
+        
+    </header>
+</div>

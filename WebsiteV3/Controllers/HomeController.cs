@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using WebsiteV3.Data.FileManager;
 using WebsiteV3.Data.Repository;
@@ -13,8 +11,6 @@ using WebsiteV3.Models;
 using WebsiteV3.Models.PostComments;
 using WebsiteV3.Models.PortfolioItemComments;
 using WebsiteV3.ViewModels;
-using WebsiteV3.Services;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace WebsiteV3.Controllers
 {
@@ -25,21 +21,18 @@ namespace WebsiteV3.Controllers
         private readonly IRepository _repo;
         private readonly IFileManager _fileManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IEmailSender _emailSender;
         //For designating image types
         private readonly string[] ImageTypes = new[] { ".png", ".jpg", ".jpeg", ".gif" };
         
         public HomeController(ILogger<HomeController> logger, 
             IRepository repo, 
             IFileManager fileManager, 
-            UserManager<ApplicationUser> userManager,
-            IEmailSender emailSender)
+            UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
             _repo = repo;
             _fileManager = fileManager;
             _userManager = userManager;
-            _emailSender = emailSender;
         }
 
         //todo - FUTURE link for uncle les's help page.

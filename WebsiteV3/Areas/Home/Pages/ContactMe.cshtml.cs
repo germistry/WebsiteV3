@@ -2,14 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using System.ComponentModel.DataAnnotations;
-using System.Net;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using WebsiteV3.Services;
+using NETCore.MailKit.Core;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace WebsiteV3.Areas.Home.Pages
 {
@@ -17,12 +14,15 @@ namespace WebsiteV3.Areas.Home.Pages
     public class ContactMeModel : PageModel
     {
         private readonly ILogger<ContactMeModel> _logger;
+        private readonly IEmailService _emailService;
+        private readonly string _templatesPath;
 
-        public ContactMeModel(IOptions<AuthMessageSenderOptions> optionsAccessor,           
-            ILogger<ContactMeModel> logger)
+        public ContactMeModel(IEmailService emailService,
+            ILogger<ContactMeModel> logger, IConfiguration pathConfig)
         {
             _logger = logger;
-            Options = optionsAccessor.Value;
+            _emailService = emailService;
+            _templatesPath = pathConfig["Path:Templates"];
         }
 
         [BindProperty]
@@ -43,11 +43,10 @@ namespace WebsiteV3.Areas.Home.Pages
             public string Message { get; set; }
             [Required]
             [Range(typeof(bool), "true", "true", ErrorMessage = "The Privacy Consent must be confirmed")]
-            [Display(Name = "I consent to the website storing my name and email address so they can respond to my query.")]
+            [Display(Name = " I consent to the website storing my name and email address so they can respond to my query.")]
             public bool PrivacyConsent { get; set; }
         }
-
-        public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
+        
         //--------This is for recaptcha if I want to implement this later --------//
         //private bool RecaptchaPassed(string recaptchaResponse)
         //{
@@ -85,14 +84,12 @@ namespace WebsiteV3.Areas.Home.Pages
             _logger.LogDebug("ContactMe.OnPostSync entered");
 
             if (!ModelState.IsValid)
-            {
-                _logger.LogDebug("Model state not valid");
-                return Page();
-            }
-
+                {
+                    _logger.LogDebug("Model state not valid");
+                    return Page();
+                }
             //---------This is for recaptcha if I want to implement this later ----------//
             //var gRecaptchaResponse = Request.Form["g-recaptcha-response"];
-
             //if (string.IsNullOrEmpty(gRecaptchaResponse)
             //    || !RecaptchaPassed(gRecaptchaResponse))
             //{
@@ -100,32 +97,21 @@ namespace WebsiteV3.Areas.Home.Pages
             //    ModelState.AddModelError(string.Empty, "You failed the CAPTCHA");
             //    return Page();
             //}
+            string body = Input.Message;
+            string path = Path.Combine(_templatesPath);
+            string template = "ContactMeTemplate.html";
+            string FilePath = Path.Combine(path, template);
 
-            // Mail header
-            var from = new EmailAddress(
-                "krystalruwoldt@bigpond.com", "germistry");
-            var to = new EmailAddress(
-                Options.ContactMeMailbox, Options.SendGridUser);
+            StreamReader str = new StreamReader(FilePath);
+            string mailText = str.ReadToEnd();
+            str.Close();
+            mailText = mailText.Replace("[fromEmail]", Input.Email).Replace("[contactmessage]", body);
             string subject = Input.Subject;
-            string message = $"Contact Me Email From {Input.Email} - {Input.Name}. Message Body: {Input.Message}";
-            
-            // Get SendGrid client ready
-            var client = new SendGridClient(Options.SendGridKey);
 
-            var msg = MailHelper.CreateSingleEmail(from, to, subject,
-                message, WebUtility.HtmlEncode(message));
-
-            _logger.LogDebug("Sending email via SendGrid");
-            var response = await client.SendEmailAsync(msg);
-
-            if (response.StatusCode != HttpStatusCode.Accepted)
-            {
-                _logger.LogDebug($"Sendgrid problem {response.StatusCode}");
-                throw new ExternalException("Error sending message");
-            }
-
+            await _emailService.SendAsync("germistry@germistry.com", subject, mailText, true);
+                       
             // On success go to contact result result which is a thankyou page
-            _logger.LogDebug("Email sent via SendGrid");
+            _logger.LogDebug("Email sent");
             return RedirectToPage("ContactResult");
         }
     }

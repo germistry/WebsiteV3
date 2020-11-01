@@ -11,10 +11,10 @@
                 <a class="nav-link" asp-controller="Panel" asp-action="Index">Website Management</a>
             </li>
         }
-        <li class="nav-item d-none d-md-block d-lg-block d-xl-block" style="align-self: center;">
+        <li class="nav-item d-none d-md-block d-lg-block d-xl-block align-self-center">
             @if (UserManager.GetUserAsync(User).Result.ProfileImage != null)
             {
-                <img style="width:41.6px;height:41.6px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.ProfileImage))">
+                <img class="user-avatar" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.ProfileImage))">
             }
         </li>
         <li class="nav-item align-self-center">

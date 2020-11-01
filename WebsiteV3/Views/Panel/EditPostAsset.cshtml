@@ -12,7 +12,7 @@
     </div>
 </div>
 <div class="container">
-    <form class="form-content-editing" style="padding-top: 1em;" asp-controller="Panel" asp-action="EditPostAsset" method="post" enctype="multipart/form-data">
+    <form class="form-content-editing padding-top-1" asp-controller="Panel" asp-action="EditPostAsset" method="post" enctype="multipart/form-data">
         <input asp-for="Id" type="hidden" />
         <input asp-for="PostId" type="hidden" />
         <input asp-for="ReturnUrl" type="hidden" />
@@ -26,7 +26,7 @@
             <label class="col-md-2 col-form-label">Asset</label>
             <div class="col">
                 <input asp-for="CurrentAsset" type="hidden" />
-                <input class="form-control-file" asp-for="Asset" style="padding-top: 0.5em" />
+                <input class="form-control-file padding-top-05" asp-for="Asset"/>
             </div>
         </div>
         <div asp-validation-summary="All" class="text-danger"></div>

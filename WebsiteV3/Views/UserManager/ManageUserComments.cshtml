@@ -15,14 +15,14 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-12" style="padding-bottom: 1em;">
+        <div class="col-1 padding-btm-1">
             <span class="btn-padding">
                 <a class="btn btn-primary" asp-action="Index">Manage Users</a>
             </span>
         </div>
     </div>
     <div class="row">
-        <div class="col-12" style="padding-bottom: 1em;">
+        <div class="col-12 padding-btm-1">
             <h5>Post Main Comments</h5>
             @{
                 int postMCcount = Model.UserPostMainComments.Count();
@@ -36,7 +36,7 @@
                                 <th>Created</th>
                                 <th>Post Id</th>
                                 <th>Message</th>
-                                <th style="font-size: small;">Sub Comment Count</th>
+                                <th class="tdh-small-font">Sub Comment Count</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -68,7 +68,7 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-12" style="padding-bottom: 1em;">
+        <div class="col-12 padding-btm-1">
             <h5>Post Sub Comments</h5>
             @{
                 int postSCcount = Model.UserPostSubComments.Count();
@@ -79,7 +79,7 @@
                         <thead>
                             <tr>
                                 <th>Created</th>
-                                <th style="font-size: small;">Main Comment Id</th>
+                                <th class="tdh-small-font">Main Comment Id</th>
                                 <th>Message</th>
                                 <th></th>
                             </tr>
@@ -108,7 +108,7 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-12" style="padding-bottom: 1em;">
+        <div class="col-12 padding-btm-1">
             <h5>Portfolio Item Main Comments</h5>
             @{
                 int portfolioitemMCcount = Model.UserPortfolioItemMainComments.Count();
@@ -122,7 +122,7 @@
                                 <th>Created</th>
                                 <th>Item Id</th>
                                 <th>Message</th>
-                                <th style="font-size: small;">Sub Comment Count</th>
+                                <th class="tdh-small-font">Sub Comment Count</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -154,7 +154,7 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-12" style="padding-bottom: 1em;">
+        <div class="col-12 padding-btm-1">
             <h5>Portfolio Item Sub Comments</h5>
             @{
                 int portfolioItemSCcount = Model.UserPortfolioItemSubComments.Count();
@@ -166,7 +166,7 @@
                             <thead>
                                 <tr>
                                     <th>Created</th>
-                                    <th style="font-size: small;">Main Comment Id</th>
+                                    <th class="tdh-small-font">Main Comment Id</th>
                                     <th>Message</th>
                                     <th></th>
                                 </tr>

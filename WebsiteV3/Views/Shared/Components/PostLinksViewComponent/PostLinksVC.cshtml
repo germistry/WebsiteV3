@@ -6,11 +6,11 @@
 <div>
     @foreach (var link in Model)
     {
-        <a style="font-size: 14px; color: #7454D3" asp-controller="Home" asp-action="Blog" asp-route-category="@(link.Category.Id)">
+        <a class="vc-link" asp-controller="Home" asp-action="Blog" asp-route-category="@(link.Category.Id)">
             In @(link.Category.CategoryName)
         </a>
         <a asp-controller="Home" asp-action="Post" asp-route-id="@(link.Id)" asp-route-slug="@(link.Slug)">
-            <p class="text-wrap" style="font-size: 18px;">@(link.Title)</p>
+            <p class="text-wrap pgh-size-18">@(link.Title)</p>
         </a>
     }
 </div>

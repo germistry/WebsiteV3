@@ -6,11 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using WebsiteV3.Models;
+using NETCore.MailKit.Core;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace WebsiteV3.Areas.Identity.Pages.Account
 {
@@ -18,12 +20,14 @@ namespace WebsiteV3.Areas.Identity.Pages.Account
     public class ForgotPasswordModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailService _emailService;
+        private readonly string _templatesPath;
 
-        public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender)
+        public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailService emailService, IConfiguration pathConfig)
         {
             _userManager = userManager;
-            _emailSender = emailSender;
+            _emailService = emailService;
+            _templatesPath = pathConfig["Path:Templates"];
         }
 
         [BindProperty]
@@ -47,8 +51,6 @@ namespace WebsiteV3.Areas.Identity.Pages.Account
                     return RedirectToPage("./ForgotPasswordConfirmation");
                 }
 
-                // For more information on how to enable account confirmation and password reset please 
-                // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 var callbackUrl = Url.Page(
@@ -56,11 +58,18 @@ namespace WebsiteV3.Areas.Identity.Pages.Account
                     pageHandler: null,
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
-                
-                await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    "Reset Password for germistry aka Krystal Ruwoldt's Portfolio and Blog",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. <br />If you did not sign up for this website, please DO NOT reset your password, instead please notify us by replying to this email so any security breach can be investigated.");
+                var body = $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. <br />If you did not sign up for this website, please DO NOT reset your password, instead please notify us by replying to this email so any security breach can be investigated.";
+                string path = Path.Combine(_templatesPath);
+                string template = "IdentityTemplate.html";
+                string FilePath = Path.Combine(path, template);
+
+                StreamReader str = new StreamReader(FilePath);
+                string mailText = str.ReadToEnd();
+                str.Close();
+                mailText = mailText.Replace("[username]", user.UserName).Replace("[body]", body);
+                var subject = "Reset your password for germistry aka Krystal Ruwoldt's Portfolio and Blog";
+
+                await _emailService.SendAsync(user.Email, subject, mailText, true);
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

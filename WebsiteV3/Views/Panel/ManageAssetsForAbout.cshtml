@@ -13,17 +13,17 @@
         <div class="col-12">
             <h2 class="title-padding">@(ViewData["Title"])</h2>
             <hr />
-            <p>Manage assets for about section <b style="color: #7454D3">@Model.Heading</b></p>
+            <p>Manage assets for about section <b class="pgh-color">@Model.Heading</b></p>
         </div>
     </div>
 </div>
-<div class="container" style="padding-bottom: 1em;">
+<div class="container padding-btm-1" >
     <div class="row">
         <div class="col-12">
             <span class="btn-padding">
-                <a class="btn btn-primary" style="margin-top: 0.5em; margin-bottom: 1em; margin-right: 0.5em;" asp-controller="Panel" asp-action="ManageAbout">Manage About Page</a>
-                <a class="btn btn-primary" style="margin-top: 0.5em; margin-bottom: 1em; margin-right: 0.5em;" asp-controller="Home" asp-action="About">View About Page</a>
-                <a class="btn btn-secondary" style="margin-top: 0.5em; margin-bottom: 1em;" asp-controller="Panel" asp-action="EditAboutAsset" asp-route-aboutid="@Model.Id" asp-route-returnurl="@returnUrl">Add New Asset</a>
+                <a class="btn btn-primary margin-top-05 margin-btm-1 margin-right-05" asp-controller="Panel" asp-action="ManageAbout">Manage About Page</a>
+                <a class="btn btn-primary margin-top-05 margin-btm-1 margin-right-05" asp-controller="Home" asp-action="About">View About Page</a>
+                <a class="btn btn-secondary margin-top-05 margin-btm-1" asp-controller="Panel" asp-action="EditAboutAsset" asp-route-aboutid="@Model.Id" asp-route-returnurl="@returnUrl">Add New Asset</a>
             </span>
         </div>
     </div>
@@ -31,13 +31,13 @@
     {
         var asset_path = $"{base_path}/AboutAsset/{aboutAsset.Asset}";
         string mime = aboutAsset.Asset.Substring(aboutAsset.Asset.LastIndexOf('.'));
-        <div class="row" style="margin-bottom: 5px; padding-top: 0.5em; padding-bottom: 0.5em; padding-left: 1em; padding-right: 1em;">
+        <div class="row manage-assets-row">
             <div class="card h-100 w-100">
-                <div class="row" style="display: flex; justify-content: center;">
-                    <div class="col-xs-12 col-lg-5" style="display: flex; flex-direction: column; justify-content: center;">
+                <div class="row assets-img-file">
+                    <div class="col-xs-12 col-lg-5 assets-col">
                         @if (images.Contains(mime))
                         {
-                            <div class="text-center"><img class="card-img" style="padding: 1em" src="@asset_path" alt="" /></div>
+                            <div class="text-center"><img class="card-img padding-all-1" src="@asset_path" alt="" /></div>
                         }
                         else
                         {
@@ -45,13 +45,13 @@
                         }
                     </div>
                     <div class="col-xs-12 col-lg">
-                        <div class="card-body" style="display: flex; flex-direction: column;">
-                            <h4 class="card-title">For About Section <b style="color: #7454D3">@aboutAsset.About.Heading</b></h4>
+                        <div class="card-body assets-info">
+                            <h4 class="card-title">For About Section <b class="pgh-color">@aboutAsset.About.Heading</b></h4>
                             <h6>@aboutAsset.Asset</h6>
                             <p class="card-text text-justify">@aboutAsset.Caption</p>
                             <span>
-                                <a class="btn btn-secondary btn-sm" style="margin-right: 0.5em;" asp-controller="Panel" asp-action="EditAboutAsset" asp-route-id="@(aboutAsset.Id)" asp-route-aboutid="@(aboutAsset.About.Id)" asp-route-returnurl="@returnUrl">Edit</a>
-                                <a class="btn btn-secondary btn-sm" style="margin-right: 0.5em;" asp-controller="Panel" asp-action="DeleteAboutAsset" asp-route-id="@(aboutAsset.Id)" asp-route-returnurl="@returnUrl">Delete</a>
+                                <a class="btn btn-secondary btn-sm margin-right-05" asp-controller="Panel" asp-action="EditAboutAsset" asp-route-id="@(aboutAsset.Id)" asp-route-aboutid="@(aboutAsset.About.Id)" asp-route-returnurl="@returnUrl">Edit</a>
+                                <a class="btn btn-secondary btn-sm margin-right-05" asp-controller="Panel" asp-action="DeleteAboutAsset" asp-route-id="@(aboutAsset.Id)" asp-route-returnurl="@returnUrl">Delete</a>
                             </span>
                         </div>
                     </div>

@@ -2,32 +2,32 @@
 
 @{
     ViewData["Title"] = "Home Page";
-    ViewBag.Description = "This is the website of Krystal Ruwoldt, a full stack developer with a vast array of skills across many areas of web and software development.";
+    ViewBag.Description = "This is the website of Krystal Ruwoldt, a full stack developer based in Western Australia, with skills across many areas of web and software development.";
     ViewBag.Keywords = "portfolio blog web software app development design database middleware ui program code sql c# java python html css bootstrap django asp dotnet opengl";
     var base_path = Context.Request.PathBase;
 }
 
 <div class="jumbotron">
-    <div class="container-fluid" style="padding-bottom: 80px">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6">
                 <img src="~/content/static/NameLogov2.png" alt="germistry aka Krystal Ruwoldt" class="img-fluid" />
-                <h2 style="font-size: 24px; padding-top: 1em;">Hey! Welcome to my website!</h2>
-                <h3 style="font-size: 18px; color: #C195F4; padding-bottom: 1em;">I'm a full stack software and web developer, with a keen interest in hardware too.</h3>
+                <h2>Hey! Welcome to my website!</h2>
+                <h3>I'm a full stack software and web developer, with a keen interest in hardware too.</h3>
                 <a asp-controller="Home" asp-action="Portfolio" class="btn btn-primary btn-lg">View My Portfolio</a>
             </div>
             <div class="d-none d-lg-block col-lg-6">
                 <div class="row">
                     <div class="offset-8 col-4">
                         <div id="cf">
-                            <img class="img-fluid bottom" src="~/content/static/Avatar2Default.png" />
-                            <img class="img-fluid top" src="~/content/static/20200603_152616.jpg" />
+                            <img class="img-fluid bottom" src="~/content/static/Avatar2Default.jpg" />
+                            <img class="img-fluid top" src="~/content/static/20201025_160603v2.jpg" />
                         </div>
-                        <img class="img-fluid" src="~/content/static/blankImgPlaceholder.png" />
+                        <img class="img-fluid" src="~/content/static/blankImgPlaceholder.jpg" />
                         <h6 class="text-center">germistry &harr; Krystal Ruwoldt</h6>
                     </div>
                 </div>
-                <p class="text-right" style="margin-top: 0.5em; font-size: 18px;">Interested to know more about me or what I'm currently working on?</p>
+                <p class="text-right p-left">Interested to know more about me or what I'm currently working on?</p>
                 <p class="text-right">
                     <a asp-controller="Home" asp-action="Blog" class="btn btn-outline-primary btn-lg">View My Blog</a>&emsp;
                     <a asp-controller="Home" asp-action="About" class="btn btn-outline-primary btn-lg">View More About Me</a>
@@ -41,34 +41,34 @@
     <div class="row text-center">
         <div class="col-12">
             <h2 class="display-4">Latest Projects</h2>
-            <hr style="border-top: 1px solid #5C33D6; width: 95%;" />
+            <hr class="portfolio-hr" />
         </div>
-        <div class="col-12" style="padding-bottom: 0.5em;">
+        <div class="col-12 padding-btm-05">
             <p class="lead text-center">Check out the latest projects in my portfolio to see what I've been working on most recently..</p>
         </div>
     </div>
 </div>
 
 <div class="container">
-    <div class="row" style="margin-bottom: 5px; padding-left: 1em; padding-right: 1em;">
+    <div class="row card-3-row">
         @foreach (var portfolioItem in Model.PortfolioItems)
         {
             var image_path = $"{base_path}/PortfolioItemImage/{portfolioItem.Image}";
-            <div class="col-lg-4" style="padding-bottom: 1.5em;">
+            <div class="col-lg-4 padding-btm-15">
                 <div class="card h-100">
                     <img class="card-img-top" src="@image_path" />
                     <div class="card-body">
                         <h3 class="card-title text-wrap">@portfolioItem.Title</h3>
-                        <a style="font-size: 16px; color: #7454D3;" asp-controller="Home" asp-action="Portfolio" asp-route-category="@portfolioItem.Category.Id" asp-route-pageNumber="1">
+                        <a class="filed-in-link" asp-controller="Home" asp-action="Portfolio" asp-route-category="@portfolioItem.Category.Id" asp-route-pageNumber="1">
                             Filed in @portfolioItem.Category.CategoryName
                         </a>
                         @if (portfolioItem.Introduction.Length > 200)
                         {
-                            <p class="card-text text-justify" style="padding-top: 0.5em">@portfolioItem.Introduction.Substring(0, Math.Min(portfolioItem.Introduction.Length, 200)) ...</p>
+                            <p class="card-text text-justify padding-top-05">@portfolioItem.Introduction.Substring(0, Math.Min(portfolioItem.Introduction.Length, 200)) ...</p>
                         }
                         else
                         {
-                            <p class="card-text text-justify" style="padding-top: 0.5em">@portfolioItem.Introduction</p>
+                            <p class="card-text text-justify padding-top-05">@portfolioItem.Introduction</p>
                         }
                         <a class="btn btn-primary" asp-controller="Home" asp-action="PortfolioItem" asp-route-id="@portfolioItem.Id" asp-route-slug="@portfolioItem.Slug">Read More &rArr;</a>
                     </div>
@@ -80,21 +80,12 @@
 
 @* Category Section *@
 <div class="container-fluid">
-    <div class="row" style=" padding-top:0.5em; padding-left: 1em; padding-right: 1em;">
+    <div class="row category-row">
         <div class="col-12">
-            <a class="text-decoration-none d-block text-center"
-               style="  border: 1px solid #0A0A0A;
-                        outline: none;
-                        background-image: linear-gradient(#3600D8, #0A0A0A);
-                        color: #7454D3;
-                        font-size: 2.5rem;
-                        font-weight: 300;
-                        line-height: 1.2;
-                        padding-top: 0.5em;
-                        padding-bottom: 0.8em;"
+            <a class="text-decoration-none d-block text-center big-category-btn"
                data-toggle="collapse" href="#caticons">Click for Categories &darr;</a>
             <div id="caticons" class="collapse">
-                <div class="row" style="padding-top: 2em;">
+                <div class="row padding-top-2">
                     @foreach (var category in Model.Categories)
                     {
                         int postCount = category.Posts.Count();
@@ -102,18 +93,18 @@
                         var image_path = $"{base_path}/CategoryImage/{category.Image}";
                         if (postCount > 0 | portfolioItemCount > 0)
                         {
-                            <div class="col-xs-12 col-sm-6 col-md-3 text-center" style="padding-bottom: 1em;">
-                                <img style="padding-bottom: 0.5em" src="@image_path" title="@(category.CategoryName)" width="128" height="128" />
+                            <div class="col-xs-12 col-sm-6 col-md-3 text-center padding-btm-1">
+                                <img class="padding-btm-05" src="@image_path" title="@(category.CategoryName)" width="128" height="128" />
                                 @if (portfolioItemCount != 0)
                                 {
-                                    <div style="padding-bottom: 0.5em">
+                                    <div class="padding-btm-05">
                                         <a class="btn btn-sm btn-secondary" asp-controller="Home" asp-action="Portfolio" asp-route-category="@category.Id" asp-route-pageNumber="1">Portfolio Projects</a>
                                     </div>
                                 }
                                 @if (postCount != 0)
                                 {
                                     
-                                    <div style="padding-bottom: 0.5em">
+                                    <div class="padding-btm-05">
                                         <a class="btn btn-sm btn-secondary" asp-controller="Home" asp-action="Blog" asp-route-category="@category.Id" asp-route-pageNumber="1">View Posts</a>
                                     </div>
                                 }
@@ -127,37 +118,37 @@
 </div>
 @*Featured Posts*@
 <div class="container-fluid">
-    <div class="row text-center" style="padding-top: 1.2em">
+    <div class="row text-center posts-header-row">
         <div class="col-12">
             <h2 class="display-4">Featured Posts</h2>
-            <hr style="border-top: 1px solid #5C33D6; width: 95%;" />
+            <hr class="post-hr" />
         </div>
-        <div class="col-12" style="padding-bottom: 0.5em;">
+        <div class="col-12 padding-btm-05">
             <p class="lead text-center">These featured posts from my blog might be of interest.</p>
         </div>
     </div>
 </div>
 
 <div class="container">
-    <div class="row" style="margin-bottom: 5px; padding-left: 1em; padding-right: 1em;">
+    <div class="row card-3-row">
         @foreach (var post in Model.Posts)
         {
             var image_path = $"{base_path}/PostImage/{post.Image}";
-            <div class="col-lg-4" style="padding-bottom: 1.5em;">
+            <div class="col-lg-4 padding-btm-15">
                 <div class="card h-100">
                     <img class="card-img-top" src="@image_path" />
                     <div class="card-body">
                         <h3 class="card-title text-wrap">@post.Title</h3>
-                        <a style="font-size: 16px; color: #7454D3;" asp-controller="Home" asp-action="Blog" asp-route-category="@post.Category.Id" asp-route-pageNumber="1">
+                        <a class="filed-in-link" asp-controller="Home" asp-action="Blog" asp-route-category="@post.Category.Id" asp-route-pageNumber="1">
                             Filed in @post.Category.CategoryName
                         </a>
                         @if (post.Introduction.Length > 200)
                         {
-                            <p class="card-text text-justify" style="padding-top: 0.5em">@post.Introduction.Substring(0, Math.Min(post.Introduction.Length, 200)) ...</p>
+                            <p class="card-text text-justify padding-btm-05">@post.Introduction.Substring(0, Math.Min(post.Introduction.Length, 200)) ...</p>
                         }
                         else
                         {
-                            <p class="card-text text-justify" style="padding-top: 0.5em">@post.Introduction</p>
+                            <p class="card-text text-justify padding-btm-05">@post.Introduction</p>
                         }
                         <a class="btn btn-primary" asp-controller="Home" asp-action="Post" asp-route-id="@post.Id" asp-route-slug="@post.Slug">Read More &rArr;</a>
                     </div>

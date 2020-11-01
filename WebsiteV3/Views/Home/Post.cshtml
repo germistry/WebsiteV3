@@ -9,7 +9,7 @@
 }
 
 <div class="container">
-    <div class="row" style="padding-top: 0.8em">
+    <div class="row padding-top-08r">
         <div class="col-12">
             <nav class="breadcrumb-nav" aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -28,26 +28,26 @@
     </div>
 </div>
 <div class="container">
-    <div class="row" style="display: flex; justify-content: center;">
-        <div class="col-xs-12 col-lg-8">
+    <div class="row item-card-row">
+        <div class="col-xs-12 col-lg-9">
             @* Card start *@
-            <div class="row" style="margin-bottom: 5px; padding-bottom: 1em; padding-left: 1.5em; padding-right: 1.5em;">
+            <div class="row item-content-row">
                 <div class="card h-100 w-100">
-                    <div class="row" style="display: flex; justify-content: center;">
+                    <div class="row item-card-row">
                         @if (!String.IsNullOrEmpty(Model.Image))
                         {
                             var image_path = $"{base_path}/PostImage/{Model.Image}";
                             <div class="col-12">
-                                <img class="card-img-top" style="padding-top: 1em; padding-left: 1em; padding-right: 1em" src="@image_path" />
+                                <img class="card-img-top padding-top-1 padding-lft-1 padding-rgt-1" src="@image_path" />
                             </div>
 
                         }
                         <div class="card-body">
-                            <div style="padding-left: 0.5em; padding-right: 0.5em;">
-                                <h2 class="card-title" style="color: #7454D3; padding-left: 0.5em; padding-right: 0.5em;">@ViewData["Title"]</h2>
-                                <hr style="border-top: 1px solid #5C33D6; margin-left: 3px; margin-right: 3px;" />
-                                <div style="padding-left: 0.8em; padding-right: 0.8em">
-                                    <div class="card-text" style="font-size: 16px; padding-bottom: 0.5em;">
+                            <div class="padding-lft-05 padding-rgt-05">
+                                <h2 class="card-title item-title">@ViewData["Title"]</h2>
+                                <hr class="item-hr" />
+                                <div class="padding-lft-08 padding-rgt-08">
+                                    <div class="item-card-text" >
                                         <p>@Html.Raw(Model.Body)</p>
                                     </div>
                                 </div>
@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <div class="row" style="padding-top: 0.5em">
+                        <div class="row padding-top-05" >
                             @if (Model.CommentsAllowed == true)
                             {
                             <div class="col-12">
@@ -67,64 +67,64 @@
                                     }
                                     else
                                     {
-                                        <p style="padding-top: 0.5em">
+                                        <p class="padding-top-05">
                                             <a class="btn btn-outline-secondary btn-sm" asp-route-returnurl="@returnUrl" asp-area="Identity" asp-page="/Account/Login">Log In</a>
                                             &emsp; You must be signed in to leave a comment.
                                         </p>
                                     }
                                 </div>
                             </div>
-                            <div style="padding-bottom: 0.5em; width: 100%;">
+                            <div class="item-comment-sec">
                                 <div class="col-12">
                                     @foreach (var c in Model.MainComments.OrderByDescending(d => d.CreatedDate))
                                     {
-                                        <div style="width: 100%; ">
-                                            <hr style="border-top: 1px solid #5C33D6;" />
+                                        <div class="w-100">
+                                            <hr class="item-comment-hr" />
                                             @if (!String.IsNullOrEmpty(c.UserId))
                                             {
-                                                <p class="font-weight-bold" style="margin-left: 5px; margin-right: 5px; color: #5C33D6;">
+                                                <p class="font-weight-bold pgh-color-2 margin-lft-05p margin-right-05p">
                                                     @if (c.User.ProfileImage != null)
                                                     {
-                                                        <img style="width:41.6px;height:41.6px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(c.User.ProfileImage))">
+                                                        <img class="comment-user-avatar" src="data:image/*;base64,@(Convert.ToBase64String(c.User.ProfileImage))">
                                                     }
                                                     else
                                                     {
-                                                        <img style="width: 41.6px; height: 41.6px; object-fit: cover; border-radius: 30px" src="~/content/static/BlankProfilePic.png" />
+                                                        <img class="comment-user-avatar" src="~/content/static/BlankProfilePic.jpg" />
                                                     }
                                                     &ensp;@(c.User.UserName)
                                                 </p>
                                             }
                                             else
                                             {
-                                                <p class="font-weight-bold" style="margin-left: 5px; margin-right: 5px; color: #5C33D6;">
-                                                    <img style="width: 41.6px; height: 41.6px; object-fit: cover; border-radius: 30px" src="~/content/static/BlankProfilePic.png" />
+                                                <p class="font-weight-bold pgh-color-2 margin-lft-05p margin-right-05p">
+                                                    <img class="comment-user-avatar" src="~/content/static/BlankProfilePic.jpg" />
                                                 </p>
                                             }
-                                            <p class="text-wrap" style="margin-left: 5px; margin-right: 5px;">@c.Message</p>
-                                            <span style="line-height: 24px; margin-left: 5px; margin-right: 5px;">
+                                            <p class="text-wrap margin-lft-05p margin-right-05p">@c.Message</p>
+                                            <span class="comment-footer-span">
                                                 <a class="font-weight-bold" data-toggle="collapse" href="#reply@(c.Id)">Reply</a>
-                                                <a class="float-right" style="font-size: 14px; color: #5C33D6; margin-right: 5px;">@c.CreatedDate</a>
+                                                <a class="float-right comment-date">@c.CreatedDate</a>
                                             </span>
                                         </div>
-                                        <div style="margin-left: 30px; margin-right: 20px">
+                                        <div class="sub-comment-div">
                                             @foreach (var sc in c.SubComments)
                                             {
-                                                <hr style="border-top: 1px solid #131313;" />
-                                                <p class="font-weight-bold" style="margin-left: 5px; margin-right: 5px; color: #5C33D6;">
+                                                <hr class="sub-comment-hr" />
+                                                <p class="font-weight-bold pgh-color-2 margin-lft-05p margin-right-05p">
                                                     @if (sc.User.ProfileImage != null)
                                                     {
-                                                        <img style="width:41.6px;height:41.6px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(sc.User.ProfileImage))">
+                                                        <img class="comment-user-avatar" src="data:image/*;base64,@(Convert.ToBase64String(sc.User.ProfileImage))">
                                                     }
                                                     else
                                                     {
-                                                        <img style="width: 41.6px; height: 41.6px; object-fit: cover; border-radius: 30px" src="~/content/static/BlankProfilePic.png" />
+                                                        <img class="comment-user-avatar" src="~/content/static/BlankProfilePic.jpg" />
                                                     }
                                                     &ensp;@(sc.User.UserName)
                                                 </p>
-                                                <p class="text-wrap" style="margin-left: 5px; margin-right: 5px;">@sc.Message</p>
-                                                <span style="line-height: 24px; margin-left: 5px; margin-right: 5px;">
+                                                <p class="text-wrap margin-lft-05p margin-right-05p">@sc.Message</p>
+                                                <span class="comment-footer-span">
                                                     <a class="font-weight-bold" data-toggle="collapse" href="#reply@(c.Id)">Reply</a>
-                                                    <a class="float-right" style="font-size: 14px; color: #5C33D6; margin-right: 5px;">@sc.CreatedDate</a>
+                                                    <a class="float-right comment-date">@sc.CreatedDate</a>
                                                 </span>
                                             }
                                             <div id="reply@(c.Id)" class="collapse">
@@ -134,7 +134,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <p style="padding-top: 1em">
+                                                    <p class="padding-top-1">
                                                         <a class="btn btn-outline-secondary btn-sm text-center" asp-route-returnurl="@returnUrl" asp-area="Identity" asp-page="/Account/Login">Log In</a>
                                                         &emsp; You must be signed in to leave a comment.
                                                     </p>
@@ -142,7 +142,7 @@
                                             </div>
                                         </div>
                                     }
-                                    <hr style="border-top: 1px solid #5C33D6; padding-bottom: 0;" />
+                                    <hr class="comment-section-hr" />
                                 </div>
                             </div>
                             }
@@ -158,14 +158,14 @@
             </div>
             @* Card end *@
         </div>
-        <div class="col-xs-12 col-lg-4" style="padding-left: 0.5em; padding-right: 0.5em;">
-            <div style="padding-left: 0.5em; padding-right: 0.5em;">
-                <div class="row" style="padding-bottom: 1.5em">
+        <div class="col-xs-12 col-lg-3 padding-rgt-05">
+            <div class="padding-rgt-05">
+                <div class="row padding-btm-15">
                     @*Card start*@
-                    <div class="row w-100" style="padding-left: 2.3em; padding-right: 0.5em;">
+                    <div class="row w-100 vc-row">
                         <div class="card h-100 w-100">
-                            <div style="background-image: linear-gradient(#3600D8, #131313);">
-                                <h3 class="card-title" style="padding-left: 0.5em; padding-top: 0.3em; color: #C195F4">Also:</h3>
+                            <div class="vc-bg-image">
+                                <h3 class="card-title vc-card-title" >Also:</h3>
                             </div>
                             <div class="card-body">
                                 @(await Component.InvokeAsync("PostLinksViewComponent", Model.Id))

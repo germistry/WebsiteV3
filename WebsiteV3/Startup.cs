@@ -18,7 +18,8 @@ using Microsoft.AspNetCore.Mvc;
 using WebsiteV3.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
-using WebsiteV3.Services;
+using NETCore.MailKit.Extensions;
+using NETCore.MailKit.Infrastructure.Internal;
 
 namespace WebsiteV3
 {
@@ -44,16 +45,16 @@ namespace WebsiteV3
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                //todo - PRODUCTION disable for production
-                options.EnableSensitiveDataLogging(true);
+                //todo - disable for production DONE
+                options.EnableSensitiveDataLogging(false);
             });
             //Identity & Role Setup
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 //todo PRODUCTION- change to all true when deployed
-                options.Password.RequireDigit = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
                 options.SignIn.RequireConfirmedAccount = true;
             })
                 .AddRoles<IdentityRole>()
@@ -67,32 +68,46 @@ namespace WebsiteV3
             services.AddTransient<IRepository, Repository>();
             //Makes the filemanager for images available to program
             services.AddTransient<IFileManager, FileManager>();
-            //Email Service config
-            services.AddTransient<IEmailSender, EmailSender>();
-            services.Configure<AuthMessageSenderOptions>(Configuration);
 
+            //Email config using netcore mailkit (not just mailkit pkg)
+            var mailKitOptions = Configuration.GetSection("EmailConfiguration").Get<MailKitOptions>();
+            services.AddMailKit(config => config.UseMailKit(mailKitOptions));
+                                             
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                //want consent cookie to be checked to ensure user agrees to privacy policy
                 options.CheckConsentNeeded = context => true;
+                //cookies have to be secure
+                options.Secure = CookieSecurePolicy.Always;
+                //cookie samesitemode changed at runtime by other middleware
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            //http strict transport security = want to be able to be added to Hsts Preloader & of course security
+            services.AddHsts(options =>
+            {
+                options.MaxAge = TimeSpan.FromDays(365);
+                options.IncludeSubDomains = true;
+                options.Preload = true;
+            });
+            services.AddAntiforgery(options =>
+            {
+                //this is set expressly in content headers 
+                options.SuppressXFrameOptionsHeader = true;
+            });
+            services.ConfigureApplicationCookie(o => {
+                o.ExpireTimeSpan = TimeSpan.FromDays(5);
+                o.SlidingExpiration = true;
+            });
+            services.Configure<DataProtectionTokenProviderOptions>(o =>
+                o.TokenLifespan = TimeSpan.FromHours(3));
             services.AddAuthentication()
-                //not using google as will cost me 
-                //.AddGoogle(options =>
-                //{
-                //    IConfigurationSection googleAuthNSection =
-                //        Configuration.GetSection("Authentication:Google");
-
-                //    options.ClientId = googleAuthNSection["ClientId"];
-                //    options.ClientSecret = googleAuthNSection["ClientSecret"];
-                //})
                 //todo - FUTURE RELEASE add twitter authenication? 
                 //todo - PRODUCTION set up facebook verification for deployment
                 .AddFacebook(facebookOptions =>
                 {
                     facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                     facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                    facebookOptions.AccessDeniedPath = "/Identity/Account/ExternalLoginUserDenied";
                 });
 
             services.AddMvc(options =>
@@ -103,7 +118,7 @@ namespace WebsiteV3
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -115,18 +130,37 @@ namespace WebsiteV3
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                // The default HSTS value is 30 days. Change this for production scenarios. (set for 365 days)
                 app.UseHsts();
             }
+            app.Use(async (context, next) =>
+            {
+                if (!context.Response.Headers.ContainsKey("Header-Name"))
+                {
+                    //this header just to be be used as the key for this if statement
+                    context.Response.Headers.Add("Header-Name", "Header-Value");
+                    context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
+                    context.Response.Headers.Add("X-Xss-Protection", "1; mode=block");
+                    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                    context.Response.Headers.Add("X-Permitted-Cross-Domain-Policies", "none");
+                    context.Response.Headers.Add("Feature-Policy", "accelerometer 'none'; camera 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; payment 'none'; usb 'none'");
+                    context.Response.Headers.Add("Referrer-Policy", "no-referrer-when-downgrade");
+                    //Todo - need to remove all inline js to enable this security policy, future release
+                    context.Response.Headers.Add("Content-Security-Policy-Report-Only", "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://ajax.googleapis.com https://ajax.aspnetcdn.com; report-uri /cspreport");
+                    //context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://ajax.googleapis.com https://ajax.aspnetcdn.com");
+                }
+                await next();
+            });
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            
             app.UseRouting();
 
             app.UseAuthentication();
 
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
