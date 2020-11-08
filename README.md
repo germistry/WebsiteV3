@@ -12,4 +12,4 @@ I use:
 * Jquery Validation  
 * Microsoft ASP.NET Core Identity 
  
-I am hosting this site with [SmarterASP](https://www.smarterasp.net) - and so far I have found them to be excellent, especially for hosting an ASP application. Total breeze deploying the site through VS to their servers AND they have great response times to any query (like 10 minutes!)
+I am hosting this site with [SmarterASP](https://www.smarterasp.net) - and so far I have found them to be excellent, especially for hosting an ASP application. Total breeze deploying the site through VS to their servers AND they have great response times to any query (10 minutes!). I'm not an affliate by the way, just a really impressed customer.
