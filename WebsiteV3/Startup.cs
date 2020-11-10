@@ -20,6 +20,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using NETCore.MailKit.Extensions;
 using NETCore.MailKit.Infrastructure.Internal;
+using GoogleReCaptcha.V3.Interface;
+using GoogleReCaptcha.V3;
 
 namespace WebsiteV3
 {
@@ -115,6 +117,7 @@ namespace WebsiteV3
                 options.CacheProfiles.Add("Monthly", new CacheProfile { Duration = 60 * 60 * 24 * 7 * 4 });
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
+            services.AddHttpClient<ICaptchaValidator, GoogleReCaptchaValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -146,8 +149,8 @@ namespace WebsiteV3
                     context.Response.Headers.Add("Feature-Policy", "accelerometer 'none'; camera 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; payment 'none'; usb 'none'");
                     context.Response.Headers.Add("Referrer-Policy", "no-referrer-when-downgrade");
                     //Todo - need to remove all inline js to enable this security policy, future release
-                    context.Response.Headers.Add("Content-Security-Policy-Report-Only", "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://ajax.googleapis.com https://ajax.aspnetcdn.com; report-uri /cspreport");
-                    //context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://ajax.googleapis.com https://ajax.aspnetcdn.com");
+                    context.Response.Headers.Add("Content-Security-Policy-Report-Only", "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://ajax.googleapis.com https://www.google.com https://ajax.aspnetcdn.com; report-uri /cspreport");
+                    //context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://ajax.googleapis.com https://www.google.com https://ajax.aspnetcdn.com");
                 }
                 await next();
             });

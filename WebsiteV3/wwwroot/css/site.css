@@ -136,6 +136,9 @@ body {
 .padding-top-2 {
     padding-top: 2em;
 }
+.margin-btm-0 {
+    margin-bottom: 0;
+}
 .margin-btm-05 {
     margin-bottom: 0.5em;
 }
@@ -175,6 +178,9 @@ body {
 .pgh-color-3 {
     color: #C195F4;
 }
+.pgh-size-12 {
+    font-size: 12px;
+}
 .pgh-size-14 {
     font-size: 14px;
 }
@@ -184,6 +190,7 @@ body {
 .pgh-size-18 {
     font-size: 18px;
 }
+
 .input-width input {
     width: auto;
 }
@@ -485,7 +492,59 @@ body {
     width: 95%;
     margin: 0 auto;
 }
-
+/*---Special styling for html editor - code snippets---*/
+.code-p {
+    margin-bottom: 0;
+}
+.code-p-hl {
+    margin-bottom: 0;
+    background-color: #202020;
+}
+.code-tab-1 {
+    margin-left: 12px;
+}
+.code-tab-2 {
+    margin-left: 24px;
+}
+.code-tab-3 {
+    margin-left: 36px;
+}
+.code-tab-4 {
+    margin-left: 48px;
+}
+.code-tab-5 {
+    margin-left: 60px;
+}
+.code-tab-6 {
+    margin-left: 72px;
+}
+.code-light {
+    color: #DFD0F2;
+}
+.code-light-100 {
+    color: #DFD0F2;
+    font-size: 100%;
+} 
+.code-blue {
+    color: #3D5AFF;
+    font-size: 100%;
+}
+.code-cyan {
+    color: #4CFFFF;
+    font-size: 100%;
+}
+.code-maroon {
+    color: #C96A6A;
+    font-size: 100%;
+}
+.code-purple {
+    color: #b200ff;
+    font-size: 100%;
+}
+.code-green {
+    color: #4cff00;
+    font-size: 100%;
+}
 /*---------Table Customs-----------*/
 .table {
     color: #C195F4;

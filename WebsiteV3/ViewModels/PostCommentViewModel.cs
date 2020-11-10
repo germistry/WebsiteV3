@@ -17,7 +17,6 @@ namespace WebsiteV3.ViewModels
         [Required]
         public int MainCommentId { get; set; }
         [Required]
-        [StringLength(12000, ErrorMessage = "The message must be at least 5 characters long.", MinimumLength = 5)]
         public string Message { get; set; }
         [Required]
         [Range(typeof(bool), "true", "true", ErrorMessage = "You must confirm you acknowledge the Commentary Guidelines")]

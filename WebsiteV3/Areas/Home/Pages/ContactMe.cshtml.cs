@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using NETCore.MailKit.Core;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using GoogleReCaptcha.V3.Interface;
 
 namespace WebsiteV3.Areas.Home.Pages
 {
@@ -16,13 +17,17 @@ namespace WebsiteV3.Areas.Home.Pages
         private readonly ILogger<ContactMeModel> _logger;
         private readonly IEmailService _emailService;
         private readonly string _templatesPath;
+        private readonly ICaptchaValidator _captchaValidator;
 
         public ContactMeModel(IEmailService emailService,
-            ILogger<ContactMeModel> logger, IConfiguration pathConfig)
+            ILogger<ContactMeModel> logger, 
+            IConfiguration pathConfig, 
+            ICaptchaValidator captchaValidator)
         {
             _logger = logger;
             _emailService = emailService;
             _templatesPath = pathConfig["Path:Templates"];
+            _captchaValidator = captchaValidator;
         }
 
         [BindProperty]
@@ -39,7 +44,6 @@ namespace WebsiteV3.Areas.Home.Pages
             public string Email { get; set; }
             public string Subject { get; set; }
             [Required]
-            [StringLength(1000)]
             public string Message { get; set; }
             [Required]
             [Range(typeof(bool), "true", "true", ErrorMessage = "The Privacy Consent must be confirmed")]
@@ -79,25 +83,21 @@ namespace WebsiteV3.Areas.Home.Pages
 
         //    return (jsonData.success == "true");
         //}
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string captcha)
         {
             _logger.LogDebug("ContactMe.OnPostSync entered");
 
+            if (!await _captchaValidator.IsCaptchaPassedAsync(captcha))
+            {
+                ModelState.AddModelError("captcha", "Captcha validation failed");
+                return Page();
+            }
             if (!ModelState.IsValid)
-                {
-                    _logger.LogDebug("Model state not valid");
-                    return Page();
-                }
-            //---------This is for recaptcha if I want to implement this later ----------//
-            //var gRecaptchaResponse = Request.Form["g-recaptcha-response"];
-            //if (string.IsNullOrEmpty(gRecaptchaResponse)
-            //    || !RecaptchaPassed(gRecaptchaResponse))
-            //{
-            //    _logger.LogDebug("Recaptcha empty or failed");
-            //    ModelState.AddModelError(string.Empty, "You failed the CAPTCHA");
-            //    return Page();
-            //}
-            string body = Input.Message;
+            {
+                _logger.LogDebug("Model state not valid");
+                return Page();
+            }
+
             string path = Path.Combine(_templatesPath);
             string template = "ContactMeTemplate.html";
             string FilePath = Path.Combine(path, template);
@@ -105,10 +105,9 @@ namespace WebsiteV3.Areas.Home.Pages
             StreamReader str = new StreamReader(FilePath);
             string mailText = str.ReadToEnd();
             str.Close();
-            mailText = mailText.Replace("[fromEmail]", Input.Email).Replace("[contactmessage]", body);
-            string subject = Input.Subject;
-
-            await _emailService.SendAsync("germistry@germistry.com", subject, mailText, true);
+            mailText = mailText.Replace("[fromEmail]", Input.Email).Replace("[fromName]", Input.Name).Replace("[contactmessage]", Input.Message);
+            
+            await _emailService.SendAsync("germistry@germistry.com", Input.Subject, mailText, true);
                        
             // On success go to contact result result which is a thankyou page
             _logger.LogDebug("Email sent");
