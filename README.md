@@ -8,6 +8,7 @@ I use:
 * Trumbowyg plugin for my editor pages 
 * Photosauce Magic Scaler for my dynamic images 
 * NetCore.Mailkit for sending auto emails (and I wrote a [blog post](https://germistry.com/Post/9/send-template-emails-with-net-core-mailkit) about using this wonderful package)
+* GoogleReCaptcha.V3 
 * Bootstrap 4.3.1 and Bootstrap-tables 1.17.1
 * Jquery Validation  
 * Microsoft ASP.NET Core Identity 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -15,7 +12,7 @@ using Microsoft.Extensions.Logging;
 using WebsiteV3.Models;
 using NETCore.MailKit.Core;
 using Microsoft.Extensions.Configuration;
-using System.IO;
+using WebsiteV3.Helpers;
 
 namespace WebsiteV3.Areas.Identity.Pages.Account
 {
@@ -144,14 +141,10 @@ namespace WebsiteV3.Areas.Identity.Pages.Account
                             pageHandler: null,
                             values: new { area = "Identity", userId = userId, code = code },
                             protocol: Request.Scheme);
+                        
                         var body = $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. <br />If you did not sign up for this website, please DO NOT confirm your email, instead please notify us by replying to this email so any security breach can be investigated.";
-                        string path = Path.Combine(_templatesPath);
-                        string template = "IdentityTemplate.html";
-                        string FilePath = Path.Combine(path, template);
 
-                        StreamReader str = new StreamReader(FilePath);
-                        string mailText = str.ReadToEnd();
-                        str.Close();
+                        string mailText = EmailHelper.BuildTemplate(_templatesPath, "IdentityTemplate.html");
                         mailText = mailText.Replace("[username]", user.UserName).Replace("[body]", body);
                         var subject = "Confirm your email for germistry aka Krystal Ruwoldt's Portfolio and Blog";
 

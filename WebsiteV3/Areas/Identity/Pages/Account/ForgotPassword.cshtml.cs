@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +10,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using WebsiteV3.Models;
 using NETCore.MailKit.Core;
 using Microsoft.Extensions.Configuration;
-using System.IO;
+using WebsiteV3.Helpers;
 
 namespace WebsiteV3.Areas.Identity.Pages.Account
 {
@@ -58,14 +56,9 @@ namespace WebsiteV3.Areas.Identity.Pages.Account
                     pageHandler: null,
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
+                
                 var body = $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. <br />If you did not sign up for this website, please DO NOT reset your password, instead please notify us by replying to this email so any security breach can be investigated.";
-                string path = Path.Combine(_templatesPath);
-                string template = "IdentityTemplate.html";
-                string FilePath = Path.Combine(path, template);
-
-                StreamReader str = new StreamReader(FilePath);
-                string mailText = str.ReadToEnd();
-                str.Close();
+                string mailText = EmailHelper.BuildTemplate(_templatesPath, "IdentityTemplate.html");
                 mailText = mailText.Replace("[username]", user.UserName).Replace("[body]", body);
                 var subject = "Reset your password for germistry aka Krystal Ruwoldt's Portfolio and Blog";
 
