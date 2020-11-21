@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebsiteV3.Models.PostComments;
 using WebsiteV3.Models.PortfolioItemComments;
 

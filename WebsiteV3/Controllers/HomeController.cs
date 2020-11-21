@@ -11,6 +11,9 @@ using WebsiteV3.Models;
 using WebsiteV3.Models.PostComments;
 using WebsiteV3.Models.PortfolioItemComments;
 using WebsiteV3.ViewModels;
+using NETCore.MailKit.Core;
+using Microsoft.Extensions.Configuration;
+using WebsiteV3.Helpers;
 
 namespace WebsiteV3.Controllers
 {
@@ -21,18 +24,24 @@ namespace WebsiteV3.Controllers
         private readonly IRepository _repo;
         private readonly IFileManager _fileManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailService _emailService;
+        private readonly string _templatesPath;
+
         //For designating image types
         private readonly string[] ImageTypes = new[] { ".png", ".jpg", ".jpeg", ".gif" };
         
         public HomeController(ILogger<HomeController> logger, 
             IRepository repo, 
             IFileManager fileManager, 
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IEmailService emailService, IConfiguration pathConfig)
         {
             _logger = logger;
             _repo = repo;
             _fileManager = fileManager;
             _userManager = userManager;
+            _emailService = emailService;
+            _templatesPath = pathConfig["Path:Templates"];
         }
 
         //todo - FUTURE link for uncle les's help page.
@@ -188,6 +197,9 @@ namespace WebsiteV3.Controllers
                         User = user
                     };
                     _repo.AddPostMainComment(comment);
+                    string notifyMailText = EmailHelper.BuildTemplate(_templatesPath, "NewCommentTemplate.html");
+                    notifyMailText = notifyMailText.Replace("[username]", user.UserName).Replace("[slug]", vm.PostSlug).Replace("[message]", vm.Message);
+                    await _emailService.SendAsync("germistry@germistry.com", "New Post Main Comment Added", notifyMailText, true);
                 }
                 else
                 {
@@ -199,8 +211,12 @@ namespace WebsiteV3.Controllers
                         User = user
                     };
                     _repo.AddPostSubComment(comment);
+                    string notifyMailText = EmailHelper.BuildTemplate(_templatesPath, "NewCommentTemplate.html");
+                    notifyMailText = notifyMailText.Replace("[username]", user.UserName).Replace("[slug]", vm.MainCommentId.ToString()).Replace("[message]", vm.Message);
+                    await _emailService.SendAsync("germistry@germistry.com", "New Post Sub Comment Added", notifyMailText, true);
                 }
                 await _repo.SaveChangesAsync();
+                     
                 return RedirectToAction("Post", new { id = vm.PostId, slug = vm.PostSlug });
             }
         }
@@ -224,6 +240,9 @@ namespace WebsiteV3.Controllers
                         User = user
                     };
                     _repo.AddPortfolioItemMainComment(comment);
+                    string notifyMailText = EmailHelper.BuildTemplate(_templatesPath, "NewCommentTemplate.html");
+                    notifyMailText = notifyMailText.Replace("[username]", user.UserName).Replace("[slug]", vm.PortfolioItemSlug).Replace("[message]", vm.Message);
+                    await _emailService.SendAsync("germistry@germistry.com", "New Portfolio Main Comment Added", notifyMailText, true);
                 }
                 else
                 {
@@ -235,6 +254,9 @@ namespace WebsiteV3.Controllers
                         User = user
                     };
                     _repo.AddPortfolioItemSubComment(comment);
+                    string notifyMailText = EmailHelper.BuildTemplate(_templatesPath, "NewCommentTemplate.html");
+                    notifyMailText = notifyMailText.Replace("[username]", user.UserName).Replace("[slug]", vm.MainCommentId.ToString()).Replace("[message]", vm.Message);
+                    await _emailService.SendAsync("germistry@germistry.com", "New Portfolio Sub Comment Added", notifyMailText, true);
                 }
                 await _repo.SaveChangesAsync();
                 return RedirectToAction("PortfolioItem", new { id = vm.PortfolioItemId, slug = vm.PortfolioItemSlug });

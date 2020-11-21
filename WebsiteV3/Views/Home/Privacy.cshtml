@@ -7,6 +7,7 @@
     ViewBag.Description = "This is the privacy policy for the website germistry aka Krystal Ruwoldt.";
     ViewBag.OGType = "article";
     ViewBag.OGUrl = "https://germistry.com/Home/Privacy";
+    ViewBag.OGImage = "https://germistry.com/content/static/WebsitePreview.png";
     ViewBag.Keywords = "privacy policy";
 }
 <div class="container-fluid">
@@ -27,8 +28,8 @@
             Your Personal data is used to provide and improve the Service. By using the Service,
             You agree to the collection and use of information in accordance with this Privacy Policy. This Privacy
             Policy has been created with the help of the
-            <a href="https://www.termsfeed.com/privacy-policy-generator/" target="_blank">Privacy Policy Generator</a>
-            and <a href="https://lawpath.com.au/" target="_blank">Lawpath</a>.
+            <a href="https://www.termsfeed.com/privacy-policy-generator/" rel="nofollow" target="_blank">Privacy Policy Generator</a>
+            and <a href="https://lawpath.com.au/" rel="nofollow" target="_blank">Lawpath</a>.
         </p>
         <p class="text-justify">
             You should also be aware of and also read the
@@ -169,7 +170,7 @@
             Cookies can be &quot;Persistent&quot; or &quot;Session&quot; Cookies. Persistent
             Cookies remain on your personal computer or mobile device when You go offline, while Session Cookies
             are deleted as soon as You close your web browser. Learn more about cookies:
-            <a href="https://www.termsfeed.com/blog/cookies/" target="_blank">All About Cookies</a>.
+            <a href="https://www.termsfeed.com/blog/cookies/" rel="nofollow" target="_blank">All About Cookies</a>.
         </p>
         <p class="text-justify">We use both session and persistent Cookies for the purposes set out below:</p>
         <ul>
@@ -294,24 +295,24 @@
         <h4>Accessing Your Personal Data</h4>
         <p class="text-justify">
             You may access Your Personal Data at any time by
-            <a asp-area="Identity" asp-page="/Account/Login" title="Login" target="_blank">Logging In</a>, clicking your
+            <a asp-area="Identity" asp-page="/Account/Login" title="Login" rel="nofollow" target="_blank">Logging In</a>, clicking your
             username in the upper right of the main navigation bar (
             @if (SignInManager.IsSignedIn(User))
             {
-                <a asp-area="Identity" asp-page="/Account/Manage/Index" target="_blank">Manage Your Account</a>
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" rel="nofollow" target="_blank">Manage Your Account</a>
             }
             else
             {
-                <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnurl="@Url.Action("Privacy", "Home")">Manage Your Account</a>
+                <a asp-area="Identity" asp-page="/Account/Login" rel="nofollow" asp-route-returnurl="@Url.Action("Privacy", "Home")">Manage Your Account</a>
             }
             ), navigating to the
             @if (SignInManager.IsSignedIn(User))
             {
-                <a asp-area="Identity" asp-page="/Account/Manage/PersonalData" target="_blank">Personal Data</a>
+                <a asp-area="Identity" asp-page="/Account/Manage/PersonalData" rel="nofollow" target="_blank">Personal Data</a>
             }
             else
             {
-                <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnurl="@Url.Action("Privacy", "Home")">Personal Data</a>
+                <a asp-area="Identity" asp-page="/Account/Login" rel="nofollow" asp-route-returnurl="@Url.Action("Privacy", "Home")">Personal Data</a>
             }
             menu item and selecting either <strong>Download Your Personal Data</strong>
             or <strong>Download User Comments</strong>. These downloaded files can be opened in any text editor
@@ -327,20 +328,20 @@
         <h3>Removing/Deleting Your Personal Data</h3>
         <p class="text-justify">
             You may delete all Your Personal Data by Deleting Your Account, at any time by
-            <a asp-area="Identity" asp-page="/Account/Login" title="Login" target="_blank">Logging In</a>
+            <a asp-area="Identity" asp-page="/Account/Login" title="Login" rel="nofollow" target="_blank">Logging In</a>
             , clicking your username in the upper right of the main navigation bar (
             @if (SignInManager.IsSignedIn(User))
             {
-                <a asp-area="Identity" asp-page="/Account/Manage/Index" target="_blank">Manage Your Account</a>
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" rel="nofollow" target="_blank">Manage Your Account</a>
             }
             else
             {
-                <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnurl="@Url.Action("Privacy", "Home")">Manage Your Account</a>
+                <a asp-area="Identity" asp-page="/Account/Login" rel="nofollow" asp-route-returnurl="@Url.Action("Privacy", "Home")">Manage Your Account</a>
             }
             ), navigating to the
             @if (SignInManager.IsSignedIn(User))
             {
-                <a asp-area="Identity" asp-page="/Account/Manage/PersonalData" target="_blank">Personal Data</a>
+                <a asp-area="Identity" asp-page="/Account/Manage/PersonalData" rel="nofollow" target="_blank">Personal Data</a>
             }
             else
             {

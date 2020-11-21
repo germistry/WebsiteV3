@@ -1,5 +1,3 @@
-using System;
-
 namespace WebsiteV3.ViewModels
 {
     public class ErrorViewModel

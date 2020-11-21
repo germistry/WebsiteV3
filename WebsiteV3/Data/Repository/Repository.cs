@@ -1,12 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using WebsiteV3.Enums;
 using WebsiteV3.Helpers;
 using WebsiteV3.Models;
 using WebsiteV3.Models.PostComments;

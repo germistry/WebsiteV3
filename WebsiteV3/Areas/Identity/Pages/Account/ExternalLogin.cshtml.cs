@@ -146,9 +146,11 @@ namespace WebsiteV3.Areas.Identity.Pages.Account
 
                         string mailText = EmailHelper.BuildTemplate(_templatesPath, "IdentityTemplate.html");
                         mailText = mailText.Replace("[username]", user.UserName).Replace("[body]", body);
-                        var subject = "Confirm your email for germistry aka Krystal Ruwoldt's Portfolio and Blog";
+                        await _emailService.SendAsync(user.Email, "Confirm your email for germistry aka Krystal Ruwoldt's Portfolio and Blog", mailText, true);
 
-                        await _emailService.SendAsync(user.Email, subject, mailText, true);
+                        string notifyMailText = EmailHelper.BuildTemplate(_templatesPath, "UserRegisterTemplate.html");
+                        notifyMailText = notifyMailText.Replace("[username]", user.UserName).Replace("[registerType]", "externally");
+                        await _emailService.SendAsync("germistry@germistry.com", "New External User Registered", notifyMailText, true);
 
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)

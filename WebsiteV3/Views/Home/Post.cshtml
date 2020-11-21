@@ -5,10 +5,11 @@
     ViewBag.Description = Model.Description;
     ViewBag.OGType = "article";
     var domain = "https://germistry.com";
-    ViewBag.OGUrl = $"{domain}/Post/{Model.Id}/{Model.Slug}";
+    ViewBag.OGUrl = $"{domain}/Home/Post/{Model.Id}/{Model.Slug}";
     ViewBag.Keywords = $"{Model.Tags?.Replace(",", " ")} {Model.Category.CategoryName}";
     var base_path = Context.Request.PathBase;
     var returnUrl = Context.Request.Path;
+    ViewBag.OGImage = $"{domain}/content/blog/{Model.Image}";
 }
 
 <div class="container">

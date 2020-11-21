@@ -5,10 +5,11 @@
     ViewBag.Description = Model.Description;
     ViewBag.OGType = "article";
     var domain = "https://germistry.com";
-    ViewBag.OGUrl = $"{domain}/Portfolio/{Model.Id}/{Model.Slug}";
+    ViewBag.OGUrl = $"{domain}/Home/Portfolio/{Model.Id}/{Model.Slug}";
     ViewBag.Keywords = $"{Model.Tags?.Replace(",", " ")} {Model.Category.CategoryName}";
     var base_path = Context.Request.PathBase;
     var returnUrl = Context.Request.Path;
+    ViewBag.OGImage = $"{domain}/content/portfolio/{Model.Image}";
 }
 
 <div class="container">
@@ -60,7 +61,7 @@
                                 <div class="padding-lft-08 padding-rgt-08">
                                     <p class="lead item-lead">
                                         See the source code for this project: &emsp;
-                                        <a href="@(Model.SourceCodeLink)" title="Github: @(Model.SourceCodeLink)"><i class="fab fa-github social-media-icons"></i></a>
+                                        <a href="@(Model.SourceCodeLink)" rel="nofollow" title="Github: @(Model.SourceCodeLink)"><i class="fab fa-github social-media-icons"></i></a>
                                     </p>
                                     <div class="item-card-text">
                                         <p>@Html.Raw(Model.Body)</p>

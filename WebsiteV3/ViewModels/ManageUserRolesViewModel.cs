@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WebsiteV3.ViewModels
+﻿namespace WebsiteV3.ViewModels
 {
     public class ManageUserRolesViewModel
     {

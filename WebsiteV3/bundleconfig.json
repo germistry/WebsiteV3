@@ -22,5 +22,11 @@
     "inputFiles": [
       "wwwroot/js/consent_cookie.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/editor.min.js",
+    "inputFiles": [
+      "wwwroot/js/editor.js"
+    ]
   }
 ]

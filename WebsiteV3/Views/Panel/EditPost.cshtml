@@ -108,16 +108,8 @@
 </div>
 @section scripts {
     <partial name="_ValidationScriptsPartial" />
-    @*-- scripts for Trumbowyg Text Editor--*@
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    @*-- scripts for Trumbowyg Text Editor(uses 3.5.1 jquery)--*@
     <script src="~/lib/Trumbowyg-master/trumbowyg.min.js"></script>
-    @*-- plugins for Trumbowyg--*@
-
-    @*<-- Init Trumbowyg -->*@
-    <script>
-        // . is class, # is an id, nav is html element
-        $('#editor').trumbowyg({
-            autogrow: true
-        });
-    </script>
+    @*--plugins for trumbowyg---*@
+    <script src="~/js/editor.min.js"></script>
 }

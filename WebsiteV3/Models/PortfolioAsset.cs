@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WebsiteV3.Models
+﻿namespace WebsiteV3.Models
 {
     public class PortfolioAsset
     {

@@ -9,7 +9,7 @@
     <meta property="og:type" content="@ViewBag.OGType" />
     <meta property="og:url" content="@ViewBag.OGUrl"/>
     <meta property="fb:app_id" content="336221897620013" />
-    <meta property="og:image" content="https://germistry.com/content/static/ogimageNameLogo.png"/>
+    <meta property="og:image" content="@ViewBag.OGImage"/>
     <meta name="keywords" content="@ViewBag.Keywords" />
     <link rel="icon" type="image/x-icon" href="~/content/static/favicon.png" />
     <link rel="stylesheet" type="text/css" href="~/css/bootstrap.custom.min.css" />
@@ -26,6 +26,9 @@
 
 </head>
 <body class="d-flex flex-column h-100" id="topofpage">
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
     <header>
         <nav class="navbar fixed-top navbar-expand-md navbar-custom ">
             <div class="container-fluid">
@@ -56,7 +59,7 @@
         </nav>
     </header>
     <partial name="_CookieConsentPartial" />
-    <main role="main" class="flex-shrink-0" >
+    <main role="main" class="flex-shrink-0">
         @RenderBody()
     </main>
     <footer class="footer footer-custom mt-auto py-3">
@@ -68,8 +71,8 @@
                     <a asp-area="" asp-controller="Home" asp-action="Terms">Terms of Use</a>
                 </div>
                 <div class="col-lg-4 align-self-end text-center social-media-icons">
-                    <a href="https://www.facebook.com/krystal.ruwoldt/" title="Facebook"><i class="fab fa-facebook"></i></a>&emsp;
-                    <a href="https://github.com/germistry" title="Github"><i class="fab fa-github"></i></a>&emsp;
+                    <a href="https://www.facebook.com/krystal.ruwoldt/" rel="nofollow" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>&emsp;
+                    <a href="https://github.com/germistry" rel="nofollow" target="_blank" title="Github"><i class="fab fa-github"></i></a>&emsp;
                     <a asp-area="Home" asp-page="/ContactMe" title="Contact Me"><i class="fas fa-envelope"></i></a>
                 </div>
                 <div class="col-lg-4 align-self-center text-center text-wrap text-lg-right text-xl-right">
@@ -81,7 +84,7 @@
     <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="~/lib/bootstrap-table/dist/bootstrap-table.min.js"></script>
-    @*<script type="text/javascript" src="~/js/site.min.js"></script>*@
+    <script type="text/javascript" src="~/js/site.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

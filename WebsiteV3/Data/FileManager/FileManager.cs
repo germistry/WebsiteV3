@@ -2,11 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using PhotoSauce.MagicScaler;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WebsiteV3.Data.FileManager
 {

@@ -7,6 +7,7 @@
     ViewBag.Description = "These are the terms and conditions of use for the website germistry aka Krystal Ruwoldt.";
     ViewBag.OGType = "article";
     ViewBag.OGUrl = "https://germistry.com/Home/Terms";
+    ViewBag.OGImage = "https://germistry.com/content/static/WebsitePreview.png";
     ViewBag.Keywords = "terms conditions use";
 }
 <div class="container-fluid">
@@ -73,9 +74,9 @@
                 <strong>Terms and Conditions</strong> (also referred as &quot;Terms&quot;) mean these Terms and
                 Conditions that form the entire agreement between You and the Company regarding the use of the Service.
                 This Terms and Conditions agreement has been created with the help of the
-                <a href="https://www.termsfeed.com/terms-conditions-generator/" target="_blank">
+                <a href="https://www.termsfeed.com/terms-conditions-generator/" rel="nofollow" target="_blank">
                     Terms and Conditions Generator
-                </a> and <a href="https://lawpath.com.au/" target="_blank">Lawpath</a>.
+                </a> and <a href="https://lawpath.com.au/" rel="nofollow" target="_blank">Lawpath</a>.
             </p>
         </li>
         <li>
@@ -254,15 +255,15 @@
         <ol type="i">
             <li>
                 delete Your user account by
-                <a asp-area="Identity" asp-page="/Account/Login" title="Login" target="_blank">Logging In</a>,
+                <a asp-area="Identity" asp-page="/Account/Login" title="Login" rel="nofollow" target="_blank">Logging In</a>,
                 clicking Your username in the upper right of the main navigation bar (
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <a asp-area="Identity" asp-page="/Account/Manage/Index" target="_blank">Manage Your Account</a>
+                    <a asp-area="Identity" asp-page="/Account/Manage/Index" rel="nofollow" target="_blank">Manage Your Account</a>
                 }
                 else
                 {
-                    <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnurl="@Url.Action("Terms", "Home")">Manage Your Account</a>
+                    <a asp-area="Identity" asp-page="/Account/Login" rel="nofollow" asp-route-returnurl="@Url.Action("Terms", "Home")">Manage Your Account</a>
                 }
                 ), navigating to the
                 @if (SignInManager.IsSignedIn(User))
@@ -271,7 +272,7 @@
                 }
                 else
                 {
-                    <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnurl="@Url.Action("Terms", "Home")">Personal Data</a>
+                    <a asp-area="Identity" asp-page="/Account/Login" rel="nofollow" asp-route-returnurl="@Url.Action("Terms", "Home")">Personal Data</a>
                 }
                 menu item and selecting <strong>Delete Account</strong>; and/or
             </li>
