@@ -620,6 +620,12 @@ body {
     .table th {
         color: #7454D3;
     }
+.table thead th {
+    border-bottom: 2px solid #343a40;
+}
+.table th, .table td {
+    border-top: 1px solid #343a40;
+    }
 .tdh-small-font {
     font-size: small;
 }

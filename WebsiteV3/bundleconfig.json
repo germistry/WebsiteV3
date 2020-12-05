@@ -28,5 +28,11 @@
     "inputFiles": [
       "wwwroot/js/editor.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/jqueryrangevalidator.min.js",
+    "inputFiles": [
+      "wwwroot/js/jqueryrangevalidator.js"
+    ]
   }
 ]
